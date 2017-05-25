@@ -1,0 +1,64 @@
+/*
+      Created by Keith Donegan of Code-Sucks.com
+	  
+	  E-Mail: Keithdonegan@gmail.com
+	  
+	  You can do whatever you want with these layouts,
+	  but it would be greatly appreciated if you gave a link
+	  back to http://www.code-sucks.com
+	  
+*/
+
+
+body {
+ font-family: Arial, Helvetica, sans-serif;
+ font-size: 13px;
+ background: #F5E9C6;
+ margin:0px;
+}
+
+#top {
+ color: #333;
+ width: 100%;
+ height: 100px;
+ background: #F5E9C6;
+}
+
+.left-side-menu{
+	display: block;
+    top: 0px;
+    float: left;	
+}
+
+ul {
+	border: 1px solid black;
+    overflow: hidden;
+    background-color: #F09557;
+    list-style-type: none;
+}
+
+.left-side-menu li {
+
+
+    width:100%;
+    padding: 30px 50px;
+    text-decoration: none;
+	transition: 0.5s;	
+	background-color: #1DACB6;
+}
+
+.left-side-menu li :hover{
+    background-color: #045358;
+	transition: 0.5s;
+}
+
+
+.left-side-menu li  a{
+    color: white;
+    text-align: center;
+    width:100%;
+    padding: 30px 50px;
+    text-decoration: none;
+	transition: 0.5s;	
+}
+
