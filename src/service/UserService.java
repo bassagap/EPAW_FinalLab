@@ -18,4 +18,8 @@ public class UserService {
 		UserDAO userDAO = new UserDAO(); 
 		userDAO.insertUser(user);
 	}
+	public boolean LoginUser(BeanUser user) throws Exception{
+		UserDAO userDAO = new UserDAO(); 
+		return userDAO.isValidLogin(user.getUserName(), user.getPassword());
+	}
 }

@@ -30,6 +30,7 @@ public class MainController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 				
 		RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+		System.out.println("LoginController.");
 		dispatcher.forward(request, response);	}
 
 	/**

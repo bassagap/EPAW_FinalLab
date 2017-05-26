@@ -50,4 +50,13 @@ public class UserDAO {
 		statement.close();
 		connection.close();
 	}
+	public boolean isValidLogin(String userName, String password) throws SQLException {
+		Boolean isValid = false; 
+		String query = "SELECT * FROM TAULA WHERE USERNAME = '" + userName +"' AND PASSWORD = '" + password + "'"; 
+		ResultSet resultSet =  statement.executeQuery(query);
+		if(resultSet.next()){
+			isValid = true; 
+		}
+		return isValid; 
+	}
 }

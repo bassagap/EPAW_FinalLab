@@ -42,13 +42,15 @@ public class FormController extends HttpServlet {
 		   if (!userService.userExists(user)) {
 			   userService.insertUser(user); 
 			   user = new BeanUser();
+			   request.setAttribute("user",user);
+			   RequestDispatcher dispatcher = request.getRequestDispatcher("/ViewMenuLogged.jsp");
+			   dispatcher.forward(request, response);
 		   } else {
 			   user.setErrorName();	  
+			   request.setAttribute("user",user);
+			   RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+			   dispatcher.forward(request, response);
 		   }
-	
-		   request.setAttribute("user",user);
-		   RequestDispatcher dispatcher = request.getRequestDispatcher("/RegisterForm.jsp");
-		   dispatcher.forward(request, response);
 	    } 
 		catch (IllegalAccessException | InvocationTargetException e) {
 				e.printStackTrace();

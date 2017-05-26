@@ -19,6 +19,9 @@
          <div class="left-side-menu">
 			<ul>
 				<li class = "Login"><div class = "user-image" style="background-image:url('img/user_logo.png')"></div><a>Login</a></li>
+			</ul>
+			<hr class = "hr-left-side-menu">
+			<ul>
 				<li class = "Register"><a>Register</a></li>
 				<li class = "No-Register"><a>Enter Without Register</a></li>
 			</ul>

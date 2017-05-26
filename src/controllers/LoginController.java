@@ -13,7 +13,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.beanutils.BeanUtils;
 
-import models.BeanLogin;
+import models.BeanUser;
+import service.UserService;
 
 /**
  * Servlet implementation class LoginController
@@ -37,26 +38,30 @@ public class LoginController extends HttpServlet {
 
 		System.out.println("LoginController.");
 		
-		BeanLogin login = new BeanLogin();
+		BeanUser user = new BeanUser();
 	    try {
 			
-	    	BeanUtils.populate(login, request.getParameterMap());
-			
-	    	if (login.isComplete()) {
-		    	
-		    	HttpSession session = request.getSession();
-		    	session.setAttribute("user",login.getUser());
-		    	RequestDispatcher dispatcher = request.getRequestDispatcher("ViewLoginDone.jsp");
-			    dispatcher.forward(request, response);
-			    
-		    } 
-			else {
-		     
-			    request.setAttribute("login",login);
-			    RequestDispatcher dispatcher = request.getRequestDispatcher("ViewLoginForm.jsp");
-			    dispatcher.forward(request, response);
-		    	
-		    }
+	    	BeanUtils.populate(user, request.getParameterMap());
+	    	UserService userService = new UserService(); 
+	    	try {
+				if (userService.LoginUser(user)) {
+					System.out.println("LoginController.");
+					HttpSession session = request.getSession();
+					session.setAttribute("user",user.getUserName());
+					RequestDispatcher dispatcher = request.getRequestDispatcher("ViewMenuLogged.jsp");
+				    dispatcher.forward(request, response);
+				} 
+				else {
+					System.out.println("LoginController.");
+				    request.setAttribute("user",user);
+				    RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+				    dispatcher.forward(request, response);
+					
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
