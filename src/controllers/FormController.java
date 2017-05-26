@@ -43,12 +43,12 @@ public class FormController extends HttpServlet {
 			   userService.insertUser(user); 
 			   user = new BeanUser();
 			   request.setAttribute("user",user);
-			   RequestDispatcher dispatcher = request.getRequestDispatcher("/ViewMenuLogged.jsp");
+			   RequestDispatcher dispatcher = request.getRequestDispatcher("ViewMenuLogged.jsp");
 			   dispatcher.forward(request, response);
 		   } else {
 			   user.setErrorName();	  
 			   request.setAttribute("user",user);
-			   RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+			   RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
 			   dispatcher.forward(request, response);
 		   }
 	    } 

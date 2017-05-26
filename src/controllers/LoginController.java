@@ -45,14 +45,12 @@ public class LoginController extends HttpServlet {
 	    	UserService userService = new UserService(); 
 	    	try {
 				if (userService.LoginUser(user)) {
-					System.out.println("LoginController.");
 					HttpSession session = request.getSession();
 					session.setAttribute("user",user.getUserName());
 					RequestDispatcher dispatcher = request.getRequestDispatcher("ViewMenuLogged.jsp");
 				    dispatcher.forward(request, response);
 				} 
 				else {
-					System.out.println("LoginController.");
 				    request.setAttribute("user",user);
 				    RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
 				    dispatcher.forward(request, response);

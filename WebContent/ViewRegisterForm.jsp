@@ -30,7 +30,7 @@ else {
 	<form action="/Lab3/FormController" method="post" id="registerForm">
 		<!--===============USERNAME===================-->
 		<div class="field">
-			<input type="text" name="userName" id="userName" placeholder="Username" value="<%=user.getUserName() %>" required minlength="6" maxlength="16"/>
+			<input type="text" name="userName" id="userName" placeholder="Username" value="${user.userName}" required minlength="6" maxlength="16"/>
 			<% 	
 				if ( user.getError()[0] == 1) {
 					out.println("The username already exists in our DB!");
@@ -40,7 +40,7 @@ else {
 		
 		<!--===============PASSWORD===================-->
 		<div class="field">
-			<input type="password" name="password" id="password" placeholder="Password" value="<%=user.getPassword() %>" required minlength="6", maxlength="30" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[a-z]).*$" title="Must contain at least one number and special character."/>
+			<input type="password" name="password" id="password" placeholder="Password" value="${user.Password}" required minlength="6", maxlength="30" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[a-z]).*$" title="Must contain at least one number and special character."/>
 		</div>
 		
 		<!--===============T&C===================-->
@@ -114,7 +114,7 @@ else {
 		
 		<!--===============GENDER===================-->
 		<div class ="field">
-			<input list="gender" name="gender" placeholder="Gender" value="<%=user.getGender() %>">
+			<input list="gender" name="gender" placeholder="Gender" value="${user.gender}">
 			<datalist id="gender">
 				<option value="Male"></option>
 				<option value="Female"></option>
@@ -133,12 +133,12 @@ else {
 	
 		<!--===============WEIGHT===================-->
 		<div class="field">
-			<input type="number" name="weight" id="weight" placeholder="Weight" value="<%=user.getWeight() %>" style="width: 20%;" min="10" max="200"> &nbsp&nbsp kg
+			<input type="number" name="weight" id="weight" placeholder="Weight" value="${user.weight}" style="width: 20%;" min="10" max="200"> &nbsp&nbsp kg
 		</div>
 		
 		<!--===============EMAIL===================-->
 		<div class="field">
-			<input type="mail" name="mail" placeholder="Email" value="<%=user.getMail() %>" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+			<input type="mail" name="mail" placeholder="Email" value="${user.mail}" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
 		</div>
 		</div>
 		<input class="button" type="submit" value="Submit" style="width:100%" >

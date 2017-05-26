@@ -40,17 +40,16 @@ $(document).ready(function(){
         	$("#wrapper").html(result);
     	}});
 	});
-});
-$(document).ready(function(){
 	$(".Login").click(function(){
-    	$.ajax({url: "ViewLoginForm.jsp", success: function(result){
+    	$.ajax({url: "ViewLoginForm.jsp", success: function(result, responseText, session){
+			
         	$("#wrapper").html(result);
     	}});
 	});
-});
-$(document).ready(function(){
 	$(".No-Register").click(function(){
-    	$.ajax({url: "ViewLoginForm.jsp", success: function(result){
+		console.log("hi");
+    	$.ajax({url: "ViewMenuLogged.jsp", success: function(result){
+      		console.log(user);
         	$("#wrapper").html(result);
     	}});
 	});

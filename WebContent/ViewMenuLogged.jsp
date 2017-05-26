@@ -35,6 +35,10 @@
 
 <script>
 $(document).ready(function(){
+	var user = "${sessionScope.user}";
+	console.log("Hi Paula");
+
+	console.log(user);
 	$(".Rankings").click(function(){
     	$.ajax({url: "ViewRegisterForm.jsp", success: function(result){
         	$("#wrapper").html(result);

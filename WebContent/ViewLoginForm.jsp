@@ -17,16 +17,16 @@ $(document).ready(function(){
   });
 </script>
 
-<form action="/Lab3/LoginController" method="post" id="loginForm">
+<form action="/Lab3/LoginController" method="post" >
 	<table>
 		<tr> 
-			<td> <input type="text" name="userName" value="<%=user.getUserName() %>" id="userName" class="required login-input" minlength="5" placeholder = "User Name"/> </td> 
+			<td> <input type="text" name="userName" value="${user.userName}" id="userName" class="required login-input" minlength="5" placeholder = "User Name"/> </td> 
 			<c:if test="${login.error[0] == 1}">
 			   <td class="error"> Nonexistent username in our DB! </td> 
 			</c:if>
 		</tr>
 		<tr> 
-			<td> <input type="password" name="password" value="<%=user.getPassword() %>" id="password" class="required login-input" minlength="5" placeholder = "Password "/> </td> 
+			<td> <input type="password" name="password" value="${user.userPassword}" id="password" class="required login-input" minlength="5" placeholder = "Password "/> </td> 
 			<c:if test="${login.error[0] == 1}">
 			   <td class="error"> Nonexistent username in our DB! </td> 
 			</c:if>
