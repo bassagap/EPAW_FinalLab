@@ -11,10 +11,16 @@
 
 
 body {
-	 font-family: Arial, Helvetica, sans-serif;
-	 font-size: 13px;
+	 font-family: raleway !important;
+	 font-size: 1.125rem;
 	 background: #F5E9C6;
 	 margin:0px;
+}
+.hr-left-side-menu {
+	margin-left: 15%;
+	margin-right: 15%; 
+	margin-bottom: 30% auto; 
+	margin-top: 10% auto; 
 }
 
 #top-logo{
@@ -27,14 +33,15 @@ body {
 
 #wrapper{
 	text-align:justify;
-	background-color: #F09557;
 	padding: 40px;
 	padding-bottom:500px;
 	max-width:600px;
 	margin:75px auto;
 	margin-left: 30% auto;
 	border-radius: 10px;
-	box-shadow:0 4px 10px 4px black;
+	color: white;
+    font-family: raleway !important;
+	font-size: 1.125rem;
 }
 
 .left-side-menu{
@@ -43,6 +50,10 @@ body {
 	position: absolute;
     bottom: 0;
     top: 0;
+    text-transform: uppercase;
+	font-weight: 700;
+	letter-spacing: 0.2em;
+	text-align: right; 
 }
 
 .left-side-menu ul {
@@ -51,23 +62,69 @@ body {
     list-style-type: none;
 }
 
-.left-side-menu li a {
+.left-side-menu li  {
 	margin-top:10px;
 	display: block;
     color: white;
-    text-align: center;
+    text-align: right;
     padding: 30px 50px;
     text-decoration: none;
 	transition: 0.5s;
-	background-color: #1DACB6;
+	background-color: #F09557;
+	text-align: right;
 }
 
-.left-side-menu li a:hover{
+.left-side-menu li:hover{
     background-color: #045358;
 	transition: 0.5s;
 }
 
-.left-side-menu li a:active{
+.left-side-menu li:active{
 	background-color: #24d0bb;
 	transition: 0.2s;
 }
+
+.user-image {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  border-radius: 60%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  margin-left: 10px;
+  margin-right: 15px;
+  border: 3px solid #045358;
+}
+.user-image: hover {
+  border: 3px solid #1DACB6;
+}
+.login-input{
+	background-color: #F5E9C6; 
+	border: 2px solid #F09557;
+	padding: 12px 180px 10px 10px;
+    margin: 8px 0;	
+	color:  #045358;
+    font-family: raleway !important;
+	font-size: 1.125rem;
+	font-weight: 600;
+    
+}
+input:focus {
+	border: 3px solid #045358; 
+	outline: none;  
+	color:  #045358;
+}
+.login-button{
+	background-color: #045358; 
+	border: 2px solid #045358;
+	padding: 12px 100px;
+    margin: 8px 0%;	
+    width: 392px;
+    color: white;
+    font-family: raleway !important;
+	font-size: 1.125rem;
+	font-weight: 600;
+}
+
+
