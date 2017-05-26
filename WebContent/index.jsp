@@ -12,23 +12,17 @@
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js"> </script>
 </head>
 <body>
-
-   
          <!-- Begin Header -->
-         <div id="top"> </div>
+         <div id="top-logo"> </div>
          <div class="left-side-menu">
-       
-		<ul>
-			<li class="Login">Login</li>
-			<li class="Register">Register</li>
-			<li class="About">About Us</li>
-		</ul>
+			<ul>
+				<li><a>Login</a></li>
+				<li><a>Register</a></li>
+				<li><a>About Us</a></li>
+				<li><a>Enter Without Register</a></li>
+			</ul>
 		</div>
-		<div id= "wraper" ></div>
-
-         
-			   
-		 
+		<div id= "wrapper" ></div>		 
 </body>
 
 <script>

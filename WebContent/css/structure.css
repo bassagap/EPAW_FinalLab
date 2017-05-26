@@ -11,54 +11,63 @@
 
 
 body {
- font-family: Arial, Helvetica, sans-serif;
- font-size: 13px;
- background: #F5E9C6;
- margin:0px;
+	 font-family: Arial, Helvetica, sans-serif;
+	 font-size: 13px;
+	 background: #F5E9C6;
+	 margin:0px;
 }
 
-#top {
- color: #333;
- width: 100%;
- height: 100px;
- background: #F5E9C6;
+#top-logo{
+	padding-bottom:200px;
+	background-color: #F5E9C6;
+	background: url('../img/logoo.png') no-repeat 50% 1% fixed;
+	background-size: 500px;
+}
+
+
+#wrapper{
+	text-align:justify;
+	background-color: #F09557;
+	padding: 40px;
+	padding-bottom:500px;
+	max-width:600px;
+	margin:75px auto;
+	margin-left: 30% auto;
+	border-radius: 10px;
+	box-shadow:0 4px 10px 4px black;
 }
 
 .left-side-menu{
-	display: block;
-    top: 0px;
-    float: left;	
+	width: 15%;
+	background-color: #F09557;
+	position: absolute;
+    bottom: 0;
+    top: 0;
 }
 
-ul {
-	border: 1px solid black;
+.left-side-menu ul {
+	padding-left:0px;
     overflow: hidden;
-    background-color: #F09557;
     list-style-type: none;
 }
 
-.left-side-menu li {
-
-
-    width:100%;
+.left-side-menu li a {
+	margin-top:10px;
+	display: block;
+    color: white;
+    text-align: center;
     padding: 30px 50px;
     text-decoration: none;
-	transition: 0.5s;	
+	transition: 0.5s;
 	background-color: #1DACB6;
 }
 
-.left-side-menu li :hover{
+.left-side-menu li a:hover{
     background-color: #045358;
 	transition: 0.5s;
 }
 
-
-.left-side-menu li  a{
-    color: white;
-    text-align: center;
-    width:100%;
-    padding: 30px 50px;
-    text-decoration: none;
-	transition: 0.5s;	
+.left-side-menu li a:active{
+	background-color: #24d0bb;
+	transition: 0.2s;
 }
-
