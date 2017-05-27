@@ -1,0 +1,203 @@
+h3{
+    text-align:center;
+    position:relative;
+    z-index:1;
+	
+	color:  #045358;
+	font-family: raleway !important;
+	font-size: 1.125rem;
+	font-weight: 600;
+}
+
+h3:after{
+    content:"";
+    position:absolute;
+    top:50%;
+    left:0;
+    right:0;
+    border-top:solid 1px black;
+    z-index:-1;
+}
+
+
+.line-center{
+    margin:0;
+	padding:0 10px;
+    background:#F5E9C6;
+}
+
+.field {
+	position:relative;
+    margin: 20px 0;	
+	
+	color:  #045358;
+	font-family: raleway !important;
+	font-size: 1.125rem;
+	font-weight: 600;
+}
+
+.optional{
+	display : none;
+}
+
+.dateOfBirth{
+	height:100%;
+	margin-bottom:20px;
+	display: inline; 
+    padding: 0.3em; 
+    border: 2px solid #F09557;
+	background:#F5E9C6;
+	width:100%;
+	
+	color:  #045358;
+	font-family: raleway !important;
+	font-size: 1.125rem;
+	font-weight: 600;
+}
+p{
+	font-family: raleway !important;
+	font-size: 1.125rem;
+	color: #045358;
+}
+.dateOfBirth input[type=number] { 
+    width: 3em;
+    padding: 0 0.4em; 	
+    border: none; 
+    background: none;
+    
+	color:  #045358;
+	font-family: raleway !important;
+	font-size: 1.125rem;
+	font-weight: 600;
+}
+
+.dateOfBirth input#year { width:4em; }
+
+.mutliSelect li{
+	margin-bottom:10px;
+}
+
+.button {
+	background-color: #045358; 
+	border: 2px solid #045358;
+	padding: 12px 100px;
+    margin: 8px 0%;	
+    text-align: center;
+    
+	color:  white;
+	font-family: raleway !important;
+	font-size: 1.125rem;
+	font-weight: 600;
+}
+
+.button:hover{
+	cursor:pointer;
+	background-color: #167d50;
+	transition: 0.5s;
+}	
+
+.button:active {
+  background-color: #24d0bb;
+  transition: 0.2s;
+}
+
+.dropdown{
+	color: white;
+}
+.dropdown dd {
+	z-index : 2;
+	margin: 0px;
+	padding: 0px;
+}
+
+.dropdown ul {
+	margin: -1px 0 0 0;
+}
+
+.dropdown dd {
+	position: relative;
+}
+
+.dropdown dt a {
+	background-color: #045358;
+	-moz-user-select: none;
+	cursor:pointer;
+	text-decoration: none;
+	outline: none;
+	text-align: center;
+	overflow: hidden;
+	border: 2px solid #045358;
+	padding: 12px 100px;
+    margin: 8px 0%;	
+    width: 392px;
+	display: block;
+	
+	color:  white;
+	font-family: raleway !important;
+	font-size: 1.125rem;
+	font-weight: 600;
+}
+
+.dropdown dd ul {
+	list-style-type: none;
+	background-color: #045358;
+	width:66%;
+	display: none;
+	left: 0px;
+	padding: 12px 100px;
+	position: absolute;
+	top: -16px;
+	overflow: auto;
+	z-index:1;
+	
+	color:  white;
+	font-family: raleway !important;
+	font-size: 1.125rem;
+	font-weight: 600;
+}
+
+input[type=text], [type=password], input[list], [type=mail]{
+	padding: 12px 180px 10px 10px;
+    margin: 8px 0;	
+	display:block;
+	
+	background-color: #F5E9C6; 
+	border: 2px solid #F09557;
+	color:  #045358;
+	font-family: raleway !important;
+	font-size: 1.125rem;
+	font-weight: 600;
+}
+		
+input[type=number]{
+	-moz-appearance:textfield;
+	padding:5px 10px;
+	background-color: #F5E9C6; 
+	border: 2px solid #F09557;
+	width:75%;
+	
+	background-color: #F5E9C6; 
+	border: 2px solid #F09557;
+	color:  #045358;
+	font-family: raleway !important;
+	font-size: 1.125rem;
+	font-weight: 600;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+input[type="checkbox"] + label span {
+    display:inline-block;
+    width:19px;
+    height:19px;
+    margin:-5px 10px 0 -21px;
+    vertical-align:middle;
+    background:url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/check_radio_sheet.png) left top no-repeat;
+    cursor:pointer;
+}
+
+input[type="checkbox"]:checked + label span {
+    background:url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/check_radio_sheet.png) -19px top no-repeat;
+}
