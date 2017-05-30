@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" session="false" %>
+    pageEncoding="UTF-8" session="true" %>
 
 <!DOCTYPE html>
 <html>
@@ -17,8 +17,9 @@
          <!-- El logo nomes es veu en les pantalles de registre i login així que el trec del index <div id="top-logo"> </div> -->
          
          <div class="left-side-menu">
-			<ul>
-				<li class = "UserAccount"><div class = "user-image" style="background-image:url('img/user_logo.png')"></div><a>Login</a></li>
+         <button id = "logout_button" >Logout</button>
+         	<ul>
+				<li class = "UserAccount"><div class = "user-image" style="background-image:url('img/user_logo.png')"></div>${sessionScope.user}</li>
 			</ul>
 			<hr class = "hr-left-side-menu">
 			<ul>
@@ -34,15 +35,16 @@
 </body>
 
 <script>
-$(document).ready(function(){
-	var user = "${sessionScope.user}";
-	console.log("Hi Paula");
-
-	console.log(user);
-	$(".Rankings").click(function(){
-    	$.ajax({url: "ViewRegisterForm.jsp", success: function(result){
-        	$("#wrapper").html(result);
-    	}});
+$(document).ready(function(){	
+	$("#logout_button").click(function(){
+        $.ajax({
+           url:'LogoutController',
+           type:'GET',
+           success:function(data){
+        		 window.location.href = "index.jsp";  		
+           },
+           error:function(){
+           }});
 	});
 });
 </script>

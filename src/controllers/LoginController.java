@@ -35,9 +35,7 @@ public class LoginController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		System.out.println("LoginController.");
-		
+	
 		BeanUser user = new BeanUser();
 	    try {
 			
@@ -51,7 +49,8 @@ public class LoginController extends HttpServlet {
 				    dispatcher.forward(request, response);
 				} 
 				else {
-				    request.setAttribute("user",user);
+					user.setErrorName();
+					request.setAttribute("user", user);
 				    RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
 				    dispatcher.forward(request, response);
 					

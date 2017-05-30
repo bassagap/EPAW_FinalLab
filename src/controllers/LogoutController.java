@@ -30,11 +30,11 @@ public class LogoutController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		HttpSession session = request.getSession(false);
-		if (session!=null) session.invalidate();
-		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("ViewLogoutDone.jsp");
-	    if (dispatcher != null) dispatcher.forward(request, response);
+		HttpSession session = request.getSession();
+		System.out.println("logout");
+		session.invalidate();	
+		RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+	    dispatcher.forward(request, response);
 	}
 
 	/**

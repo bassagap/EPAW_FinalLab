@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" session="false" %>
+    pageEncoding="UTF-8" session="false"  import="models.BeanUser"%>
 
 <!DOCTYPE html>
 <html>
@@ -12,6 +12,15 @@
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js"> </script>
 <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Raleway" />
 </head>
+<% 
+BeanUser user = null;
+if (request.getAttribute("user")!=null) {
+	user = (BeanUser)request.getAttribute("user");
+}
+else {
+	user = new BeanUser();
+}
+%>	
 <body>
          <!-- Begin Header -->
          <!-- El logo nomes es veu en les pantalles de registre i login així que el trec del index <div id="top-logo"> </div> -->
@@ -40,16 +49,14 @@ $(document).ready(function(){
         	$("#wrapper").html(result);
     	}});
 	});
-	$(".Login").click(function(){
-    	$.ajax({url: "ViewLoginForm.jsp", success: function(result, responseText, session){
-			
-        	$("#wrapper").html(result);
-    	}});
-	});
+	
+   	$.ajax({url: "ViewLoginForm.jsp", type: "POST", data : {userName: '${user.userName}', error: '${user.error[0]}'}, success: function(result, responseText, session){	
+   		console.log("data: ", '${user.userName}');
+       	$("#wrapper").html(result);
+   	}});
+   	
 	$(".No-Register").click(function(){
-		console.log("hi");
     	$.ajax({url: "ViewMenuLogged.jsp", success: function(result){
-      		console.log(user);
         	$("#wrapper").html(result);
     	}});
 	});
