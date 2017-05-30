@@ -51,14 +51,19 @@ $(document).ready(function(){
 	});
 	
    	$.ajax({url: "ViewLoginForm.jsp", type: "POST", data : {userName: '${user.userName}', error: '${user.error[0]}'}, success: function(result, responseText, session){	
-   		console.log("data: ", '${user.userName}');
        	$("#wrapper").html(result);
    	}});
    	
 	$(".No-Register").click(function(){
-    	$.ajax({url: "ViewMenuLogged.jsp", success: function(result){
-        	$("#wrapper").html(result);
-    	}});
+		$.ajax({
+	           url:'LoginController',
+	           type:'GET', 
+	           data: {userType: "anonymous"},
+	           success:function(data){
+	        		 window.location.href = "ViewMenuLogged.jsp";  		
+	           },
+	           error:function(){
+	           }});
 	});
 });
 </script>

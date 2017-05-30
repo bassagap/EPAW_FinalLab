@@ -41,6 +41,7 @@ public class LoginController extends HttpServlet {
 			
 	    	BeanUtils.populate(user, request.getParameterMap());
 	    	UserService userService = new UserService(); 
+	    	
 	    	try {
 				if (userService.LoginUser(user)) {
 					HttpSession session = request.getSession();
@@ -48,6 +49,12 @@ public class LoginController extends HttpServlet {
 					RequestDispatcher dispatcher = request.getRequestDispatcher("ViewMenuLogged.jsp");
 				    dispatcher.forward(request, response);
 				} 
+				if(request.getParameter("userType") != null && request.getParameter("userType").equals("anonymous")){
+					HttpSession session = request.getSession();
+					session.setAttribute("user", "anonymous");
+					RequestDispatcher dispatcher = request.getRequestDispatcher("ViewMenuLogged.jsp");
+				    dispatcher.forward(request, response);
+				}
 				else {
 					user.setErrorName();
 					request.setAttribute("user", user);
