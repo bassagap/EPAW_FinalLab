@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title> USport </title>	
 <script type="text/javascript" src="js/optionalFields.js"></script>
+<link rel="stylesheet" type="text/css" href="css/register.css"/>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
    
 <script>
@@ -25,7 +26,7 @@ else {
 	user = new BeanUser();
 }
 %>	
-
+<div class="top-logo"></div>
 <div class="singup" id="Register">
 	<form action="/Lab3/FormController" method="post" id="registerForm">
 		<!--===============USERNAME===================-->
@@ -40,7 +41,12 @@ else {
 		
 		<!--===============PASSWORD===================-->
 		<div class="field">
-			<input type="password" name="password" id="password" placeholder="Password" value="${user.Password}" required minlength="6", maxlength="30" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[a-z]).*$" title="Must contain at least one number and special character."/>
+			<input type="password" name="password" id="password" placeholder="Password" value="${user.Password}" required minlength="6", maxlength="30" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[a-z]).*$" title="Must contain at least one number or special character."/>
+		</div>
+		
+		<!--===============EMAIL===================-->
+		<div class="field">
+			<input type="mail" name="mail" placeholder="Email" required value="${user.mail}" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" title="Enter a valid email">
 		</div>
 		
 		<!--===============T&C===================-->
@@ -102,11 +108,14 @@ else {
 						<li>
 							<input type="checkbox" value="Golf"id="s11"/>
 							<label for="s11"><span></span>Golf</label></li>
+						<li>
+							<input type="checkbox" value="Qwiditch"id="s12"/>
+							<label for="s12"><span></span>Qwiditch</label></li>
 					</ul>
 					
 					<div class="field">
-						<input type="text" name="otherSport" id="otherSport" style="width:55%;display: inline-block;" id="sport" placeholder="Other sport that it's not in the list" minlength="3" maxlength="16"/>
-						<div class="button" style="width:30%;display: inline-block;" onclick="addSport()"> Add </div>
+						<input type="text" name="otherSport" id="otherSport" style="width:55%" id="sport" placeholder="Other sport that it's not in the list" minlength="3" maxlength="16"/>
+						<div class="button" onclick="addSport()"> Add </div>
 					</div>
 				</div>
 			</dd>
@@ -133,14 +142,10 @@ else {
 	
 		<!--===============WEIGHT===================-->
 		<div class="field">
-			<input type="number" name="weight" id="weight" placeholder="Weight" value="${user.weight}" style="width: 20%;" min="10" max="200"> &nbsp&nbsp kg
+			<input type="number" name="weight" id="weight" placeholder="Weight [kg]" value="${user.weight}" style="width: 20%;" min="10" max="200">
 		</div>
 		
-		<!--===============EMAIL===================-->
-		<div class="field">
-			<input type="mail" name="mail" placeholder="Email" value="${user.mail}" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
-		</div>
-		</div>
+	</div>
 		<input class="button" type="submit" value="Submit" style="width:100%" >
 	</form>
 </div>
@@ -179,6 +184,7 @@ $('.mutliSelect input[type="checkbox"]').on('click', function() {
   }
 });
 </script>
+
 
 </div>
 </body>

@@ -10,6 +10,7 @@ $(document).ready(function(){
   });
 </script>
 
+<div class="top-logo"></div>
 <form action="/Lab3/LoginController" method="post" >
 	<table>
 		<tr> 

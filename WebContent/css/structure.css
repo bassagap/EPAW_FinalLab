@@ -16,11 +16,12 @@ p{
 	margin-top: 10% auto; 
 }
 
-#top-logo{
-	padding-bottom:200px;
+.top-logo{
+	margin-top:-150px;
+	padding-bottom:300px;
 	background-color: #F5E9C6;
-	background: url('../img/logoo.png') no-repeat 50% 1% fixed;
-	background-size: 500px;
+	background: url('../img/logo.png') no-repeat 50% 1% fixed;
+	background-size: 600px;*/
 }
 
 
@@ -29,6 +30,7 @@ p{
 	padding: 40px;
 	max-width:600px;
 	margin:75px auto;
+	top:0px;
 	margin-bottom: 0px;
 	margin-left: 30% auto;
 	color: white;
@@ -55,6 +57,7 @@ p{
 }
 
 .left-side-menu li  {
+	cursor: pointer;
 	margin-top:10px;
 	display: block;
     color: white;
@@ -118,5 +121,3 @@ input:focus {
 	font-size: 1.125rem;
 	font-weight: 600;
 }
-
-

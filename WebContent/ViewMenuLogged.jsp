@@ -17,7 +17,6 @@
          <!-- El logo nomes es veu en les pantalles de registre i login així que el trec del index <div id="top-logo"> </div> -->
          
          <div class="left-side-menu">
-         <button id = "logout_button" >Logout</button>
          	<ul>
 				<li class = "UserAccount"><div class = "user-image" style="background-image:url('img/user_logo.png')"></div>${sessionScope.user}</li>
 			</ul>
@@ -29,6 +28,10 @@
 			<hr class = "hr-left-side-menu">
 			<ul>
 				<li class = "About"><a>About</a></li>
+			</ul>
+			<hr class = "hr-left-side-menu">
+			<ul>
+				<li id="logout_button" class="logout-button"><a>Logout</a></li>
 			</ul>
 		</div>
 		<div id= "wrapper" ></div>		 
