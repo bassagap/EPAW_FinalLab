@@ -53,6 +53,11 @@ $(document).ready(function(){
    	$.ajax({url: "ViewLoginForm.jsp", type: "POST", data : {userName: '${user.userName}', error: '${user.error[0]}'}, success: function(result, responseText, session){	
        	$("#wrapper").html(result);
    	}});
+	$(".Login").click(function(){
+    	$.ajax({url: "ViewLoginForm.jsp", success: function(result){
+        	$("#wrapper").html(result);
+    	}});
+	});
    	
 	$(".No-Register").click(function(){
 		$.ajax({
