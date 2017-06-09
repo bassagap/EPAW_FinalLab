@@ -5,6 +5,7 @@
 	
 <script>
 $(document).ready(function(){
+	console.log("Hi");
 	console.log('${params.userName}');
     $("#loginForm").validate();
   });
@@ -17,7 +18,7 @@ $(document).ready(function(){
 			<td> <input type="text" name="userName" value="${param.userName}" id="userName" class="required login-input" minlength="5" placeholder = "User Name"/> </td> 
 		</tr>
 		<tr> 
-			<td> <input type="password" name="password"  id="password" class="required login-input" minlength="5" placeholder = "Password "/> </td> 
+			<td> <input type="password" name="password"  id="password" class="required login-input" minlength="5" placeholder = "Password "/></td> 
 		</tr>
 		<c:if test="${param.error== 1}">
 			<tr>

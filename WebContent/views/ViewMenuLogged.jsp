@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" session="true" %>
+    pageEncoding="UTF-8" session="true"  %>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title> Lab 3 template </title>
-<link rel="stylesheet" type="text/css" href="css/structure.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/structure.css" />
 <!-- <link href="style/style.css" rel="stylesheet" type="text/css"> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js"> </script>
@@ -18,7 +18,7 @@
          
          <div class="left-side-menu">
          	<ul>
-				<li class = "UserAccount"><div class = "user-image" style="background-image:url('img/user_logo.png')"></div>${sessionScope.user}</li>
+				<li class = "UserAccount"><div class = "user-image" style="background-image:url('${pageContext.request.contextPath}/img/user_logo.png')"></div>${sessionScope.user}</li>
 			</ul>
 			<hr class = "hr-left-side-menu">
 			<ul>
@@ -41,10 +41,10 @@
 $(document).ready(function(){	
 	$("#logout_button").click(function(){
         $.ajax({
-           url:'LogoutController',
+           url:'${pageContext.request.contextPath}/LogoutController',
            type:'GET',
            success:function(data){
-        		 window.location.href = "index.jsp";  		
+        		 window.location.href = '${pageContext.request.contextPath}/views/index.jsp';  		
            },
            error:function(){
            }});

@@ -7,7 +7,7 @@
 7. Tweets: add tweet + delete tweet + tweet info ( hashtag + description + user + data + visibility)  
 8. Tweets screen: order by + tweet automatic archive + add button + search bar
 9. Search bar: search tweets by user, by hashtag or by date 
-10. Top ten: last ten hashtags entered by date 
+10.Top ten: last ten hashtags entered by date 
 11.Style
 
 ------------------------

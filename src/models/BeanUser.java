@@ -16,6 +16,7 @@ public class BeanUser implements Serializable  {
 	private ArrayList<String> sportsList = new ArrayList<String>(); 
 	private Integer weight = null; 
 	private Date dateOfBirth = new Date(0); 
+	private String userType = ""; 
 	/*  Control which parameters have been correctly filled */
 	private int[] error = {0,0}; 
 	
@@ -64,6 +65,20 @@ public class BeanUser implements Serializable  {
 		return gender;
 	}
 
+	/**
+	 * @return the userType
+	 */
+	public String getUserType() {
+		return userType;
+	}
+	
+	/**
+	 * @return the dateOfBirth
+	 */
+	public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
+	
 	/*Setters*/
 	public void setUserName(String userName) throws Exception{
 		this.userName = userName;
@@ -113,17 +128,17 @@ public class BeanUser implements Serializable  {
 	}
 
 	/**
-	 * @return the dateOfBirth
-	 */
-	public Date getDateOfBirth() {
-		return dateOfBirth;
-	}
-
-	/**
 	 * @param dateOfBirth the dateOfBirth to set
 	 */
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
+	}
+
+	/**
+	 * @param userType the userType to set
+	 */
+	public void setUserType(String userType) {
+		this.userType = userType;
 	}
 
 

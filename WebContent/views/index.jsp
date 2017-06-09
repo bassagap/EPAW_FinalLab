@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title> Lab 3 template </title>
-<link rel="stylesheet" type="text/css" href="css/structure.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/structure.css" />
 <!-- <link href="style/style.css" rel="stylesheet" type="text/css"> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js"> </script>
@@ -27,7 +27,7 @@ else {
          
          <div class="left-side-menu">
 			<ul>
-				<li class = "Login"><div class = "user-image" style="background-image:url('img/user_logo.png')"></div><a>Login</a></li>
+				<li class = "Login"><div class = "user-image" style="background-image:url('${pageContext.request.contextPath}/img/user_logo.png')"></div><a>Login</a></li>
 			</ul>
 			<hr class = "hr-left-side-menu">
 			<ul>
@@ -45,23 +45,23 @@ else {
 <script>
 $(document).ready(function(){
 	$(".Register").click(function(){
-    	$.ajax({url: "ViewRegisterForm.jsp", success: function(result){
+    	$.ajax({url: '${pageContext.request.contextPath}/views/accessManagement/ViewRegisterForm.jsp', success: function(result){
         	$("#wrapper").html(result);
     	}});
 	});
 	
-   	$.ajax({url: "ViewLoginForm.jsp", type: "POST", data : {userName: '${user.userName}', error: '${user.error[0]}'}, success: function(result, responseText, session){	
+   	$.ajax({url: '${pageContext.request.contextPath}/views/accessManagement/ViewLoginForm.jsp', type: "POST", data : {userName: '${user.userName}', error: '${user.error[0]}'}, success: function(result, responseText, session){	
        	$("#wrapper").html(result);
    	}});
 	$(".Login").click(function(){
-    	$.ajax({url: "ViewLoginForm.jsp", success: function(result){
+    	$.ajax({url:  '${pageContext.request.contextPath}/views/accessManagement/ViewLoginForm.jsp', type: "POST", data : {userName: '${user.userName}', error: '${user.error[0]}'}, success: function(result, responseText, session){
         	$("#wrapper").html(result);
     	}});
 	});
    	
 	$(".No-Register").click(function(){
 		$.ajax({
-	           url:'LoginController',
+	           url:'../LoginController',
 	           type:'GET', 
 	           data: {userType: "anonymous"},
 	           success:function(data){
