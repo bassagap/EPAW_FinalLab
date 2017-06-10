@@ -15,30 +15,35 @@
 <body>
          <!-- Begin Header -->
          <!-- El logo nomes es veu en les pantalles de registre i login així que el trec del index <div id="top-logo"> </div> -->
-         
-         <div id="mySidenav" class="sidenav">
-         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-         	<ul>
-				<li class = "UserAccount"><div class = "user-image" style="background-image:url('${pageContext.request.contextPath}/img/user_logo.png')"></div>${sessionScope.user}</li>
-			</ul>
-			<hr class = "hr-left-side-menu">
-			<ul>
-				<li class = "Rankings"><a>Rankings</a></li>
-				<li class = "Popular"><a>Popular</a></li>
-			</ul>
-			<hr class = "hr-left-side-menu">
-			<ul>
-				<li class = "About"><a>About</a></li>
-			</ul>
-			<hr class = "hr-left-side-menu">
-			<ul>
-				<li id="logout_button" class="logout-button"><a>Logout</a></li>
-			</ul>
-		</div>
-		<span id = "main-button" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; </span>
-		<div id="main">
-
-</div>
+	<div id="mySidenav" class="sidenav">
+		<table>
+			<tr>
+				<td class="col-md-1">
+					<span id = "logout-button" class="glyphicon glyphicon-log-out logout-button "> </span>
+				</td>
+				<td class="col-md-3">	
+					<span href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</span>
+				</td>
+			</tr>
+		</table>
+		<ul>
+			<li class = "UserAccount"><div class = "user-image" style="background-image:url('${pageContext.request.contextPath}/img/user_logo.png')"></div>${sessionScope.user}</li>
+		</ul>
+		<hr class = "hr-left-side-menu">
+		<ul>
+			<li class = "Rankings">Rankings</li>
+			<li class = "Popular">Popular</li>
+		</ul>
+		<hr class = "hr-left-side-menu">
+		<ul>
+			<li class = "About">About</li>
+		</ul>
+		<hr class = "hr-left-side-menu">
+	</div>
+	<span id = "main-button" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; </span>
+	<div id="main">
+	
+	</div>
 </body>
 
 <script>
@@ -58,7 +63,7 @@ function closeNav() {
     $("#main-button").show();
 }
 $(document).ready(function(){	
-	$("#logout_button").click(function(){
+	$("#logout-button").click(function(){
         $.ajax({
            url:'${pageContext.request.contextPath}/LogoutController',
            type:'GET',
@@ -69,6 +74,9 @@ $(document).ready(function(){
            }});
 	});
 });
+$.ajax({url: '${pageContext.request.contextPath}/views/tweetsManagement/ViewTweets.jsp', success: function(result){	
+      	$("#main").html(result);
+  	}});
 </script>
 
 </html>

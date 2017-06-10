@@ -41,16 +41,13 @@ h3:after{
 /*============== MENU ======================*/
 #main {
     transition: margin-left .5s;
-    padding: 16px;
-    text-align:justify;
-	max-width:600px;
-	margin:75px auto;
+    padding: 5%;
 	top:0px;
-	margin-bottom: 0px;
-	margin-left: 30% auto;
 	color: white;
     font-family: raleway !important;
 	font-size: 1.125rem;
+	margin: 0 auto;
+  	width: 80%;
 }
 
 .hr-left-side-menu {
@@ -60,46 +57,6 @@ h3:after{
 	margin-top: 10% auto; 
 }
 
-.left-side-menu{
-	width: 15%;
-	background-color: #F09557;
-	position: absolute;
-    bottom: 0;
-    top: 0;
-    text-transform: uppercase;
-	font-weight: 700;
-	letter-spacing: 0.2em;
-	text-align: right; 
-}
-
-.left-side-menu ul {
-	padding-left:0px;
-    overflow: hidden;
-    list-style-type: none;
-}
-
-.left-side-menu li  {
-	cursor: pointer;
-	margin-top:10px;
-	display: block;
-    color: white;
-    text-align: right;
-    padding: 30px 50px;
-    text-decoration: none;
-	transition: 0.5s;
-	background-color: #F09557;
-	text-align: right;
-}
-
-.left-side-menu li:hover{
-    background-color: #045358;
-	transition: 0.5s;
-}
-
-.left-side-menu li:active{
-	background-color: #24d0bb;
-	transition: 0.2s;
-}
 
 /*============== LEFT SIDE NAV ======================*/
 .sidenav {
@@ -113,7 +70,6 @@ h3:after{
     color: white;
     overflow-x: hidden;
     transition: 0.5s;
-    padding-top: 60px;
     text-transform: uppercase;
 	font-weight: 700;
 	letter-spacing: 0.2em;
@@ -156,12 +112,8 @@ h3:after{
 }
 
 .sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
+    font-size: 40px;
     color: white;
-    margin-left: 50px;
 }
 
 @media screen and (max-height: 450px) {
@@ -178,20 +130,10 @@ h3:after{
 	background: url('../img/logo.png') no-repeat 50% 1%;
 	background-size: 600px;*/
 }
-
-#wrapper{
-	text-align:justify;
-	padding: 40px;
-	max-width:600px;
-	margin:75px auto;
-	top:0px;
-	margin-bottom: 0px;
-	margin-left: 30% auto;
-	color: white;
-    font-family: raleway !important;
-	font-size: 1.125rem;
+.logout-button{
+	font-size: 22px;
+    color: white;
 }
-
 .user-image {
   display: inline-block;
   width: 80px;
@@ -233,19 +175,6 @@ h3:after{
   transition: 0.2s;
 }
 
-.tweet{
-	background-color: 1dacb6;
-	text-align:justify;
-	padding: 40px;
-	max-width:600px;
-	margin:75px auto;
-	top:0px;
-	margin-bottom: 0px;
-	margin-left: 30% auto;
-	color: white;
-    font-family: raleway !important;
-	font-size: 1.125rem;
-}
 
 /*============== FORMS ======================*/
 

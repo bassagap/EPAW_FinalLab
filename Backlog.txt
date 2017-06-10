@@ -1,14 +1,14 @@
-1. User types: Admin + registered + anonymous (user can login and logout with each of them) 
-2. Login: User can enter the application and has a session + login verification DONE
-3. Logout: User can logout the application and loss the session when the browser is closed
-4. Register: User can register + user is saved into DB + once register is successful the user navigates into the application (PARTIALLY)
-5. Personal Account: user information + sports + user access rights + subscriptions (friends) 
-6. Access Rights: public and private profile access + visibility control + admin users
-7. Tweets: add tweet + delete tweet + tweet info ( hashtag + description + user + data + visibility)  
-8. Tweets screen: order by + tweet automatic archive + add button + search bar
-9. Search bar: search tweets by user, by hashtag or by date 
-10.Top ten: last ten hashtags entered by date 
-11.Style
+(DONE)	1. User types: 	Admin + registered + anonymous (user can login and logout with each of them) 
+(DONE)	2. Login: User can enter the application and has a session + login verification 
+(DONE)	3. Logout: User can logout the application and loss the session when the browser is closed
+(DONE)	4. Register: User can register + user is saved into DB + once register is successful the user navigates into the application DONE
+	5. Personal Account: user information + sports + user access rights + subscriptions (friends) 
+	6. Access Rights: public and private profile access + visibility control + admin users
+	7. Tweets: add tweet + delete tweet + tweet info ( hashtag + description + user + data + visibility)  
+	8. Tweets screen: order by + tweet automatic archive + add button + search bar
+	9. Search bar: search tweets by user, by hashtag or by date 
+	10.Top ten: last ten hashtags entered by date 
+	11.Style
 
 ------------------------
 12. Statistics

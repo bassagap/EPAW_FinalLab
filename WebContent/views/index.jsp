@@ -12,6 +12,16 @@
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js"> </script>
 <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Raleway" />
 </head>
+<% 
+BeanUser user = null;
+if (request.getAttribute("user")!=null) {
+    user = (BeanUser)request.getAttribute("user");
+}
+else {
+    user = new BeanUser();
+}
+%>    
+
 <body>
 
 <div id="mySidenav" class="sidenav">
@@ -52,7 +62,11 @@ function closeNav() {
 }
 $(document).ready(function(){
 	$(".Register").click(function(){
-    	$.ajax({url: '${pageContext.request.contextPath}/views/accessManagement/ViewRegisterForm.jsp', success: function(result){
+    	$.ajax({url: '${pageContext.request.contextPath}/views/accessManagement/ViewRegisterForm.jsp', 
+    		type: "POST", 
+    		data : {userName: '${user.userName}', error: '${user.error[0]}'}, 
+    		success: function(result, responseText, session){	
+    	
         	$("#main").html(result);
     	}});
 	});

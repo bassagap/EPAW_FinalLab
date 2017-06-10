@@ -8,6 +8,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.beanutils.BeanUtils;
 
 import models.BeanUser;
@@ -41,14 +43,16 @@ public class FormController extends HttpServlet {
 		   UserService userService = new UserService(); 
 		   if (!userService.userExists(user)) {
 			   userService.insertUser(user); 
+			   HttpSession session = request.getSession();
+			   session.setAttribute("user",user.getUserName());
 			   user = new BeanUser();
 			   request.setAttribute("user",user);
-			   RequestDispatcher dispatcher = request.getRequestDispatcher("ViewMenuLogged.jsp");
+			   RequestDispatcher dispatcher = request.getRequestDispatcher("views/ViewMenuLogged.jsp");
 			   dispatcher.forward(request, response);
 		   } else {
 			   user.setErrorName();	  
 			   request.setAttribute("user",user);
-			   RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+			   RequestDispatcher dispatcher = request.getRequestDispatcher("views/index.jsp");
 			   dispatcher.forward(request, response);
 		   }
 	    } 

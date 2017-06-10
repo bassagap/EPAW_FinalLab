@@ -16,37 +16,25 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-
-<% 
-BeanUser user = null;
-if (request.getAttribute("user")!=null) {
-	user = (BeanUser)request.getAttribute("user");
-}
-else {
-	user = new BeanUser();
-}
-%>	
 <div class="top-logo"></div>
 <div class="singup" id="Register">
 	<form action="/Lab3/FormController" method="post" id="registerForm">
 		<!--===============USERNAME===================-->
 		<div class="field">
-			<input type="text" name="userName" id="userName" placeholder="Username" value="${user.userName}" required minlength="6" maxlength="16"/>
-			<% 	
-				if ( user.getError()[0] == 1) {
-					out.println("The username already exists in our DB!");
-				}
-			%>		
+			<input type="text" name="userName" id="userName" placeholder="Username" value="${param.userName}" required minlength="6" maxlength="16"/>
+			<c:if test="${param.error== 1}">
+				out.println("The username already exists in our DB!");
+			</c:if>
 		</div>
 		
 		<!--===============PASSWORD===================-->
 		<div class="field">
-			<input type="password" name="password" id="password" placeholder="Password" value="${user.Password}" required minlength="6", maxlength="30" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[a-z]).*$" title="Must contain at least one number or special character."/>
+			<input type="password" name="password" id="password" placeholder="Password" value="${param.userName}" required minlength="6", maxlength="30" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[a-z]).*$" title="Must contain at least one number or special character."/>
 		</div>
 		
 		<!--===============EMAIL===================-->
 		<div class="field">
-			<input type="mail" name="mail" placeholder="Email" required value="${user.mail}" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" title="Enter a valid email">
+			<input type="mail" name="mail" placeholder="Email" required value="${param.userName}" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" title="Enter a valid email">
 		</div>
 		
 		<!--===============T&C===================-->

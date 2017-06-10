@@ -19,7 +19,7 @@ public class UserDAO {
 	}
 	public Boolean isValidUserName(String userName) throws SQLException{
 		Boolean isValid = true; 
-		String query = "SELECT * FROM TAULA WHERE USERNAME = '" + userName +"'"; 
+		String query = "SELECT * FROM USERS WHERE USERNAME = '" + userName +"'"; 
 		ResultSet resultSet =  statement.executeQuery(query);
 		if(resultSet.next()){
 			isValid = false; 
@@ -27,13 +27,13 @@ public class UserDAO {
 		return isValid; 
 	}
 	public void insertUser(BeanUser user) throws SQLException{
-		String query = "INSERT INTO TAULA (USERNAME, PASSWORD, GENDER, WEIGHT, DATEOFBIRTH, MAIL) VALUES ('"+user.getUserName()+ "', '" + user.getPassword()+  "', '" +user.getGender()+ "', '"+ user.getWeight() + "', '"+user.getDateOfBirth()+"', '"+ user.getMail()+ "')"; 
+		String query = "INSERT INTO USERS (USERNAME, PASSWORD, GENDER, WEIGHT, DATEOFBIRTH, MAIL) VALUES ('"+user.getUserName()+ "', '" + user.getPassword()+  "', '" +user.getGender()+ "', '"+ user.getWeight() + "', '"+user.getDateOfBirth()+"', '"+ user.getMail()+ "')"; 
 		int resultSet =  statement.executeUpdate(query);
 	}
 	
 	// execute query to access users table: 
 	public ArrayList<BeanUser> getUsersList () throws Exception{
-		String query = "SELECT * FROM TAULA";
+		String query = "SELECT * FROM USERS";
 		ResultSet resultSet =  statement.executeQuery(query);
 		ArrayList<BeanUser> userList = new ArrayList<BeanUser>();
 		  while(resultSet.next()){
@@ -52,7 +52,7 @@ public class UserDAO {
 	}
 	public boolean isValidLogin(String userName, String password) throws SQLException {
 		Boolean isValid = false; 
-		String query = "SELECT * FROM TAULA WHERE USERNAME = '" + userName +"' AND PASSWORD = '" + password + "'"; 
+		String query = "SELECT * FROM USERS WHERE USERNAME = '" + userName +"' AND PASSWORD = '" + password + "'"; 
 		ResultSet resultSet =  statement.executeQuery(query);
 		if(resultSet.next()){
 			isValid = true; 

@@ -1,0 +1,46 @@
+@CHARSET "ISO-8859-1";
+.tweet {
+	background-color: #1DACB6;
+	font-size: 1.8rem;
+	margin: 0 auto;
+  	width: auto;
+  	margin-top: 1%;
+}
+.tweet-footer {
+	text-align: right;
+}
+.tweet-header-user {
+	color: #F09557;
+	text-align: left;
+	font-weight: bold;
+	font-size: 2rem;
+}
+.tweet-header-date {
+	text-align: right;
+	font-weight: bold;
+	font-size: 2rem;
+}
+
+.delete-button {
+    font-size: 20px;
+    color: #F09557 ;
+	text-align: right;
+}
+input[type=text] {
+    width: 130px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+    background-image: url('searchicon.png');
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 40px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+input[type=text]:focus {
+    width: 100%;
+}
