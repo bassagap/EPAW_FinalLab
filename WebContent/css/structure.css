@@ -39,6 +39,19 @@ h3:after{
 }
 
 /*============== MENU ======================*/
+#main {
+    transition: margin-left .5s;
+    padding: 16px;
+    text-align:justify;
+	max-width:600px;
+	margin:75px auto;
+	top:0px;
+	margin-bottom: 0px;
+	margin-left: 30% auto;
+	color: white;
+    font-family: raleway !important;
+	font-size: 1.125rem;
+}
 
 .hr-left-side-menu {
 	margin-left: 15%;
@@ -87,6 +100,75 @@ h3:after{
 	background-color: #24d0bb;
 	transition: 0.2s;
 }
+
+/*============== LEFT SIDE NAV ======================*/
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #F09557;
+    color: white;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    text-transform: uppercase;
+	font-weight: 700;
+	letter-spacing: 0.2em;
+	text-align: right; 
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover, .offcanvas a:focus{
+    color: #f1f1f1;
+}
+
+.sidenav ul {
+	padding-left:0px;
+    overflow: hidden;
+    list-style-type: none;
+}
+.sidenav li  {
+	cursor: pointer;
+	margin-top:10px;
+	display: block;
+    color: white;
+    text-align: right;
+    padding: 30px 50px;
+    text-decoration: none;
+	transition: 0.5s;
+	background-color: #F09557;
+	text-align: right;
+}
+
+.sidenav li:hover{
+    background-color: #045358;
+	transition: 0.5s;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    color: white;
+    margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 14px;}
+  .sidenav a {font-size: 14px;}
+}
+
 /*============== OTHER ======================*/
 
 .top-logo{

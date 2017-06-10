@@ -16,7 +16,8 @@
          <!-- Begin Header -->
          <!-- El logo nomes es veu en les pantalles de registre i login així que el trec del index <div id="top-logo"> </div> -->
          
-         <div class="left-side-menu">
+         <div id="mySidenav" class="sidenav">
+         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
          	<ul>
 				<li class = "UserAccount"><div class = "user-image" style="background-image:url('${pageContext.request.contextPath}/img/user_logo.png')"></div>${sessionScope.user}</li>
 			</ul>
@@ -34,10 +35,28 @@
 				<li id="logout_button" class="logout-button"><a>Logout</a></li>
 			</ul>
 		</div>
-		<div id= "wrapper" ></div>		 
+		<span id = "main-button" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; </span>
+		<div id="main">
+
+</div>
 </body>
 
 <script>
+document.getElementById("mySidenav").style.width = "250px";
+document.getElementById("main").style.marginLeft = "250px";
+$("#main-button").hide();
+
+function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
+    $("#main-button").hide("slow");
+}
+
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("main").style.marginLeft= "0";
+    $("#main-button").show();
+}
 $(document).ready(function(){	
 	$("#logout_button").click(function(){
         $.ajax({
