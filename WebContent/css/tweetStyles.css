@@ -44,3 +44,11 @@ input[type=text] {
 input[type=text]:focus {
     width: 100%;
 }
+.modal-title{
+	color: black;
+	font-family: raleway !important;
+}
+.modal-body {
+	color: black;
+    text-align: left;
+}

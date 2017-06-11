@@ -49,7 +49,7 @@
 	<span id="main-button" style="font-size: 30px; cursor: pointer"
 		onclick="openNav()">&#9776; </span>
 	
-	<div id="main"><div id="test">Hello</div></div>
+	<div id="main"></div>
 </body>
 
 <script>
