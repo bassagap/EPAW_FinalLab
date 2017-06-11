@@ -83,12 +83,13 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script>
-$(document).ready( function() {      
+
+ $(document).ready( function() {     
     $.get('../TweetController', function(responseJson) {          
         $.each(responseJson, function(index, tweet) {   
         	var $divMain =  $("<div>").addClass("panel tweet").appendTo($("#main-test"));
             var $div = $("<div>").addClass("panel-heading").appendTo($divMain); 
-        	console.log(tweet.user);
+            $("<table>").appendTo($div) 
         var $table = $("<table>").appendTo($div)          
         $("<tr>").appendTo($table)
                 .append($("<td>").addClass("col-md-11").append($("<div>").addClass("tweet-header-user").text(tweet.user)))       
@@ -96,10 +97,29 @@ $(document).ready( function() {
         $("<p>").appendTo($div).text(tweet.hashTag);
         $("<div>").appendTo($div).text(tweet.description);
         $("<div>").appendTo($div).addClass("panel-footer tweet tweet-footer")
-        		.append($("<span>").addClass("glyphicon glyphicon-trash delete-button")); 
+        		.append($("<span>").addClass("glyphicon glyphicon-trash delete-button").attr("id",tweet.idTweet)); 
+        });
+        $(".delete-button").click(function() {
+        	 var $id = $(this).attr("id");
+        	 console.log("Hi");
+         	$
+			.ajax({
+				url : '../TweetController',
+				type : 'GET',
+				data : {
+					id : $id 
+				},
+				success : function(
+						data) {
+					$("#main-test").load(location.href + "#main-test");
+				},
+				error : function() {
+				}
+			});
+
         });
     });
-});
+}); 
 
 $(document).on("submit", "#addTweetForm", function(event) {
     var $form = $(this);
@@ -114,8 +134,6 @@ $(document).on("submit", "#addTweetForm", function(event) {
 
 $('.modal').on('hidden.bs.modal', function(){
     $(this).find('form')[0].reset();
-    event.preventDefault(); // Important! Prevents submitting the form.
 });
-
 </script>
 </html>

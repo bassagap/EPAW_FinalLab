@@ -12,6 +12,7 @@ public class BeanTweet implements Serializable{
 	private String hashTag = ""; 
 	private String visibility = "private";
 	private Date publicationDate = new Date(0); 
+	private int idTweet = 0; 
 	/**
 	 * @return the description
 	 */
@@ -71,5 +72,17 @@ public class BeanTweet implements Serializable{
 	 */
 	public void setPublicationDate(Date publicationDate) {
 		this.publicationDate = publicationDate;
+	}
+	/**
+	 * @return the idTweets
+	 */
+	public int getIdTweet() {
+		return idTweet;
+	}
+	/**
+	 * @param idTweets the idTweets to set
+	 */
+	public void setIdTweet(int idTweet) {
+		this.idTweet = idTweet;
 	} 
 }

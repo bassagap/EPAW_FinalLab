@@ -16,5 +16,9 @@ public class TweetService {
 		TweetDAO tweetDAO = new TweetDAO(); 
 		tweetDAO.insertTweet(tweet);
 	}
+	public void deleteTweet(int idTweet) throws Exception{
+		TweetDAO tweetDAO = new TweetDAO(); 
+		tweetDAO.deleteTweet(idTweet);
+	}
 
 }

@@ -35,6 +35,7 @@ public class TweetDAO {
 				tweet.setUser(resultSet.getString("user"));
 				tweet.setVisibility(resultSet.getString("visibility"));
 				tweet.setPublicationDate(resultSet.getDate("publicationDate"));
+				tweet.setIdTweet(resultSet.getInt("idtweets"));
 				tweetsList.add(tweet);
 			}
 			resultSet.close();
@@ -47,6 +48,10 @@ public class TweetDAO {
 
 	public void insertTweet(BeanTweet tweet) throws SQLException {
 		String query = "INSERT INTO TWEETS (HASHTAG, USER, PUBLICATIONDATE, DESCRIPTION, VISIBILITY) VALUES ('"+tweet.getHashTag()+ "', '" + tweet.getUser()+  "', '" +tweet.getPublicationDate()+ "', '"+ tweet.getDescription() + "', '"+tweet.getVisibility()+ "')"; 
+		int resultSet =  statement.executeUpdate(query);
+	}
+	public void deleteTweet(int idTweet) throws SQLException{
+		String query = "DELETE FROM TWEETS WHERE IDTWEETS = '"+ idTweet + "'"; 
 		int resultSet =  statement.executeUpdate(query);
 	}
 
