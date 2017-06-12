@@ -88,10 +88,8 @@
 	$
 			.ajax({
 				url : '${pageContext.request.contextPath}/views/tweetsManagement/ViewTweets.jsp',
-				type: 'POST',
-				data: {
-					tweetList: '${tweetList}'
-				},
+				type: 'GET',
+				data: {},
 				success : function(result) {
 					$("#main").html(result);
 				}

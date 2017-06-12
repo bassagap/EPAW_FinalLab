@@ -1,0 +1,2 @@
+1. Tweet screen is not loaded as expected when login registered a user 
+2. Repeated tweets are added when adding tweet after deleting any other TWEET

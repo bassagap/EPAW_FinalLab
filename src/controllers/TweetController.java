@@ -45,10 +45,10 @@ public class TweetController extends HttpServlet {
 		Calendar calendar = Calendar.getInstance();
 		java.sql.Date date = new java.sql.Date(calendar.getTime().getTime());	
 		String id_string = request.getParameter("id");
-		System.out.println("Test " + id_string);
 		BeanTweet tweet = new BeanTweet(); 	
 		try {
 			if(hashTag != null){
+				System.out.println("Test to be inserted: " + hashTag);
 				tweet.setDescription(description);
 				tweet.setHashTag(hashTag); 
 				tweet.setUser(user);
@@ -56,10 +56,10 @@ public class TweetController extends HttpServlet {
 				tweetService.insertTweet(tweet);
 			}
 			if(id_string != null){
+				System.out.println("Test to be deleted: " + id_string);
 				int idTweet = Integer.parseInt(id_string);
-				// Delete:   
-				   tweetService.deleteTweet(idTweet);
-				   System.out.println("Id tweet: " + idTweet);
+				tweetService.deleteTweet(idTweet);
+
 			}
 			ArrayList<BeanTweet> tweetList = tweetService.getTweetsList();
 		    String json = new Gson().toJson(tweetList);

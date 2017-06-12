@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1" import="models.BeanTweet"
+	pageEncoding="ISO-8859-1" session="true"  import="models.BeanTweet"
 	import="java.util.ArrayList"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <head>
@@ -84,56 +84,76 @@
 <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script>
 
- $(document).ready( function() {     
-    $.get('../TweetController', function(responseJson) {          
-        $.each(responseJson, function(index, tweet) {   
-        	var $divMain =  $("<div>").addClass("panel tweet").appendTo($("#main-test"));
-            var $div = $("<div>").addClass("panel-heading").appendTo($divMain); 
-            $("<table>").appendTo($div) 
-        var $table = $("<table>").appendTo($div)          
-        $("<tr>").appendTo($table)
-                .append($("<td>").addClass("col-md-11").append($("<div>").addClass("tweet-header-user").text(tweet.user)))       
-                .append($("<td>").addClass("col-md-1").append($("<div>").addClass("tweet-header-date").text(tweet.publicationDate)));     
-        $("<p>").appendTo($div).text(tweet.hashTag);
-        $("<div>").appendTo($div).text(tweet.description);
-        $("<div>").appendTo($div).addClass("panel-footer tweet tweet-footer")
-        		.append($("<span>").addClass("glyphicon glyphicon-trash delete-button").attr("id",tweet.idTweet)); 
-        });
-        $(".delete-button").click(function() {
-        	 var $id = $(this).attr("id");
-        	 console.log("Hi");
-         	$
-			.ajax({
-				url : '../TweetController',
-				type : 'GET',
-				data : {
-					id : $id 
-				},
-				success : function(
-						data) {
-					$("#main-test").load(location.href + "#main-test");
-				},
-				error : function() {
-				}
-			});
+$(document).ready( function() {     
+	 getTweets();
 
-        });
-    });
 }); 
-
-$(document).on("submit", "#addTweetForm", function(event) {
-    var $form = $(this);
+console.log('${pageContext.request.contextPath}');
+var form = $('#addTweetForm');
+form.submit(function () {
 	$('#myModal').modal('hide');
 	$('body').removeClass('modal-open');
 	$('.modal-backdrop').remove();
-    $.post($form.attr("action"), $form.serialize(), function(response) {
-    	$("#main-test").load(location.href + "#main-test");
-   	});
-    event.preventDefault(); // Important! Prevents submitting the form.
+	$.ajax({
+		type: form.attr('method'),
+		url: form.attr('action'),
+		data: form.serialize(),
+		success: function (data) {
+			reloadTweets();
+	}
+});
+ 
+return false;
+});
+$('.modal').on('hidden.bs.modal', function(){
+$(this).find('form')[0].reset();
 });
 
-$('.modal').on('hidden.bs.modal', function(){
-    $(this).find('form')[0].reset();
-});
+function getTweets(){
+	  $.get('${pageContext.request.contextPath}/TweetController', function(responseJson) { 
+	    	loadTweet(responseJson);
+	        $(".delete-button").click(function() {
+	        	 var id = $(this).attr("id");
+				deleteTweets(id);
+	        });
+	    });
+	
+}
+function deleteTweets(id){
+ 	$
+	.ajax({
+		url : '${pageContext.request.contextPath}/TweetController',
+		type : 'GET',
+		data : {
+			id : id 
+		},
+		success : function(
+				data) {
+	 		reloadTweets();
+
+		},
+		error : function() {
+		}
+	});
+}
+function reloadTweets(){
+		$( ".panel" ).remove();
+ 		getTweets();
+}
+function loadTweet(responseJson) {
+    $.each(responseJson, function(index, tweet) {   
+    	var $divMain =  $("<div>").addClass("panel tweet").appendTo($("#main-test"));
+        var $div = $("<div>").addClass("panel-heading").appendTo($divMain); 
+        $("<table>").appendTo($div) 
+    var $table = $("<table>").appendTo($div)          
+    $("<tr>").appendTo($table)
+            .append($("<td>").addClass("col-md-11").append($("<div>").addClass("tweet-header-user").text(tweet.user)))       
+            .append($("<td>").addClass("col-md-1").append($("<div>").addClass("tweet-header-date").text(tweet.publicationDate)));     
+    $("<p>").appendTo($div).text(tweet.hashTag);
+    $("<div>").appendTo($div).text(tweet.description);
+    $("<div>").appendTo($div).addClass("panel-footer tweet tweet-footer")
+    		.append($("<span>").addClass("glyphicon glyphicon-trash delete-button").attr("id",tweet.idTweet)); 
+    });
+}
 </script>
 </html>
