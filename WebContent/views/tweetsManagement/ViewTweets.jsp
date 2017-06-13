@@ -3,6 +3,7 @@
 	import="java.util.ArrayList"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <head>
+
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>Lab 3 template</title>
 <link rel="stylesheet" type="text/css"
@@ -17,7 +18,8 @@
 	
 </script>
 <!-- <script src="${pageContext.request.contextPath}/js/bootstrap.js"></script> -->
-
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="//fonts.googleapis.com/css?family=Raleway" />
 </head>
@@ -80,8 +82,11 @@
 
 	<div id="main-test"></div>
 </body>
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
 
 $(document).ready( function() {     
@@ -91,16 +96,18 @@ $(document).ready( function() {
 console.log('${pageContext.request.contextPath}');
 var form = $('#addTweetForm');
 form.submit(function () {
-	$('#myModal').modal('hide');
-	$('body').removeClass('modal-open');
-	$('.modal-backdrop').remove();
 	$.ajax({
 		type: form.attr('method'),
 		url: form.attr('action'),
 		data: form.serialize(),
 		success: function (data) {
 			reloadTweets();
+			$('#myModal').modal('hide');
+			$('body').removeClass('modal-open');
+			$('.modal-backdrop').remove();
+			$(this).find('form')[0].reset();
 	}
+
 });
  
 return false;
@@ -111,6 +118,7 @@ $(this).find('form')[0].reset();
 
 function getTweets(){
 	  $.get('${pageContext.request.contextPath}/TweetController', function(responseJson) { 
+		  console.log("get Tweets: ", responseJson );
 	    	loadTweet(responseJson);
 	        $(".delete-button").click(function() {
 	        	 var id = $(this).attr("id");
