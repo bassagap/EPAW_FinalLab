@@ -16,6 +16,9 @@
 	src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js">
 	
 </script>
+<!-- Latest compiled JavaScript -->
+<script
+	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="//fonts.googleapis.com/css?family=Raleway" />
 </head>

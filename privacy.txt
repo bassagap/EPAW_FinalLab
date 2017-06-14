@@ -1,0 +1,5 @@
+1. Public or private users can see public tweets + their own and their friends tweets
+2. Users can only delete their own tweets
+3. Anonymous users can only see public tweets (--> If 2 is implemented it will be imediatly fulfiled)
+4. Admin can delete all tweets
+5. Normal users can only delete their own tweets

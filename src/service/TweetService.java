@@ -6,9 +6,17 @@ import persistence.TweetDAO;
 
 
 public class TweetService {
-	public ArrayList<BeanTweet> getTweetsList() throws Exception{
+	
+	public ArrayList<BeanTweet> getTweetsList(String userName) throws Exception{
 		TweetDAO tweetDAO = new TweetDAO(); 
-		ArrayList<BeanTweet> tweetsList =  tweetDAO.getTweetsList();
+		UserService userService = new UserService();
+		ArrayList<BeanTweet> tweetsList = new ArrayList<BeanTweet>();
+		if(userService.isAdminUser(userName)){
+			tweetsList =  tweetDAO.getFullTweetsList(userName);
+		} else {
+			tweetsList =  tweetDAO.getFilteredTweetsList(userName);
+		}
+		 
 		return tweetsList;	
 	}
 

@@ -38,6 +38,7 @@ public class TweetController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		TweetService tweetService = new TweetService(); 
+		UserService userService = new UserService(); 
 		String hashTag = request.getParameter("hashTag"); 
 		String description = request.getParameter("description"); 
 		HttpSession session = request.getSession();
@@ -47,15 +48,23 @@ public class TweetController extends HttpServlet {
 		String id_string = request.getParameter("id");
 		BeanTweet tweet = new BeanTweet(); 	
 		try {
-			if(hashTag != null){
-				System.out.println("Test to be inserted: " + hashTag);
+			if(hashTag != null && !user.equals("anonymous")){
 				tweet.setDescription(description);
 				tweet.setHashTag(hashTag); 
 				tweet.setUser(user);
 				tweet.setPublicationDate(date);
+				if(userService.isPublicUser(user)){
+					tweet.setVisibility("public");
+				} else {
+					tweet.setVisibility("private");
+				}
 				tweetService.insertTweet(tweet);
 			}
-			ArrayList<BeanTweet> tweetList = tweetService.getTweetsList();
+			if(hashTag != null && user.equals("anonymous")){
+				response.setStatus(400);
+			}
+			ArrayList<BeanTweet> tweetList = tweetService.getTweetsList(user);
+
 		    String json = new Gson().toJson(tweetList);
 		    response.setContentType("application/json");
 		    response.setCharacterEncoding("UTF-8");

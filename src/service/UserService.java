@@ -22,4 +22,12 @@ public class UserService {
 		UserDAO userDAO = new UserDAO(); 
 		return userDAO.isValidLogin(user.getUserName(), user.getPassword());
 	}
+	public boolean isAdminUser(String userName) throws Exception{
+		UserDAO userDAO = new UserDAO(); 
+		return userDAO.isAdminUser(userName);
+	}
+	public boolean isPublicUser(String userName) throws Exception{
+		UserDAO userDAO = new UserDAO(); 
+		return userDAO.isPublicUser(userName);
+	}
 }

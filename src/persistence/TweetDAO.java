@@ -23,10 +23,32 @@ public class TweetDAO {
 		statement = connection.createStatement(); 
 	}
 
-	public ArrayList<BeanTweet> getTweetsList(){
+	public ArrayList<BeanTweet> getFilteredTweetsList(String userName){
 		ArrayList<BeanTweet> tweetsList = new ArrayList<BeanTweet>();
 		try {
-			String query = "SELECT * FROM TWEETS";
+			String query = "SELECT * FROM TWEETS WHERE USER = '" + userName + "' OR VISIBILITY = 'public'" ;
+			ResultSet resultSet =  statement.executeQuery(query);
+			while(resultSet.next()){
+				BeanTweet tweet = new BeanTweet(); 
+				tweet.setHashTag(resultSet.getString("hashtag"));
+				tweet.setDescription(resultSet.getString("description"));
+				tweet.setUser(resultSet.getString("user"));
+				tweet.setVisibility(resultSet.getString("visibility"));
+				tweet.setPublicationDate(resultSet.getDate("publicationDate"));
+				tweet.setIdTweet(resultSet.getInt("idtweets"));
+				tweetsList.add(tweet);
+			}
+			resultSet.close();
+			statement.close();
+		} catch (SQLException e) {
+            e.printStackTrace();
+        }	
+		return tweetsList;
+	}
+	public ArrayList<BeanTweet> getFullTweetsList(String userName){
+		ArrayList<BeanTweet> tweetsList = new ArrayList<BeanTweet>();
+		try {
+			String query = "SELECT * FROM TWEETS" ;
 			ResultSet resultSet =  statement.executeQuery(query);
 			while(resultSet.next()){
 				BeanTweet tweet = new BeanTweet(); 

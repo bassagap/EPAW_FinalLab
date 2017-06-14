@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 
 import models.BeanTweet;
 import service.TweetService;
+import service.UserService;
 
 /**
  * Servlet implementation class DeleteTweetsController
@@ -35,24 +36,25 @@ public class DeleteTweetsController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		UserService userService = new UserService(); 
 		TweetService tweetService = new TweetService(); 
 		String id_string = request.getParameter("id");
 		HttpSession session = request.getSession();
 		String session_user = (String) session.getAttribute("user"); 
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		try {
 			if(id_string != null){
-				System.out.println("I am Delete tweet Controller ");
-				System.out.println("Test to be deleted: " + id_string);
 				int idTweet = Integer.parseInt(id_string);
 				String tweet_user = tweetService.getTweetUser(idTweet);
-				System.out.println("session_user: " + session_user + " session_user: " + tweet_user);
-				if(session_user.equals(tweet_user)){
+				System.out.println("I am Delete tweet Controller ");
+				System.out.println("User session: " + session_user + " user tweet: "+ tweet_user);
+				System.out.println("Is admin: " + userService.isAdminUser(session_user));
+				System.out.println("Users are equal: " +session_user.equals(tweet_user));
+				if(session_user.equals(tweet_user) || userService.isAdminUser(session_user)){
 					tweetService.deleteTweet(idTweet);
 				}else{
 					response.setStatus(400);
 				}
-				ArrayList<BeanTweet> tweetList = tweetService.getTweetsList();
+				ArrayList<BeanTweet> tweetList = tweetService.getTweetsList(session_user);
 			    String json = new Gson().toJson(tweetList);
 			    response.setContentType("application/json");
 			    response.setCharacterEncoding("UTF-8");

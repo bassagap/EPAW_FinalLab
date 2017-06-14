@@ -60,4 +60,22 @@ public class UserDAO {
 		}
 		return isValid; 
 	}
+	public boolean isAdminUser(String userName) throws SQLException {
+		Boolean isAdmin = false; 
+		String query = "SELECT * FROM USERS WHERE USERNAME = '" + userName + "' AND USERTYPE = 'admin'";  
+		ResultSet resultSet =  statement.executeQuery(query);
+		if(resultSet.next()){
+			isAdmin = true; 
+		}
+		return isAdmin; 
+	}
+	public boolean isPublicUser(String userName) throws SQLException {
+		Boolean isPublicUser = false; 
+		String query = "SELECT * FROM USERS WHERE USERNAME = '" + userName + "' AND VISIBILITY = 'public'"; 
+		ResultSet resultSet =  statement.executeQuery(query);
+		if(resultSet.next()){
+			isPublicUser = true; 
+		}
+		return isPublicUser; 
+	}
 }
