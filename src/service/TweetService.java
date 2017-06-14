@@ -20,5 +20,8 @@ public class TweetService {
 		TweetDAO tweetDAO = new TweetDAO(); 
 		tweetDAO.deleteTweet(idTweet);
 	}
-
+	public String getTweetUser(int idTweet) throws Exception{
+		TweetDAO tweetDAO = new TweetDAO(); 	
+		return tweetDAO.getTweetUser(idTweet);
+	}
 }

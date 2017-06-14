@@ -17,8 +17,10 @@ public class BeanUser implements Serializable  {
 	private Integer weight = null; 
 	private Date dateOfBirth = new Date(0); 
 	private String userType = ""; 
+	private String visibility = "private"; 
 	/*  Control which parameters have been correctly filled */
 	private int[] error = {0,0}; 
+	
 	
 	/* Getters */
 	public String getUserName(){
@@ -139,6 +141,20 @@ public class BeanUser implements Serializable  {
 	 */
 	public void setUserType(String userType) {
 		this.userType = userType;
+	}
+
+	/**
+	 * @return the visibility
+	 */
+	public String getVisibility() {
+		return visibility;
+	}
+
+	/**
+	 * @param visibility the visibility to set
+	 */
+	public void setVisibility(String visibility) {
+		this.visibility = visibility;
 	}
 
 

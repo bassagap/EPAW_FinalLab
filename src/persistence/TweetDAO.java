@@ -54,6 +54,15 @@ public class TweetDAO {
 		String query = "DELETE FROM TWEETS WHERE IDTWEETS = '"+ idTweet + "'"; 
 		int resultSet =  statement.executeUpdate(query);
 	}
+	public String getTweetUser(int idTweet) throws SQLException{
+		String user = ""; 
+		String query = "SELECT * FROM TWEETS WHERE IDTWEETS = '"+ idTweet + "'"; 
+		ResultSet resultSet =  statement.executeQuery(query);
+		if (resultSet.next()) {
+			user = resultSet.getString("user");
+		}
+		return user; 
+	}
 
 }
 

@@ -2,9 +2,7 @@ package controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.sql.*;
-import java.util.Calendar;
-import javax.servlet.RequestDispatcher;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,19 +14,18 @@ import com.google.gson.Gson;
 
 import models.BeanTweet;
 import service.TweetService;
-import service.UserService;
 
 /**
- * Servlet implementation class MainController
+ * Servlet implementation class DeleteTweetsController
  */
-@WebServlet("/TweetController")
-public class TweetController extends HttpServlet {
+@WebServlet("/DeleteTweetsController")
+public class DeleteTweetsController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public TweetController() {
+    public DeleteTweetsController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,30 +34,30 @@ public class TweetController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		TweetService tweetService = new TweetService(); 
-		String hashTag = request.getParameter("hashTag"); 
-		String description = request.getParameter("description"); 
-		HttpSession session = request.getSession();
-		String user = (String) session.getAttribute("user"); 
-		Calendar calendar = Calendar.getInstance();
-		java.sql.Date date = new java.sql.Date(calendar.getTime().getTime());	
 		String id_string = request.getParameter("id");
-		BeanTweet tweet = new BeanTweet(); 	
+		HttpSession session = request.getSession();
+		String session_user = (String) session.getAttribute("user"); 
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		try {
-			if(hashTag != null){
-				System.out.println("Test to be inserted: " + hashTag);
-				tweet.setDescription(description);
-				tweet.setHashTag(hashTag); 
-				tweet.setUser(user);
-				tweet.setPublicationDate(date);
-				tweetService.insertTweet(tweet);
+			if(id_string != null){
+				System.out.println("I am Delete tweet Controller ");
+				System.out.println("Test to be deleted: " + id_string);
+				int idTweet = Integer.parseInt(id_string);
+				String tweet_user = tweetService.getTweetUser(idTweet);
+				System.out.println("session_user: " + session_user + " session_user: " + tweet_user);
+				if(session_user.equals(tweet_user)){
+					tweetService.deleteTweet(idTweet);
+				}else{
+					response.setStatus(400);
+				}
+				ArrayList<BeanTweet> tweetList = tweetService.getTweetsList();
+			    String json = new Gson().toJson(tweetList);
+			    response.setContentType("application/json");
+			    response.setCharacterEncoding("UTF-8");
+			    response.getWriter().write(json);
 			}
-			ArrayList<BeanTweet> tweetList = tweetService.getTweetsList();
-		    String json = new Gson().toJson(tweetList);
-		    response.setContentType("application/json");
-		    response.setCharacterEncoding("UTF-8");
-		    response.getWriter().write(json);
-
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

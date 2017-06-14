@@ -41,6 +41,7 @@ public class UserDAO {
 			 user.setUserName(resultSet.getString("userName"));
 			 user.setPassword(resultSet.getString("password"));
 			 user.setMail(resultSet.getString("mail"));
+			 user.setVisibility(resultSet.getString("visibility"));
 			 userList.add(user);
 		  }
 		  return userList;

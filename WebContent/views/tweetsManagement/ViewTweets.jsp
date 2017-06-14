@@ -77,7 +77,25 @@
 		</div>
 	</div>
 
+<!-- Modal error on delete -->
+	<div class="modal" id="deleteModal" tabindex="-1" role="dialog"
+		aria-labelledby="deleteModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">You are not the owner of the tweet</h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Confirm</button>
+				</div>
 
+			</div>
+		</div>
+	</div>
 
 
 	<div id="main-test"></div>
@@ -93,7 +111,6 @@ $(document).ready( function() {
 	 getTweets();
 
 }); 
-console.log('${pageContext.request.contextPath}');
 var form = $('#addTweetForm');
 form.submit(function () {
 	$.ajax({
@@ -105,7 +122,6 @@ form.submit(function () {
 			$('#myModal').modal('hide');
 			$('body').removeClass('modal-open');
 			$('.modal-backdrop').remove();
-			$(this).find('form')[0].reset();
 	}
 
 });
@@ -130,7 +146,7 @@ function getTweets(){
 function deleteTweets(id){
  	$
 	.ajax({
-		url : '${pageContext.request.contextPath}/TweetController',
+		url : '${pageContext.request.contextPath}/DeleteTweetsController',
 		type : 'GET',
 		data : {
 			id : id 
@@ -141,6 +157,7 @@ function deleteTweets(id){
 
 		},
 		error : function() {
+			 $("#deleteModal").modal('show');
 		}
 	});
 }
