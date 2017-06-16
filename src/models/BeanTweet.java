@@ -13,6 +13,7 @@ public class BeanTweet implements Serializable{
 	private String visibility = "private";
 	private Date publicationDate = new Date(0); 
 	private int idTweet = 0; 
+	private int user_id1 = 0;
 	/**
 	 * @return the description
 	 */
@@ -84,5 +85,17 @@ public class BeanTweet implements Serializable{
 	 */
 	public void setIdTweet(int idTweet) {
 		this.idTweet = idTweet;
+	}
+	/**
+	 * @return the user_id1
+	 */
+	public int getUser_id1() {
+		return user_id1;
+	}
+	/**
+	 * @param user_id1 the user_id1 to set
+	 */
+	public void setUser_id1(int user_id1) {
+		this.user_id1 = user_id1;
 	} 
 }

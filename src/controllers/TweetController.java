@@ -45,7 +45,7 @@ public class TweetController extends HttpServlet {
 		String user = (String) session.getAttribute("user"); 
 		Calendar calendar = Calendar.getInstance();
 		java.sql.Date date = new java.sql.Date(calendar.getTime().getTime());	
-		String id_string = request.getParameter("id");
+		String id_string = request.getParameter("id");	
 		BeanTweet tweet = new BeanTweet(); 	
 		try {
 			if(hashTag != null && !user.equals("anonymous")){
@@ -53,6 +53,9 @@ public class TweetController extends HttpServlet {
 				tweet.setHashTag(hashTag); 
 				tweet.setUser(user);
 				tweet.setPublicationDate(date);
+				System.out.println("User internal ID: " + userService.getUserID(user));
+				tweet.setUser_id1(userService.getUserID(user));
+				System.out.println("User internal ID: " + tweet.getUser_id1());
 				if(userService.isPublicUser(user)){
 					tweet.setVisibility("public");
 				} else {

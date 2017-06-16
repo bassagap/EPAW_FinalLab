@@ -30,7 +30,10 @@ public class UserDAO {
 		String query = "INSERT INTO USERS (USERNAME, PASSWORD, GENDER, WEIGHT, DATEOFBIRTH, MAIL) VALUES ('"+user.getUserName()+ "', '" + user.getPassword()+  "', '" +user.getGender()+ "', '"+ user.getWeight() + "', '"+user.getDateOfBirth()+"', '"+ user.getMail()+ "')"; 
 		int resultSet =  statement.executeUpdate(query);
 	}
-	
+	public void deletetUser(int userID) throws SQLException{
+		String query ="DELETE FROM USERS WHERE ID = '"+ userID + "'"; 
+		int resultSet =  statement.executeUpdate(query);
+	}
 	// execute query to access users table: 
 	public ArrayList<BeanUser> getUsersList () throws Exception{
 		String query = "SELECT * FROM USERS";
@@ -83,6 +86,11 @@ public class UserDAO {
 		String query = "INSERT INTO SUBSCRIPTIONS (USER_ID, SUBSCRIPTION_ID) VALUES ('" + userID+ "', '" + subscriptorID + "')";
 		int resultSet =  statement.executeUpdate(query);
 	}
+	public void deleteSubscriptions( int subscriptorID) throws SQLException{
+		String query = "DELETE FROM SUBSCRIPTIONS WHERE SUBSCRIPTION_ID = '"+ subscriptorID + "'"; ;
+		int resultSet =  statement.executeUpdate(query);
+	}
+	
 	public ArrayList<Integer> getSubscriptions(int userID) throws SQLException{
 		ArrayList<Integer> subscriptionsList = new ArrayList<Integer>(); 
 		String query = "SELECT * FROM USERS INNER JOIN subscriptions ON (users.id = subscriptions.user_id) WHERE users.userName = '" + userID + "'";
@@ -92,6 +100,15 @@ public class UserDAO {
 			 subscriptionsList.add(id);
 		  }
 		return subscriptionsList;		
+	}
+	public int getUserID(String userName) throws SQLException {		
+		String query = "SELECT * FROM USERS WHERE USERNAME = '" + userName + "'"; 
+		int userID = -1;
+		ResultSet resultSet =  statement.executeQuery(query);
+		if(resultSet.next()){
+			userID = resultSet.getInt("id");
+		}
+		return userID;
 	}
 	
 }

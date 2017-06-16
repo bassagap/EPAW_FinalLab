@@ -35,7 +35,7 @@ public class TweetDAO {
 				tweet.setUser(resultSet.getString("user"));
 				tweet.setVisibility(resultSet.getString("visibility"));
 				tweet.setPublicationDate(resultSet.getDate("publicationDate"));
-				tweet.setIdTweet(resultSet.getInt("idtweets"));
+				tweet.setIdTweet(resultSet.getInt("id"));
 				tweetsList.add(tweet);
 			}
 			resultSet.close();
@@ -57,7 +57,7 @@ public class TweetDAO {
 				tweet.setUser(resultSet.getString("user"));
 				tweet.setVisibility(resultSet.getString("visibility"));
 				tweet.setPublicationDate(resultSet.getDate("publicationDate"));
-				tweet.setIdTweet(resultSet.getInt("idtweets"));
+				tweet.setIdTweet(resultSet.getInt("id"));
 				tweetsList.add(tweet);
 			}
 			resultSet.close();
@@ -69,21 +69,26 @@ public class TweetDAO {
 	}
 
 	public void insertTweet(BeanTweet tweet) throws SQLException {
-		String query = "INSERT INTO TWEETS (HASHTAG, USER, PUBLICATIONDATE, DESCRIPTION, VISIBILITY) VALUES ('"+tweet.getHashTag()+ "', '" + tweet.getUser()+  "', '" +tweet.getPublicationDate()+ "', '"+ tweet.getDescription() + "', '"+tweet.getVisibility()+ "')"; 
+		String query = "INSERT INTO TWEETS (HASHTAG, USER, PUBLICATIONDATE, DESCRIPTION, VISIBILITY, USER_ID1) VALUES ('"+tweet.getHashTag()+ "', '" + tweet.getUser()+  "', '" +tweet.getPublicationDate()+ "', '"+ tweet.getDescription() + "', '"+tweet.getVisibility()+ "','" + tweet.getUser_id1() +"')"; 
 		int resultSet =  statement.executeUpdate(query);
 	}
 	public void deleteTweet(int idTweet) throws SQLException{
-		String query = "DELETE FROM TWEETS WHERE IDTWEETS = '"+ idTweet + "'"; 
+		String query = "DELETE FROM TWEETS WHERE ID = '"+ idTweet + "'"; 
 		int resultSet =  statement.executeUpdate(query);
 	}
 	public String getTweetUser(int idTweet) throws SQLException{
 		String user = ""; 
-		String query = "SELECT * FROM TWEETS WHERE IDTWEETS = '"+ idTweet + "'"; 
+		String query = "SELECT * FROM TWEETS WHERE ID = '"+ idTweet + "'"; 
 		ResultSet resultSet =  statement.executeQuery(query);
 		if (resultSet.next()) {
 			user = resultSet.getString("user");
 		}
 		return user; 
+	}
+
+	public void deleteUserTweets(int userID) throws SQLException {
+		String query = "DELETE FROM TWEETS WHERE USER_ID1 = '"+ userID + "'"; 
+		int resultSet =  statement.executeUpdate(query);
 	}
 
 }

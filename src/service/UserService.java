@@ -30,4 +30,16 @@ public class UserService {
 		UserDAO userDAO = new UserDAO(); 
 		return userDAO.isPublicUser(userName);
 	}
+	public int getUserID(String userName) throws Exception{
+		UserDAO userDAO = new UserDAO(); 
+		return userDAO.getUserID(userName);
+	}
+	public void deletetUser(int user) throws Exception{
+		UserDAO userDAO = new UserDAO(); 
+		TweetService tweetService = new TweetService();
+		userDAO.deletetUser(user);
+		userDAO.deleteSubscriptions(user);
+		tweetService.deleteUserTweets(user);
+		
+	}
 }
