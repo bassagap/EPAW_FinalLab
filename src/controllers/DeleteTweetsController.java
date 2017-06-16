@@ -45,10 +45,6 @@ public class DeleteTweetsController extends HttpServlet {
 			if(id_string != null){
 				int idTweet = Integer.parseInt(id_string);
 				String tweet_user = tweetService.getTweetUser(idTweet);
-				System.out.println("I am Delete tweet Controller ");
-				System.out.println("User session: " + session_user + " user tweet: "+ tweet_user);
-				System.out.println("Is admin: " + userService.isAdminUser(session_user));
-				System.out.println("Users are equal: " +session_user.equals(tweet_user));
 				if(session_user.equals(tweet_user) || userService.isAdminUser(session_user)){
 					tweetService.deleteTweet(idTweet);
 				}else{

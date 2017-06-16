@@ -147,7 +147,6 @@
 				$('.modal-backdrop').remove();
 			},
 			error : function() {
-				console.log(" error submit get Tweets");
 				$("#anonymousModal").modal('show');
 			}
 
@@ -160,10 +159,8 @@
 	});
 
 	function getTweets() {
-		console.log("get Tweets inside");
 		$.get('${pageContext.request.contextPath}/TweetController', function(
 				responseJson) {
-			console.log("get Tweets inside: ", responseJson);
 			loadTweet(responseJson);
 			$(".delete-button").click(function() {
 				var id = $(this).attr("id");
