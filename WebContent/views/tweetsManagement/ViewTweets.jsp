@@ -10,16 +10,13 @@
 	href="${pageContext.request.contextPath}/css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/tweetStyles.css" />
-<!-- <link href="style/style.css" rel="stylesheet" type="text/css"> -->
-<!-- <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+
 <script
-	src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js">
-	
-</script>
-<!-- <script src="${pageContext.request.contextPath}/js/bootstrap.js"></script> -->
-<script type="text/javascript"
-	src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+<script
+	src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js"></script>
+
+
 <script type="text/javascript"
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css"
@@ -130,16 +127,10 @@
 
 	<div id="main-test"></div>
 </body>
-<!-- jQuery library -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
-<!-- Latest compiled JavaScript -->
-<script
-	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 <script>
 	$(document).ready(function() {
-		console.log("get Tweets");
 		getTweets();
 
 	});

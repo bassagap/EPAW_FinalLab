@@ -22,6 +22,7 @@
 	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="//fonts.googleapis.com/css?family=Raleway" />
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 </head>
 <body>
 	<!-- Begin Header -->
@@ -36,8 +37,13 @@
 			</tr>
 		</table>
 		<ul>
-			<li class="UserAccount"><div class="user-image"
-					style="background-image:url('${pageContext.request.contextPath}/img/user_logo.png')"></div>${sessionScope.user}</li>
+			<li class="UserAccount">
+				<div class="user-image"
+					style="background-image:url('${pageContext.request.contextPath}/img/user_logo.png')">
+				</div>${sessionScope.user} 
+				<div id = "admin">
+				</div>	
+			</li>
 		</ul>
 		<hr class="hr-left-side-menu">
 		<ul>
@@ -59,6 +65,7 @@
 <script>
 	document.getElementById("mySidenav").style.width = "250px";
 	document.getElementById("main").style.marginLeft = "250px";
+	console.log("User" , '${sessionScope.userType}');
 	$("#main-button").hide();
 	function openNav() {
 		document.getElementById("mySidenav").style.width = "250px";

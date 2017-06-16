@@ -6,7 +6,6 @@
 <script>
 $(document).ready(function(){
 	console.log("Hi");
-	console.log('${params.userName}');
     $("#loginForm").validate();
   });
 </script>

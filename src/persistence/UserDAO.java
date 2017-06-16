@@ -42,6 +42,7 @@ public class UserDAO {
 			 user.setPassword(resultSet.getString("password"));
 			 user.setMail(resultSet.getString("mail"));
 			 user.setVisibility(resultSet.getString("visibility"));
+			 user.setUserType(resultSet.getString("userType"));
 			 userList.add(user);
 		  }
 		  return userList;
@@ -78,4 +79,19 @@ public class UserDAO {
 		}
 		return isPublicUser; 
 	}
+	public void addSubscriptions(int userID, int subscriptorID) throws SQLException{
+		String query = "INSERT INTO SUBSCRIPTIONS (USER_ID, SUBSCRIPTION_ID) VALUES ('" + userID+ "', '" + subscriptorID + "')";
+		int resultSet =  statement.executeUpdate(query);
+	}
+	public ArrayList<Integer> getSubscriptions(int userID) throws SQLException{
+		ArrayList<Integer> subscriptionsList = new ArrayList<Integer>(); 
+		String query = "SELECT * FROM USERS INNER JOIN subscriptions ON (users.id = subscriptions.user_id) WHERE users.userName = '" + userID + "'";
+		ResultSet resultSet =  statement.executeQuery(query);
+		 while(resultSet.next()){
+			 Integer id = resultSet.getInt("subscription_id");
+			 subscriptionsList.add(id);
+		  }
+		return subscriptionsList;		
+	}
+	
 }

@@ -46,13 +46,15 @@ public class LoginController extends HttpServlet {
 				if (userService.LoginUser(user)) {
 					HttpSession session = request.getSession();
 					session.setAttribute("user",user.getUserName());
-					System.out.println("Login user");
+					session.setAttribute("userType",user.getUserType());
+					System.out.println("Login user Typ is:" + user.getUserType());
 					RequestDispatcher dispatcher = request.getRequestDispatcher("views/ViewMenuLogged.jsp");
 				    dispatcher.forward(request, response);
 				} 
 				if(request.getParameter("userType") != null && request.getParameter("userType").equals("anonymous")){
 					HttpSession session = request.getSession();
 					session.setAttribute("user", "anonymous");
+					System.out.println("Login user Type is:" + "anonymous");
 					System.out.println("anonymous user");
 					RequestDispatcher dispatcher = request.getRequestDispatcher("views/ViewMenuLogged.jsp");
 				    dispatcher.forward(request, response);
