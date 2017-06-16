@@ -1,5 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="ISO-8859-1"%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -24,45 +27,10 @@
 	href="//fonts.googleapis.com/css?family=Raleway" />
 </head>
 
-
-<body id = "body">
-	
-	<div class="user-block">
-		<div class="col-sm-2">
-			<div class="user-image" style="background-image:url('${pageContext.request.contextPath}/img/user_logo.png')"></div>
-		</div>
-		<div class="col-sm-10">
-			<p> ${sessionScope.user} </p>
-       		<p> ${sessionScope.user}</p>
-		</div>
-	</div>		
-	
-	<div class="user-block">
-		<div class="col-sm-2">
-			<img src='../img/sports.png' style="width:75px">	
-		</div>
-		<div class="col-sm-10">
-			Sport list to be subscribed to rankings and to check preferences.
-		</div>
-	</div>
-	
-	<div class="user-block">
-		<div class="col-sm-2">
-			<img src='../img/statistics.png' style="width:75px">
-		</div>
-		<div class="col-sm-10">
-			Statistics and progress.
-		</div>
-	</div>
-	
-	<div class="user-block">
-		<div class="col-sm-2">
-			<img src='../img/configuration.png' style="width:75px">
-		</div>
-		<div class="col-sm-10">
-			User account configuration: privacy, friends, user data etc.
-		</div>
-	</div>
-	
-</body>
-</html>
+<div class="top-logo"></div>
+	<img src="../img/miniLogo.png" alt="logo" >
+	<p> 
+			USPORT is a free social network web application that allows all sport lovers to create profiles,
+			communicate with them, follow subscribed sports and share their passion, photos and 
+			achievements.
+	</p>

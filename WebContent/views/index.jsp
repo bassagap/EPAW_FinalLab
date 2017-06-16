@@ -47,7 +47,7 @@
 		</ul>
 		<hr class="hr-left-side-menu">
 		<ul>
-			<li class="About"><a>About</a></li>
+			<li class="About" id="About"><a>About</a></li>
 		</ul>
 	</div>
 	<span id="main-button" style="font-size: 30px; cursor: pointer"
@@ -149,6 +149,20 @@
 															}
 														});
 											});
+							
+							$("#About").click(
+									function() {
+										$.ajax({
+											url : '${pageContext.request.contextPath}/views/ViewAbout.jsp',
+											type : 'GET',
+											success : function(
+													result,
+													responseText,
+													session) {
+														$("#main").html(result);
+													}
+										});
+									});
 						});
 	</script>
 

@@ -37,7 +37,7 @@
 			</tr>
 		</table>
 		<ul>
-			<li class="UserAccount">
+			<li class="UserAccount" id="UserAccount">
 				<div class="user-image"
 					style="background-image:url('${pageContext.request.contextPath}/img/user_logo.png')">
 				</div>${sessionScope.user} 
@@ -47,6 +47,7 @@
 		</ul>
 		<hr class="hr-left-side-menu">
 		<ul>
+			<li class="Public" id="Public"> Public </li>
 			<li class="Rankings">Rankings 	<div id="test"></div></li>
 			<li class="Popular">Popular</li>
 		</ul>
@@ -105,6 +106,33 @@
 					$("#main").html(result);
 				}
 			});
+	$("#UserAccount").click(
+			function() {
+				$.ajax({
+					url : '${pageContext.request.contextPath}/views/userManagement/ViewUserAccount.jsp',
+					type : 'GET',
+					success : function(
+							result,
+							responseText,
+							session) {
+								$("#main").html(result);
+							}
+				});
+			});
+		
+		$("#Public").click(
+				function() {
+					$.ajax({
+						url : '${pageContext.request.contextPath}/views/tweetsManagement/ViewTweets.jsp',
+						type : 'GET',
+						success : function(
+								result,
+								responseText,
+								session) {
+									$("#main").html(result);
+								}
+					});
+				});
 </script>
 
 </html>
