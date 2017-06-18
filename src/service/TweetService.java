@@ -2,6 +2,10 @@ package service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import models.BeanTweet;
 import persistence.TweetDAO;
 
@@ -17,10 +21,14 @@ public class TweetService {
 		} else {
 			tweetsList =  tweetDAO.getFilteredTweetsList(userName);
 		}
-		 
+		tweetsList.sort(Comparator.comparing(BeanTweet::getPublicationDate).thenComparing(BeanTweet::getPopularity));
+		Collections.reverse(tweetsList);
 		return tweetsList;	
 	}
-
+	public int getTweetPopularity(BeanTweet tweet) throws Exception{
+		TweetDAO tweetDAO = new TweetDAO(); 
+		return tweetDAO.getTweetPopularity(tweet);
+	}
 	public void insertTweet(BeanTweet tweet) throws Exception{
 		TweetDAO tweetDAO = new TweetDAO(); 
 		tweetDAO.insertTweet(tweet);

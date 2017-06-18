@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 
-public class BeanTweet implements Serializable{
+public class BeanTweet implements Serializable, Comparable<BeanTweet> {
 	private static final long serialVersionUID = 1L;
 
 	private String description = "";
@@ -13,6 +13,7 @@ public class BeanTweet implements Serializable{
 	private String visibility = "private";
 	private Date publicationDate = new Date(0); 
 	private int idTweet = 0; 
+	private int popularity = 0; 
 	private int user_id1 = 0;
 	/**
 	 * @return the description
@@ -98,4 +99,20 @@ public class BeanTweet implements Serializable{
 	public void setUser_id1(int user_id1) {
 		this.user_id1 = user_id1;
 	} 
+	@Override
+	  public int compareTo(BeanTweet o) {
+	    return o.getPublicationDate().compareTo(getPublicationDate());
+	  }
+	/**
+	 * @return the popularity
+	 */
+	public int getPopularity() {
+		return popularity;
+	}
+	/**
+	 * @param popularity the popularity to set
+	 */
+	public void setPopularity(int popularity) {
+		this.popularity = popularity;
+	}
 }

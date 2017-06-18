@@ -53,6 +53,7 @@ public class TweetController extends HttpServlet {
 				tweet.setUser(user);
 				tweet.setPublicationDate(date);
 				tweet.setUser_id1(userService.getUserID(user));
+				tweet.setPopularity(tweetService.getTweetPopularity(tweet)); 
 				if(userService.isPublicUser(user)){
 					tweet.setVisibility("public");
 				} else {
