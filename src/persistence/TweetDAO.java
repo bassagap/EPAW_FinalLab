@@ -91,5 +91,11 @@ public class TweetDAO {
 		int resultSet =  statement.executeUpdate(query);
 	}
 
+	public void editTweet(BeanTweet tweet) throws SQLException {
+		String query = "UPDATE tweets SET HASHTAG = '" +tweet.getHashTag()+ "', DESCRIPTION = '"+ tweet.getDescription() +"' WHERE ID = '" + tweet.getIdTweet() +"'";
+		int resultSet =  statement.executeUpdate(query);
+		statement.close();
+	}
+
 }
 

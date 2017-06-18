@@ -17,16 +17,16 @@ import service.TweetService;
 import service.UserService;
 
 /**
- * Servlet implementation class DeleteTweetsController
+ * Servlet implementation class EditTweetController
  */
-@WebServlet("/DeleteTweetsController")
-public class DeleteTweetsController extends HttpServlet {
+@WebServlet("/EditTweetController")
+public class EditTweetController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteTweetsController() {
+    public EditTweetController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,19 +35,26 @@ public class DeleteTweetsController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		UserService userService = new UserService(); 
 		TweetService tweetService = new TweetService(); 
-		String id_string = request.getParameter("id");
+		BeanTweet tweet = new BeanTweet(); 	
+		String tweet_id_string = request.getParameter("id");
+		String hashTag = request.getParameter("hashTag");
 		HttpSession session = request.getSession();
 		String session_user = (String) session.getAttribute("user"); 
-		System.out.println("DeleteTweet");
+		System.out.println("Edit controller: " + session_user);
+		System.out.println("Edit controller: " + hashTag);
+		System.out.println("Edit controller: " + tweet_id_string);
 		try {
-			if(id_string != null){
-				int idTweet = Integer.parseInt(id_string);
-				String tweet_user = tweetService.getTweetUser(idTweet);
+			if(tweet_id_string != null){
+				tweet.setIdTweet(Integer.parseInt(tweet_id_string));
+				tweet.setDescription(request.getParameter("description"));
+				tweet.setHashTag(request.getParameter("hashTag"));
+				tweet.setUser_id1(userService.getUserID(session_user));
+				String tweet_user = tweetService.getTweetUser(tweet.getIdTweet());
 				if(session_user.equals(tweet_user) || userService.isAdminUser(session_user)){
-					tweetService.deleteTweet(idTweet);
+					System.out.println("Edit Tweet Controller Edit:");
+					tweetService.editTweet(tweet);
 				}else{
 					response.setStatus(400);
 				}

@@ -12,7 +12,7 @@
 	href="${pageContext.request.contextPath}/css/tweetStyles.css" />
 
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script
 	src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js"></script>
 
@@ -77,7 +77,45 @@
 			</div>
 		</div>
 	</div>
-
+	<!-- Modal to EDIT-->
+	<div class="modal" id="myModalEdit" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">New Tweet</h4>
+				</div>
+				<form id="editTweetForm" action="/Lab3/EditTweetController"
+					method="post" class="form-horizontal" role="form">
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="inputEmail3">HashTag</label>
+							<div class="col-sm-10">
+								<input type="hashTag" name="hashTag" class="form-control"
+									id="hashTagEdit" placeholder="#hashTag" />
+							</div>
+							<label class="col-sm-2 control-label" for="inputEmail3">Description</label>
+							<div class="col-sm-10">
+								<input type="description" name="description"
+									class="form-control" id="descriptionEdit"
+									placeholder="Description" /> <input type="hidden" name="id"
+									class="hidden" id="hidden" />
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<input type="submit" id="submit-button" class="btn btn-primary"
+							name="submit" value="Save changes" />
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 	<!-- Modal error on delete -->
 	<div class="modal" id="deleteModal" tabindex="-1" role="dialog"
 		aria-labelledby="deleteModalLabel">
@@ -111,7 +149,8 @@
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title" id="myModalLabel">Anonymous users cannot enter tweets</h4>
+					<h4 class="modal-title" id="myModalLabel">Anonymous users
+						cannot enter tweets</h4>
 				</div>
 				<div class="modal-body">
 					<p>Please register or login to add tweets</p>
@@ -123,8 +162,31 @@
 			</div>
 		</div>
 	</div>
-
-
+	<!--Modal confirm delete -->
+	<div class="modal fade" tabindex="-1" id="confirmDeleteModal"
+		role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Your tweet is going to be permanently deleted</h4>
+				</div>
+				<div class="modal-body">
+					<p>Are you sure you want to delete it?&hellip;</p>
+				</div>
+				<div class="modal-footer">
+					<button id= "CancelDelete" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button id= "ConfirmDelete" type="button" class="btn btn-danger">Delete</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
 	<div id="main-test"></div>
 </body>
 
@@ -132,6 +194,7 @@
 <script>
 	$(document).ready(function() {
 		getTweets();
+		$("#myAlert").hide();
 
 	});
 	var form = $('#addTweetForm');
@@ -154,22 +217,102 @@
 
 		return false;
 	});
-	$('.modal').on('hidden.bs.modal', function() {
-		$(this).find('form')[0].reset();
-	});
-
 	function getTweets() {
+		/* 		$(".delete-button").click(function() {
+		 $.ajax({
+		 type : 'GET',
+		 url : '${pageContext.request.contextPath}/TweetController',
+		 success : function(data) {
+		 loadTweet(data);
+		 var id = $(this).attr("id");
+		 deleteTweet(id);
+		 reloadTweets();	
+		 },
+		 error : function() {
+		 $("#anonymousModal").modal('show');
+		 }
+
+		 }); 
+		 });
+		 $(".edit-button").click(function() {
+		 $.ajax({
+		 type : 'GET',
+		 url : '${pageContext.request.contextPath}/TweetController',
+		 success : function(data) {
+		 loadTweet(data);
+		 var id = $(this).attr("id");
+		 $( "#hidden" ).val(id);
+		 editTweet(id);
+		 },
+		 error : function() {
+		 $("#anonymousModal").modal('show');
+		 }
+
+		 }); 
+		 }); */
+
 		$.get('${pageContext.request.contextPath}/TweetController', function(
 				responseJson) {
 			loadTweet(responseJson);
 			$(".delete-button").click(function() {
 				var id = $(this).attr("id");
-				deleteTweets(id);
+				$.ajax({
+					success : function(data) {
+						$("#confirmDeleteModal").modal('show');
+						$("#CancelDelete").click(function() {
+							
+						});
+						$("#ConfirmDelete").click(function() {
+							deleteTweet(id);
+							$("#confirmDeleteModal").modal('hide');
+						});
+					},
+					error : function() {
+						$("#anonymousModal").modal('show');
+					}
+
+				});
+			});
+			$(".edit-button").click(function() {
+				var id = $(this).attr("id");
+				$("#hidden").val(id);
+				editTweet(id);
 			});
 		});
-
 	}
-	function deleteTweets(id) {
+	function editTweet(id, responseJson) {
+		$("#myModalEdit").modal('show');
+		$.each(responseJson, function(index, tweet) {
+			console.log(tweet);
+			if (tweet.idTweet == id) {
+				console.log(tweet.idTweet);
+				$("#descriptionEdit").val(tweet.hashTag);
+				$("#hashTagEdit").val(tweet.description);
+			}
+		});
+		var formEdit = $('#editTweetForm');
+		formEdit.submit(function() {
+			$.ajax({
+				type : formEdit.attr('method'),
+				url : formEdit.attr('action'),
+				data : formEdit.serialize(),
+				success : function(data) {
+					$('#myModalEdit').modal('hide');
+					$('body').removeClass('modal-open');
+					$('.modal-backdrop').remove();
+				},
+				error : function() {
+					$("#anonymousModal").modal('show');
+				}
+
+			});
+			return false;
+		});
+		$('.modal').on('hidden.bs.modal', function() {
+			$(this).find('form')[0].reset();
+		});
+	}
+	function deleteTweet(id) {
 		$.ajax({
 			url : '${pageContext.request.contextPath}/DeleteTweetsController',
 			type : 'GET',
@@ -178,7 +321,6 @@
 			},
 			success : function(data) {
 				reloadTweets();
-
 			},
 			error : function() {
 				console.log(" error get Tweets");
@@ -209,8 +351,11 @@
 			$("<div>").appendTo($div).addClass(
 					"panel-footer tweet tweet-footer").append(
 					$("<span>").addClass(
-							"glyphicon glyphicon-trash delete-button").attr(
-							"id", tweet.idTweet));
+							"glyphicon glyphicon-trash delete-button col-sm-1")
+							.attr("id", tweet.idTweet)).append(
+					$("<span>").addClass(
+							"glyphicon glyphicon-pencil edit-button col-sm-11")
+							.attr("id", tweet.idTweet));
 		});
 	}
 </script>

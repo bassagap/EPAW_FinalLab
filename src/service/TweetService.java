@@ -38,4 +38,10 @@ public class TweetService {
 		TweetDAO tweetDAO = new TweetDAO(); 
 		tweetDAO.deleteUserTweets(user);
 	}
+
+	public void editTweet(BeanTweet tweet) throws Exception {
+		TweetDAO tweetDAO = new TweetDAO(); 
+		tweetDAO.editTweet(tweet);
+		
+	}
 }
