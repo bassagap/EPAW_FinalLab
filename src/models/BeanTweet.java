@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 
-public class BeanTweet implements Serializable, Comparable<BeanTweet> {
+public class BeanTweet implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private String description = "";
@@ -99,10 +99,6 @@ public class BeanTweet implements Serializable, Comparable<BeanTweet> {
 	public void setUser_id1(int user_id1) {
 		this.user_id1 = user_id1;
 	} 
-	@Override
-	  public int compareTo(BeanTweet o) {
-	    return o.getPublicationDate().compareTo(getPublicationDate());
-	  }
 	/**
 	 * @return the popularity
 	 */
