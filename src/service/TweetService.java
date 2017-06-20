@@ -12,14 +12,20 @@ import persistence.TweetDAO;
 
 public class TweetService {
 	
-	public ArrayList<BeanTweet> getTweetsList(String userName) throws Exception{
+	public ArrayList<BeanTweet> getTweetsList(String userName, String personalized) throws Exception{
 		TweetDAO tweetDAO = new TweetDAO(); 
 		UserService userService = new UserService();
+		int userID = userService.getUserID(userName);
+		ArrayList<Integer> subscriptorsID = userService.getSubscriptors(userID);
 		ArrayList<BeanTweet> tweetsList = new ArrayList<BeanTweet>();
+		
 		if(userService.isAdminUser(userName)){
 			tweetsList =  tweetDAO.getFullTweetsList(userName);
-		} else {
-			tweetsList =  tweetDAO.getFilteredTweetsList(userName);
+		} else if ("true".equals(personalized)){
+			tweetsList =  tweetDAO.getPersonalizedTweetsList(userID, subscriptorsID);
+		}
+		else {
+			tweetsList =  tweetDAO.getFilteredTweetsList(userID, subscriptorsID);
 		}
 		tweetsList.sort(Comparator.comparing(BeanTweet::getPublicationDate).thenComparing(BeanTweet::getPopularity));
 		Collections.reverse(tweetsList);

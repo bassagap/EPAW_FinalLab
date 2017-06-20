@@ -25,10 +25,15 @@
 <body id="body">
 	<table>
 		<tr>
-			<td class="col-md-11">
+			<td class="col-md-10">
 				<form>
 					<input type="text" name="search" placeholder="Search...">
 				</form>
+			</td>
+			<td class="col-md-2">
+				<div class="checkbox">
+  					<label><input type="checkbox" id = "personalizedSearch" value="">Personalized</label>
+				</div>
 			</td>
 			<td class="col-md-1">
 				<button id="id-button" type="button" class="btn btn-default btn-lg"
@@ -195,7 +200,28 @@
 	$(document).ready(function() {
 		getTweets();
 		$("#myAlert").hide();
-
+		$("#personalizedSearch").click(
+				function() {
+					var personalized = false;
+					if($(this).prop("checked") == true){
+						personalized = true;
+					}
+					$.ajax({
+						url :  '${pageContext.request.contextPath}/TweetController',
+						type : 'POST',
+						data:{
+							clicked : personalized
+						},
+						success : function(
+								result,
+								responseText,
+								session) {
+									alert(personalized);
+								
+								}
+					});		
+					
+				});
 	});
 	var form = $('#addTweetForm');
 	form.submit(function() {
@@ -313,6 +339,7 @@
 		});
 	}
 	function deleteTweet(id) {
+		
 		$.ajax({
 			url : '${pageContext.request.contextPath}/DeleteTweetsController',
 			type : 'GET',

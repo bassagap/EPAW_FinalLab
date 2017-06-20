@@ -41,6 +41,7 @@ public class DeleteTweetsController extends HttpServlet {
 		String id_string = request.getParameter("id");
 		HttpSession session = request.getSession();
 		String session_user = (String) session.getAttribute("user"); 
+		String personalized = request.getParameter("clicked"); 
 		System.out.println("DeleteTweet");
 		try {
 			if(id_string != null){
@@ -51,7 +52,7 @@ public class DeleteTweetsController extends HttpServlet {
 				}else{
 					response.setStatus(400);
 				}
-				ArrayList<BeanTweet> tweetList = tweetService.getTweetsList(session_user);
+				ArrayList<BeanTweet> tweetList = tweetService.getTweetsList(session_user, personalized);
 			    String json = new Gson().toJson(tweetList);
 			    response.setContentType("application/json");
 			    response.setCharacterEncoding("UTF-8");

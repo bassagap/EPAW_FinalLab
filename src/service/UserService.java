@@ -1,5 +1,6 @@
 package service;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import models.BeanUser;
 import persistence.UserDAO;
@@ -41,5 +42,9 @@ public class UserService {
 		userDAO.deleteSubscriptions(user);
 		tweetService.deleteUserTweets(user);
 		
+	}
+	public ArrayList<Integer> getSubscriptors(int userID) throws Exception{
+		UserDAO userDAO = new UserDAO(); 
+		return userDAO.getSubscriptions(userID);
 	}
 }

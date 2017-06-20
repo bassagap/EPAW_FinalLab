@@ -40,6 +40,8 @@ public class TweetController extends HttpServlet {
 		TweetService tweetService = new TweetService(); 
 		UserService userService = new UserService(); 
 		String hashTag = request.getParameter("hashTag"); 
+		String personalized = request.getParameter("clicked"); 
+		System.out.println("personalized: " + personalized );
 		String description = request.getParameter("description"); 
 		HttpSession session = request.getSession();
 		String user = (String) session.getAttribute("user"); 
@@ -65,7 +67,7 @@ public class TweetController extends HttpServlet {
 			if(hashTag != null && user.equals("anonymous")){
 				response.setStatus(400);
 			}
-			ArrayList<BeanTweet> tweetList = tweetService.getTweetsList(user);
+			ArrayList<BeanTweet> tweetList = tweetService.getTweetsList(user, personalized);
 
 		    String json = new Gson().toJson(tweetList);
 		    response.setContentType("application/json");

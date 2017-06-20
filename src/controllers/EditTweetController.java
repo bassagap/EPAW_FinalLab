@@ -40,6 +40,7 @@ public class EditTweetController extends HttpServlet {
 		BeanTweet tweet = new BeanTweet(); 	
 		String tweet_id_string = request.getParameter("id");
 		String hashTag = request.getParameter("hashTag");
+		String personalized = request.getParameter("clicked"); 
 		HttpSession session = request.getSession();
 		String session_user = (String) session.getAttribute("user"); 
 		System.out.println("Edit controller: " + session_user);
@@ -52,13 +53,15 @@ public class EditTweetController extends HttpServlet {
 				tweet.setHashTag(request.getParameter("hashTag"));
 				tweet.setUser_id1(userService.getUserID(session_user));
 				String tweet_user = tweetService.getTweetUser(tweet.getIdTweet());
+				ArrayList<Integer> subscriptorsID = userService.getSubscriptors(tweet.getUser_id1());
+				
 				if(session_user.equals(tweet_user) || userService.isAdminUser(session_user)){
 					System.out.println("Edit Tweet Controller Edit:");
 					tweetService.editTweet(tweet);
 				}else{
 					response.setStatus(400);
 				}
-				ArrayList<BeanTweet> tweetList = tweetService.getTweetsList(session_user);
+				ArrayList<BeanTweet> tweetList = tweetService.getTweetsList(session_user, personalized);
 			    String json = new Gson().toJson(tweetList);
 			    response.setContentType("application/json");
 			    response.setCharacterEncoding("UTF-8");
