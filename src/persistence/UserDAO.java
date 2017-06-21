@@ -93,7 +93,7 @@ public class UserDAO {
 	
 	public ArrayList<Integer> getSubscriptions(int userID) throws SQLException{
 		ArrayList<Integer> subscriptionsList = new ArrayList<Integer>(); 
-		String query = "SELECT * FROM USERS INNER JOIN subscriptions ON (users.id = subscriptions.user_id) WHERE users.userName = '" + userID + "'";
+		String query = "SELECT * FROM USERS INNER JOIN subscriptions ON (users.id = subscriptions.user_id) WHERE users.id = '" + userID + "'";
 		ResultSet resultSet =  statement.executeQuery(query);
 		 while(resultSet.next()){
 			 Integer id = resultSet.getInt("subscription_id");
@@ -110,5 +110,14 @@ public class UserDAO {
 		}
 		return userID;
 	}
-	
+
+	public String getUserNameByAttr(int id, String attr) throws SQLException{
+		String query = "SELECT * FROM USERS WHERE ID = '" + id + "'"; 
+		String userName = "";
+		ResultSet resultSet =  statement.executeQuery(query);
+		if(resultSet.next()){
+			userName = resultSet.getString(attr);
+		}
+		return userName;
+	}
 }

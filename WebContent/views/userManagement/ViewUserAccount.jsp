@@ -33,12 +33,12 @@
 		<div class="col-sm-2">
 			<div class="user-image" style="background-image:url('${pageContext.request.contextPath}/img/user_logo.png')"></div>
 		</div>
-		<div class="col-sm-7" >
-			<p> ${sessionScope.user} </p>
-       		<p> ${sessionScope.user}</p>
+		<div class="col-sm-7">
+			<div id="personal-info-name"> </div>
+       		<div id="personal-info-email"> </div>
 		</div>
 		<div class="col-sm-3">
-			<span class = "glyphicon glyphicon-trash delete-button" id = '${sessionScope.user}'></span>
+			<span class = "glyphicon glyphicon-trash delete-button" id= '${sessionScope.user}'></span>
 		</div>
 	</div>		
 	
@@ -115,57 +115,86 @@
 				<div class="col-sm-2" style="padding-top:10px">
 					<div class="user-image" style="background-image:url('${pageContext.request.contextPath}/img/user_logo.png')"></div>
 				</div>
-				<div class="col-sm-10" style="padding-top:35px">
-					Jon Doe
-				</div>
+				<div class="col-sm-10" id="subscriptionName" style="padding-top:35px"></div>
 		</div></li>
 		
 	</ul>
 	
 	<script>
 	$(document).ready(function() {
+		
+			deleteUser();
+		
+	});
+	
+	function deleteUser(id) {
+		var userId =  '${sessionScope.user}';
+		
 		$(".delete-button").click(function() {
 			var id = $(this).attr("id");
-			deleteUser(id);
-		});
-	});
-	function deleteUser(id) {
+			
+			$.ajax({
+				url : '${pageContext.request.contextPath}/DeleteUserController',
+				type : 'GET',
+				data : {
+					id : id
+				},
+				success : function(data) {
+					window.location.href = '${pageContext.request.contextPath}/views/index.jsp';
+				},
+				error : function() {
+	
+				}
+			})
+		});		
+		getPersonalInfo(userId);
+		getFriends(userId);
+	}
+	
+	function getPersonalInfo(userId){
+		
 		$.ajax({
 			url : '${pageContext.request.contextPath}/UserAccountController',
-			type : 'GET',
+			type : 'POST',
 			data : {
-				id : id
+				id : userId
 			},
-			success : function(data) {
-				window.location.href = '${pageContext.request.contextPath}/views/index.jsp';
-			},
-			error : function() {
+			success: function(data){
+				loadPersonalInfo(data);
+		    },
+		    error: function(){
+		        console.log("The request failed");
+		    }
 
-			}
 		});
 	}
-	function loadFriends(responseJson) {
-		$.each(responseJson, function(index, friend) {
-			var $divMain = $("<div>").addClass("friend tweet").appendTo(
-					$("#main-test"));
-			var $div = $("<div>").addClass("panel-heading").appendTo($divMain);
-			$("<table>").appendTo($div)
-			var $table = $("<table>").appendTo($div)
-			$("<tr>").appendTo($table).append(
-					$("<td>").addClass("col-md-11").append(
-							$("<div>").addClass("tweet-header-user").text(
-									tweet.user))).append(
-					$("<td>").addClass("col-md-1").append(
-							$("<div>").addClass("tweet-header-date").text(
-									tweet.publicationDate)));
-			$("<p>").appendTo($div).text(tweet.hashTag);
-			$("<div>").appendTo($div).text(tweet.description);
-			$("<div>").appendTo($div).addClass(
-					"panel-footer tweet tweet-footer").append(
-					$("<span>").addClass(
-							"glyphicon glyphicon-trash delete-button").attr(
-							"id", tweet.idTweet));
+	
+	function loadPersonalInfo(data){
+		$("#personal-info-name").append(data[0]);
+		$("#personal-info-email").append(data[1]);
+	}
+	
+	function getFriends(userId){
+		
+		$.ajax({
+			url : '${pageContext.request.contextPath}/SubscriptionsController',
+			type : 'POST',
+			data : {
+				id : userId
+			},
+			success: function(data){
+				loadFriends(data);
+		    },
+		    error: function(){
+		        console.log("The request failed");
+		    }
+
 		});
+	}
+	
+	function loadFriends(data){
+		console.log(data[0]);
+		$("#subscriptionName").append(data[0]);
 	}
 	
 	</script>

@@ -61,6 +61,7 @@
 		onclick="openNav()">&#9776; </span>
 	
 	<div id="main"></div>
+	<div id= '${sessionScope.user}' class="user-id"></div>
 </body>
 
 <script>
@@ -107,19 +108,36 @@
 				}
 			});
 	$("#UserAccount").click(
-			function() {
+			
+			function(){
+				var userId = $(".user-id").attr("id");
 				$.ajax({
-					url : '${pageContext.request.contextPath}/views/userManagement/ViewUserAccount.jsp',
+					url : '${pageContext.request.contextPath}/UserAccountController',
 					type : 'GET',
-					success : function(
-							result,
-							responseText,
-							session) {
-								$("#main").html(result);
-							}
+					data : {
+						id : userId
+					},
+					success: function(data){
+						var isAnonymous = (data[2] == 'true');
+						if(isAnonymous){
+							gotoViewAccount();
+				    	}
+					},
 				});
 			});
 		
+				
+		function gotoViewAccount() {
+			$.ajax({
+				url : '${pageContext.request.contextPath}/views/userManagement/ViewUserAccount.jsp',
+				type : 'GET',
+				success : function(
+						result) {
+							$("#main").html(result);
+						}
+			});
+		};
+	
 		$("#Public").click(
 				function() {
 					$.ajax({

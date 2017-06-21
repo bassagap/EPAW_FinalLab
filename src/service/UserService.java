@@ -34,6 +34,22 @@ public class UserService {
 		UserDAO userDAO = new UserDAO(); 
 		return userDAO.getUserID(userName);
 	}
+	public String getUserName(int id) throws Exception{
+		UserDAO userDAO = new UserDAO(); 
+		return userDAO.getUserNameByAttr(id,"userName");
+	}
+	public String getUserEmail(int id) throws Exception{
+		UserDAO userDAO = new UserDAO(); 
+		return userDAO.getUserNameByAttr(id,"mail");
+	}
+	public String getUserType(int id) throws Exception{
+		UserDAO userDAO = new UserDAO(); 
+		return userDAO.getUserNameByAttr(id,"userType");
+	}
+	public Boolean userExistsByName (String user) throws Exception{
+		UserDAO userDAO = new UserDAO(); 
+		return !userDAO.isValidUserName(user); 
+	}
 	public void deletetUser(int user) throws Exception{
 		UserDAO userDAO = new UserDAO(); 
 		TweetService tweetService = new TweetService();
@@ -41,5 +57,10 @@ public class UserService {
 		userDAO.deleteSubscriptions(user);
 		tweetService.deleteUserTweets(user);
 		
+	}
+	public ArrayList<Integer> getSubscriptionsList(int id) throws Exception{
+		UserDAO userDAO = new UserDAO(); 
+		ArrayList<Integer> usersList =  userDAO.getSubscriptions(id);
+		return usersList;	
 	}
 }

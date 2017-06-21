@@ -14,20 +14,19 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 
 import models.BeanTweet;
-import models.BeanUser;
 import service.UserService;
 
 /**
  * Servlet implementation class UserAccountController
  */
-@WebServlet("/UserAccountController")
-public class UserAccountController extends HttpServlet {
+@WebServlet("/SubscriptionsController")
+public class SubscriptionsController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserAccountController() {
+    public SubscriptionsController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,20 +37,21 @@ public class UserAccountController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UserService userService = new UserService(); 
 		String user =request.getParameter("id");
+		System.out.println("User: "+user);
 		//id =Integer.parseInt(request.getParameter("id"));
 
 		try {
 			int userId = userService.getUserID(user);
 			String userName = userService.getUserName(userId);
-			String email = userService.getUserEmail(userId);
 			
+			ArrayList<Integer> SubscriptionsList = userService.getSubscriptionsList(userId);
 			ArrayList<String> resp = new ArrayList<String>();
-			resp.add(userName);
-			resp.add(email);
 			
-			if(userService.userExistsByName(userName))	resp.add("true");
-			else	resp.add("false");
-
+			for (int id: SubscriptionsList){
+				resp.add(userService.getUserName(id));
+				System.out.println(userService.getUserName(id));
+			}
+			
 			String json = new Gson().toJson(resp);
 		    response.setContentType("application/json");
 		    response.setCharacterEncoding("UTF-8");
