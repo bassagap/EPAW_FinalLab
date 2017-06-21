@@ -56,6 +56,17 @@ public class TweetService {
 	public void editTweet(BeanTweet tweet) throws Exception {
 		TweetDAO tweetDAO = new TweetDAO(); 
 		tweetDAO.editTweet(tweet);
-		
+	}
+	
+	public BeanTweet retweet(int userID, int tweetID, java.sql.Date date ) throws Exception{
+		BeanTweet tweet = new BeanTweet(); 
+		UserService userService = new UserService(); 
+		TweetDAO tweetDAO = new TweetDAO(); 
+		tweet = tweetDAO.getTweet(tweetID); 
+		tweet.setUser_id1(userID);
+		tweet.setUser(userService.getUserName(userID));
+		tweet.setPublicationDate(date);
+		insertTweet(tweet); 
+		return tweet; 
 	}
 }

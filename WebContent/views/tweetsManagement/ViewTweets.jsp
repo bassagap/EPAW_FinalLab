@@ -198,7 +198,7 @@
 
 <script>
 	$(document).ready(function() {
-		getTweets();
+		getTweets(false);
 		$("#myAlert").hide();
 		$("#personalizedSearch").click(
 				function() {
@@ -206,29 +206,19 @@
 					if($(this).prop("checked") == true){
 						personalized = true;
 					}
-					$.ajax({
-						url :  '${pageContext.request.contextPath}/TweetController',
-						type : 'POST',
-						data:{
-							clicked : personalized
-						},
-						success : function(result) {
-									$(".panel").remove();
-									loadTweet(result);
-								
-								}
-					});		
+					getTweets(personalized); 	
 					
 				});
 	});
 	var form = $('#addTweetForm');
 	form.submit(function() {
+		var personalized = $("#personalizedSearch").prop("checked"); 
 		$.ajax({
 			type : form.attr('method'),
 			url : form.attr('action'),
 			data : form.serialize(),
 			success : function(data) {
-				reloadTweets();
+				getTweets(personalized);
 				$('#myModal').modal('hide');
 				$('body').removeClass('modal-open');
 				$('.modal-backdrop').remove();
@@ -241,75 +231,49 @@
 
 		return false;
 	});
-	function getTweets() {
-		/* 		$(".delete-button").click(function() {
-		 $.ajax({
-		 type : 'GET',
-		 url : '${pageContext.request.contextPath}/TweetController',
-		 success : function(data) {
-		 loadTweet(data);
-		 var id = $(this).attr("id");
-		 deleteTweet(id);
-		 reloadTweets();	
-		 },
-		 error : function() {
-		 $("#anonymousModal").modal('show');
-		 }
+	function getTweets(personalized) {
+		$.ajax({
+			url :  '${pageContext.request.contextPath}/TweetController',
+			type : 'POST',
+			data:{
+				clicked : personalized
+			},
+			success : function(result) {
+						$(".panel").remove();
+						loadTweet(result);
+						$(".delete-button").click(function() {
+							var id = $(this).attr("id");
+							$.ajax({
+								success : function(data) {
+									$("#confirmDeleteModal").modal('show');
+									$("#CancelDelete").click(function() {
+										
+									});
+									$("#ConfirmDelete").click(function() {
+										deleteTweet(id);
+										$("#confirmDeleteModal").modal('hide');
+									});
+								},
+								error : function() {
+									$("#anonymousModal").modal('show');
+								}
 
-		 }); 
-		 });
-		 $(".edit-button").click(function() {
-		 $.ajax({
-		 type : 'GET',
-		 url : '${pageContext.request.contextPath}/TweetController',
-		 success : function(data) {
-		 loadTweet(data);
-		 var id = $(this).attr("id");
-		 $( "#hidden" ).val(id);
-		 editTweet(id);
-		 },
-		 error : function() {
-		 $("#anonymousModal").modal('show');
-		 }
-
-		 }); 
-		 }); */
-
-		$.get('${pageContext.request.contextPath}/TweetController', function(
-				responseJson) {
-			loadTweet(responseJson);
-			$(".delete-button").click(function() {
-				var id = $(this).attr("id");
-				$.ajax({
-					success : function(data) {
-						$("#confirmDeleteModal").modal('show');
-						$("#CancelDelete").click(function() {
-							
+							});
 						});
-						$("#ConfirmDelete").click(function() {
-							deleteTweet(id);
-							$("#confirmDeleteModal").modal('hide');
+						$(".edit-button").click(function() {
+							var id = $(this).attr("id");
+							$("#hidden").val(id);
+							editTweet(id);
 						});
-					},
-					error : function() {
-						$("#anonymousModal").modal('show');
+					
 					}
-
-				});
-			});
-			$(".edit-button").click(function() {
-				var id = $(this).attr("id");
-				$("#hidden").val(id);
-				editTweet(id);
-			});
-		});
+		});	
 	}
 	function editTweet(id, responseJson) {
 		$("#myModalEdit").modal('show');
 		$.each(responseJson, function(index, tweet) {
 			console.log(tweet);
 			if (tweet.idTweet == id) {
-				console.log(tweet.idTweet);
 				$("#descriptionEdit").val(tweet.hashTag);
 				$("#hashTagEdit").val(tweet.description);
 			}
@@ -332,12 +296,12 @@
 			});
 			return false;
 		});
-		$('.modal').on('hidden.bs.modal', function() {
+/* 		$('.modal').on('hidden.bs.modal', function() {
 			$(this).find('form')[0].reset();
-		});
+		}); */
 	}
 	function deleteTweet(id) {
-		
+		var personalized = $("#personalizedSearch").prop("checked"); 
 		$.ajax({
 			url : '${pageContext.request.contextPath}/DeleteTweetsController',
 			type : 'GET',
@@ -345,7 +309,7 @@
 				id : id
 			},
 			success : function(data) {
-				reloadTweets();
+				getTweets(personalized);
 			},
 			error : function() {
 				console.log(" error get Tweets");
@@ -353,10 +317,7 @@
 			}
 		});
 	}
-	function reloadTweets() {
-		$(".panel").remove();
-		getTweets();
-	}
+
 	function loadTweet(responseJson) {
 		$.each(responseJson, function(index, tweet) {
 			var $divMain = $("<div>").addClass("panel tweet").appendTo(

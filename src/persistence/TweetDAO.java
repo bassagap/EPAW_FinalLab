@@ -28,6 +28,7 @@ public class TweetDAO {
 		ArrayList<BeanTweet> tweetsList = new ArrayList<BeanTweet>();
 		try {
 			subscriptors.add(userID);
+			
 			for (Integer user : subscriptors){
 				String query = "SELECT * FROM TWEETS WHERE USER_ID1 = '" + user + "' AND NOT VISIBILITY = 'public'";
 				ResultSet resultSet =  statement.executeQuery(query);
@@ -42,8 +43,6 @@ public class TweetDAO {
 					tweet.setPopularity(resultSet.getInt("popularity"));
 					tweetsList.add(tweet);
 				}
-				//resultSet.close();
-				//statement.close();
 			}
 			String query = "SELECT * FROM TWEETS WHERE VISIBILITY = 'public'";
 			ResultSet resultSet =  statement.executeQuery(query);
@@ -58,9 +57,12 @@ public class TweetDAO {
 				tweet.setPopularity(resultSet.getInt("popularity"));
 				tweetsList.add(tweet);
 			}
+			resultSet.close();
+			statement.close();
 		} catch (SQLException e) {
             e.printStackTrace();
-        }	
+        }
+		
 		return tweetsList;
 	}
 	public ArrayList<BeanTweet> getFullTweetsList(String userName){
@@ -149,6 +151,22 @@ public class TweetDAO {
 		String query = "UPDATE tweets SET HASHTAG = '" +tweet.getHashTag()+ "', DESCRIPTION = '"+ tweet.getDescription() +"' WHERE ID = '" + tweet.getIdTweet() +"'";
 		int resultSet =  statement.executeUpdate(query);
 		statement.close();
+	}
+
+	public BeanTweet getTweet(int tweetID) throws SQLException {
+		BeanTweet tweet = new BeanTweet(); 
+		String query = "SELECT * FROM TWEETS WHERE ID = '"+ tweetID + "'"; 
+		ResultSet resultSet =  statement.executeQuery(query);
+		if(resultSet.next()) {
+			tweet.setHashTag(resultSet.getString("hashtag"));
+			tweet.setDescription(resultSet.getString("description"));
+			tweet.setUser(resultSet.getString("user"));
+			tweet.setVisibility(resultSet.getString("visibility"));
+			tweet.setPublicationDate(resultSet.getDate("publicationDate"));
+			tweet.setIdTweet(resultSet.getInt("id"));
+			tweet.setPopularity(resultSet.getInt("popularity"));
+		}
+		return tweet;
 	}
 
 }

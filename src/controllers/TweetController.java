@@ -67,6 +67,9 @@ public class TweetController extends HttpServlet {
 			if(hashTag != null && user.equals("anonymous")){
 				response.setStatus(400);
 			}
+			if(true){
+				tweetService.retweet(userService.getUserID(user), 5, date); 
+			}
 			ArrayList<BeanTweet> tweetList = tweetService.getTweetsList(user, personalized);
 
 		    String json = new Gson().toJson(tweetList);
