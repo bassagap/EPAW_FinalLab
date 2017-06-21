@@ -41,37 +41,58 @@ public class TweetController extends HttpServlet {
 		UserService userService = new UserService(); 
 		String hashTag = request.getParameter("hashTag"); 
 		String personalized = request.getParameter("clicked"); 
-		System.out.println("personalized: " + personalized );
 		String description = request.getParameter("description"); 
+		String callType = request.getParameter("callType"); 
+		String tweet_id_string = request.getParameter("id");
 		HttpSession session = request.getSession();
-		String user = (String) session.getAttribute("user"); 
+		String session_user = (String) session.getAttribute("user"); 
 		Calendar calendar = Calendar.getInstance();
 		java.sql.Date date = new java.sql.Date(calendar.getTime().getTime());	
 		BeanTweet tweet = new BeanTweet(); 	
 		try {
-			if(hashTag != null && !user.equals("anonymous")){
+			if("add".equals(callType) && !session_user.equals("anonymous")){
 				tweet.setDescription(description);
 				tweet.setHashTag(hashTag); 
-				tweet.setUser(user);
+				tweet.setUser(session_user);
 				tweet.setPublicationDate(date);
-				tweet.setUser_id1(userService.getUserID(user));
+				tweet.setUser_id1(userService.getUserID(session_user));
 				tweet.setPopularity(tweetService.getTweetPopularity(tweet)); 
-				if(userService.isPublicUser(user)){
+				if(userService.isPublicUser(session_user)){
 					tweet.setVisibility("public");
 				} else {
 					tweet.setVisibility("private");
 				}
-				System.out.println("Tweet Controller Insert");
 				tweetService.insertTweet(tweet);
 			}
-			if(hashTag != null && user.equals("anonymous")){
+			if("add".equals(callType) && session_user.equals("anonymous")){
 				response.setStatus(400);
 			}
-			if(true){
-				tweetService.retweet(userService.getUserID(user), 5, date); 
+			if("edit".equals(callType)){
+				tweet.setIdTweet(Integer.parseInt(tweet_id_string));
+				tweet.setDescription(request.getParameter("description"));
+				tweet.setHashTag(request.getParameter("hashTag"));
+				tweet.setUser_id1(userService.getUserID(session_user));
+				String tweet_user = tweetService.getTweetUser(tweet.getIdTweet());
+				if(session_user.equals(tweet_user) || userService.isAdminUser(session_user)){
+					System.out.println("Edit Tweet Controller Edit:");
+					tweetService.editTweet(tweet);
+				}else{
+					response.setStatus(400);
+				}
 			}
-			ArrayList<BeanTweet> tweetList = tweetService.getTweetsList(user, personalized);
-
+			if("delete".equals(callType)){
+				int idTweet = Integer.parseInt(tweet_id_string);
+				String tweet_user = tweetService.getTweetUser(idTweet);
+				if(session_user.equals(tweet_user) || userService.isAdminUser(session_user)){
+					tweetService.deleteTweet(idTweet);
+				}else{
+					response.setStatus(400);
+				}
+			}
+			if(false){
+				tweetService.retweet(userService.getUserID(session_user), 5, date); 
+			}
+			ArrayList<BeanTweet> tweetList = tweetService.getTweetsList(session_user, personalized);
 		    String json = new Gson().toJson(tweetList);
 		    response.setContentType("application/json");
 		    response.setCharacterEncoding("UTF-8");

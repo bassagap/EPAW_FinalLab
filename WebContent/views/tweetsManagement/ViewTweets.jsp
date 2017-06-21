@@ -94,7 +94,7 @@
 					</button>
 					<h4 class="modal-title" id="myModalLabel">New Tweet</h4>
 				</div>
-				<form id="editTweetForm" action="/Lab3/EditTweetController"
+				<form id="editTweetForm" action="/Lab3/TweetController"
 					method="post" class="form-horizontal" role="form">
 					<div class="modal-body">
 						<div class="form-group">
@@ -216,7 +216,7 @@
 		$.ajax({
 			type : form.attr('method'),
 			url : form.attr('action'),
-			data : form.serialize(),
+			data : form.serialize() + "&callType=add",
 			success : function(data) {
 				getTweets(personalized);
 				$('#myModal').modal('hide');
@@ -236,7 +236,8 @@
 			url :  '${pageContext.request.contextPath}/TweetController',
 			type : 'POST',
 			data:{
-				clicked : personalized
+				clicked : personalized,
+				callType: 'update'
 			},
 			success : function(result) {
 						$(".panel").remove();
@@ -270,9 +271,9 @@
 		});	
 	}
 	function editTweet(id, responseJson) {
+		var personalized = $("#personalizedSearch").prop("checked"); 
 		$("#myModalEdit").modal('show');
 		$.each(responseJson, function(index, tweet) {
-			console.log(tweet);
 			if (tweet.idTweet == id) {
 				$("#descriptionEdit").val(tweet.hashTag);
 				$("#hashTagEdit").val(tweet.description);
@@ -283,8 +284,9 @@
 			$.ajax({
 				type : formEdit.attr('method'),
 				url : formEdit.attr('action'),
-				data : formEdit.serialize(),
+				data : formEdit.serialize() + "&callType=edit",
 				success : function(data) {
+					getTweets(personalized);
 					$('#myModalEdit').modal('hide');
 					$('body').removeClass('modal-open');
 					$('.modal-backdrop').remove();
@@ -303,10 +305,11 @@
 	function deleteTweet(id) {
 		var personalized = $("#personalizedSearch").prop("checked"); 
 		$.ajax({
-			url : '${pageContext.request.contextPath}/DeleteTweetsController',
+			url : '${pageContext.request.contextPath}/TweetController',
 			type : 'GET',
 			data : {
-				id : id
+				id : id,
+				callType: 'delete'
 			},
 			success : function(data) {
 				getTweets(personalized);
