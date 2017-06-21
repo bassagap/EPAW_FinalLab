@@ -86,6 +86,11 @@ public class UserDAO {
 		String query = "INSERT INTO SUBSCRIPTIONS (USER_ID, SUBSCRIPTION_ID) VALUES ('" + userID+ "', '" + subscriptorID + "')";
 		int resultSet =  statement.executeUpdate(query);
 	}
+	public void deleteSubscription(int userID, int subscriptorID) throws SQLException{
+		String query = "DELETE FROM SUBSCRIPTIONS WHERE SUBSCRIPTION_ID = '"+ subscriptorID + "' AND USER_ID = '"+ userID +"'"; ;
+		System.out.println(query);
+		int resultSet =  statement.executeUpdate(query);
+	}
 	public void deleteSubscriptions( int subscriptorID) throws SQLException{
 		String query = "DELETE FROM SUBSCRIPTIONS WHERE SUBSCRIPTION_ID = '"+ subscriptorID + "'"; ;
 		int resultSet =  statement.executeUpdate(query);

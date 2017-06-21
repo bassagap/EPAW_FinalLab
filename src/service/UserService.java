@@ -63,4 +63,20 @@ public class UserService {
 		ArrayList<Integer> usersList =  userDAO.getSubscriptions(id);
 		return usersList;	
 	}
+	public void subscribe(String userName, String subscriptorName) throws Exception{
+		int userID = getUserID(userName);
+		int subscriptorID = getUserID(subscriptorName);
+		if(!getSubscriptionsList(userID).contains(subscriptorID)){
+			UserDAO userDAO = new UserDAO();
+			userDAO.addSubscriptions(userID, subscriptorID);
+		}
+	}
+	public void unSubscribe(String userName, String subscriptorName) throws Exception{
+		int userID = getUserID(userName);
+		int subscriptorID = getUserID(subscriptorName);
+		if(getSubscriptionsList(userID).contains(subscriptorID)){
+			UserDAO userDAO = new UserDAO();
+			userDAO.deleteSubscription(userID, subscriptorID);
+		}
+	}
 }
