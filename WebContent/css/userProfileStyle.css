@@ -1,0 +1,19 @@
+@CHARSET "ISO-8859-1";
+.user-block {
+	color: #054358;
+	font-size: 1.8rem;
+	margin: 0 auto;
+	margin-bottom: 25px;
+  	padding-left:100px;
+  	height: 100px;
+}
+
+.friend {
+	padding-left: 20px;
+	background-color: #1DACB6;
+	font-size: 1.8rem;
+	margin: 0 auto;
+	margin-left:50px;
+  	width: auto;
+  	height: 100px;
+}
