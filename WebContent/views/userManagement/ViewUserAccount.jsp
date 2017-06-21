@@ -110,7 +110,7 @@
 	
 	<div id="main-test" style="margin-top:100px"></div>
 	
-	<ul>
+	<!-- <ul>
 		<li><div class="friend panel">
 				<div class="col-sm-2" style="padding-top:10px">
 					<div class="user-image" style="background-image:url('${pageContext.request.contextPath}/img/user_logo.png')"></div>
@@ -118,7 +118,7 @@
 				<div class="col-sm-10" id="subscriptionName" style="padding-top:35px"></div>
 		</div></li>
 		
-	</ul>
+	</ul>-->
 	
 	<script>
 	$(document).ready(function() {
@@ -192,9 +192,24 @@
 		});
 	}
 	
+	/*<ul>
+		<li><div class="friend panel">
+				<div class="col-sm-2" style="padding-top:10px">
+					<div class="user-image" style="background-image:url('${pageContext.request.contextPath}/img/user_logo.png')"></div>
+				</div>
+				<div class="col-sm-10" id="subscriptionName" style="padding-top:35px"></div>
+		</div></li>
+		
+	</ul>*/
+	
 	function loadFriends(data){
-		console.log(data[0]);
-		$("#subscriptionName").append(data[0]);
+		$.each(data, function(index, friend) {
+			var $divMain = $("<div>").addClass("friend panel").css('margin-bottom','25px').appendTo($("#main-test"));
+			var $div = $("<div>").addClass("col-sm-2").appendTo($divMain).css('padding-top','10px');
+			var $img = $("<div>").addClass("user-image").appendTo($div).css('background-image',"url('${pageContext.request.contextPath}/img/user_logo.png')");
+			
+			var $subsName = $("<div>").addClass("col-sm-10").appendTo($divMain).css('padding-top','35px').text(friend);
+		});
 	}
 	
 	</script>
