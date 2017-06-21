@@ -56,18 +56,16 @@ public class UserService {
 		TweetService tweetService = new TweetService();
 		userDAO.deletetUser(user);
 		userDAO.deleteSubscriptions(user);
-		tweetService.deleteUserTweets(user);
-		
+		tweetService.deleteUserTweets(user);	
 	}
-<<<<<<< HEAD
+
 	public ArrayList<Integer> getSubscriptors(int userID) throws Exception{
 		UserDAO userDAO = new UserDAO(); 
 		return userDAO.getSubscriptions(userID);
-=======
+	}
 	public ArrayList<Integer> getSubscriptionsList(int id) throws Exception{
 		UserDAO userDAO = new UserDAO(); 
 		ArrayList<Integer> usersList =  userDAO.getSubscriptions(id);
 		return usersList;	
->>>>>>> 06dd36e7cd21859463a47cb418ecfbb808b6a4ef
 	}
 }

@@ -212,11 +212,9 @@
 						data:{
 							clicked : personalized
 						},
-						success : function(
-								result,
-								responseText,
-								session) {
-									alert(personalized);
+						success : function(result) {
+									$(".panel").remove();
+									loadTweet(result);
 								
 								}
 					});		
