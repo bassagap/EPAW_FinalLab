@@ -38,38 +38,36 @@ public class UserAccountController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UserService userService = new UserService(); 
 		String sessionName =request.getParameter("sessionId");
-		
-		String userIdString = request.getParameter("userId");
-		int userId = -1;
-		if(userIdString!=null){
-			try{
-				userId = Integer.parseInt(userIdString);
-			}
-			catch(NumberFormatException nbe){
-				nbe.printStackTrace();				
-			}
-		}	
+		String userName= request.getParameter("userId");
 
 		String callType = request.getParameter("callType");
 
 		try {
-			//System.out.println(callType);
+			int userId = userService.getUserID(userName);
 			int sessionId = userService.getUserID(sessionName);
-			String userName = userService.getUserName(userId);
+			
+			System.out.println(userName+" User Id: "+userId);
+			System.out.println(sessionName+" Session Id: "+sessionId);
+			
+			ArrayList<String> resp = new ArrayList<String>();
+			if(userId == sessionId || userService.getUserType(sessionId).equals("admin"))
+				resp.add("true");
+			else resp.add("false");
 			
 			if(callType.equals("enterAccount")){
 				String email = userService.getUserEmail(userId);
 				
-				ArrayList<String> resp = new ArrayList<String>();
 				//Check if session user is anonymous
 				if(userService.userExistsByName(sessionName))	resp.add("true");
 				else	resp.add("false");
+				
 				//Personal info
 				resp.add(String.valueOf(userName));
 				
 				if(userService.isPublicUser(userName) || userId == sessionId){
 					resp.add(email);
 				}
+				
 				
 				String json = new Gson().toJson(resp);
 			    response.setContentType("application/json");
@@ -79,8 +77,6 @@ public class UserAccountController extends HttpServlet {
 			else if(callType.equals("getFriends")){
 				
 				ArrayList<Integer> SubscriptionsList = userService.getSubscriptionsList(userId);
-				ArrayList<String> resp = new ArrayList<String>();
-				
 				for (int id: SubscriptionsList){
 					resp.add(userService.getUserName(id));
 				}

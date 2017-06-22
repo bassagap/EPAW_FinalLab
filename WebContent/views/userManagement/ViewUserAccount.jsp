@@ -27,7 +27,7 @@
 
 
 <body id = "body">
-	<div class="user" id="40"></div>
+	<div class="user" id="paula222"></div>
 	<div class="user-block">
 		
 		<div class="col-sm-2">
@@ -92,8 +92,8 @@
 		</div>
 	</div>
 	
-	<table style="margin-left:100px">
-		<tr>
+	<table class="addSubs" style="margin-left:100px">
+	<!-- <tr>
 			<td class="col-md-11">
 				<form>
 					<input type="text" id="userToSearch" name="search" placeholder="Search User">
@@ -104,29 +104,19 @@
 					Subscribe to User
 				</button>
 			</td>
-		</tr>
+		</tr>-->
 	</table>
 	
 	<div id="main-test" style="margin-top:100px"></div>
-	<!-- <ul>
-		<li><div class="friend panel">
-				<div class="col-sm-2" style="padding-top:10px">
-					<div class="user-image" style="background-image:url('${pageContext.request.contextPath}/img/user_logo.png')"></div>
-				</div>
-				<div class="col-sm-10" id="subscriptionName" style="padding-top:35px"></div>
-		</div></li>
-		
-	</ul>-->
 	
 	<script>
 	$(document).ready(function() {
 		
 		var userId =  $("#user").attr('id');
 		var sessionId =  '${sessionScope.user}';
-		
-		console.log(userId);
-		
+
 		getPersonalInfo(userId);
+		getFriends(userId);
 			
 		$(".delete-button").click(function() {
 			$.ajax({
@@ -145,12 +135,11 @@
 		
 		$(document).on('click','.unsubscribe-button',function(){
 			var userToDelete = $(this).attr('id');
-			console.log(userToDelete);
 			$.ajax({
 				url : '${pageContext.request.contextPath}/SubscriptionsController',
 				type : 'GET',
 				data : {
-					userName : userId,
+					userName : sessionId,
 					subscriptionName: userToDelete,
 					callType: 'delete'
 				},
@@ -162,13 +151,13 @@
 			})
 		});
 		
-		$(".search-button").click(function() {
+		$(document).on('click','.search-button',function(){
 			var userToSearch = $("#userToSearch").val();
 			$.ajax({
 				url : '${pageContext.request.contextPath}/SubscriptionsController',
 				type : 'GET',
 				data : {
-					userName : userId,
+					userName : sessionId,
 					subscriptionName: userToSearch,
 					callType: 'add'
 				},
@@ -186,12 +175,11 @@
 				type : 'GET',
 				data : {
 					callType: 'enterAccount',
-					userId : '40',
+					userId : $(".user").attr('id'),
 					sessionId: sessionId
 				},
 				success: function(data){
 					loadPersonalInfo(data);
-					//loadFriends(data);
 			    },
 			    error: function(){
 			        console.log("The request failed");
@@ -200,21 +188,66 @@
 			});
 		}
 		
+		function getFriends(userId){
+			$.ajax({
+				url : '${pageContext.request.contextPath}/UserAccountController',
+				type : 'GET',
+				data : {
+					callType: 'getFriends',
+					userId :  $(".user").attr('id'),
+					sessionId: sessionId
+				},
+				success: function(data){
+					loadFriends(data);
+			    },
+			    error: function(){
+			        console.log("The request failed");
+			    }
+
+			});
+		}
+		/*
+		<tr>
+			<td class="col-md-11">
+				<form>
+					<input type="text" id="userToSearch" name="search" placeholder="Search User">
+				</form>
+			</td>
+			<td class="col-md-1">
+				<button id="id-button" type="button" class="btn btn-default btn-lg search-button" data-toggle="modal" data-target="#myModal">
+					Subscribe to User
+				</button>
+			</td>
+		</tr>
+		*/
 		function loadPersonalInfo(data){
-			$("#personal-info-name").append(data[1]);
-			$("#personal-info-email").append(data[2]);
+			$("#personal-info-name").append(data[2]);
+			$("#personal-info-email").append(data[3]);
+			
+			console.log(data);
+			
+			if(data[0] == "true"){
+				var $divTr = $("<tr>").appendTo(".addSubs");
+				var $td = $("<td>").addClass("col-md-10").appendTo($divTr);
+				var $form = $("<form>").append('<input type="text" id="userToSearch" name="search" placeholder="Search User" />').appendTo($td);
+				var $td2 = $("<td>").addClass("col-md-2").append('<button id="id-button" type="button" class="btn btn-default btn-lg search-button" data-toggle="modal" data-target="#myModal"> Subscribe to User</button>').appendTo($divTr);
+			}
 		}
 
 		function loadFriends(data){
-			$.each(data, function(index, friend) {
-				var $divMain = $("<div>").addClass("friend panel").css('margin-bottom','25px').appendTo("#main-test");
-				var $div = $("<div>").addClass("col-sm-2").appendTo($divMain).css('padding-top','10px');
-				var $img = $("<div>").addClass("user-image").appendTo($div).css('background-image',"url('${pageContext.request.contextPath}/img/user_logo.png')");
-				
-				var $subsName = $("<div>").addClass("col-sm-7").appendTo($divMain).css('padding-top','35px').text(friend);
-				var $trash = $("<div>").addClass("col-sm-3").appendTo($divMain);
-				var $delete = $("<span>").addClass("glyphicon glyphicon-trash unsubscribe-button").val("hola").attr("id",friend).appendTo($trash);
-			});
+				$.each(data, function(index, friend) {
+					if(index !=0){
+						var $divMain = $("<div>").addClass("friend panel").css('margin-bottom','25px').appendTo("#main-test");
+						var $div = $("<div>").addClass("col-sm-2").appendTo($divMain).css('padding-top','10px');
+						var $img = $("<div>").addClass("user-image").appendTo($div).css('background-image',"url('${pageContext.request.contextPath}/img/user_logo.png')");
+						
+						var $subsName = $("<div>").addClass("col-sm-7").appendTo($divMain).css('padding-top','35px').text(friend);
+						if(data[0] == "true"){
+							var $trash = $("<div>").addClass("col-sm-3").appendTo($divMain);
+							var $delete = $("<span>").addClass("glyphicon glyphicon-trash unsubscribe-button").val("hola").attr("id",friend).appendTo($trash);
+						}
+					}
+				});
 			
 		}
 		
