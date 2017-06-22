@@ -145,11 +145,12 @@
 			var userToDelete = $(this).attr('id');
 			console.log(userToDelete);
 			$.ajax({
-				url : '${pageContext.request.contextPath}/UnsubscribeController',
+				url : '${pageContext.request.contextPath}/SubscriptionsController',
 				type : 'GET',
 				data : {
 					userName : userId,
-					subscriptionName: userToDelete
+					subscriptionName: userToDelete,
+					callType: 'delete'
 				},
 				success : function(data) {
 					reloadSubscriptions();
@@ -162,11 +163,12 @@
 		$(".search-button").click(function() {
 			var userToSearch = $("#userToSearch").val();
 			$.ajax({
-				url : '${pageContext.request.contextPath}/SubscribeController',
+				url : '${pageContext.request.contextPath}/SubscriptionsController',
 				type : 'GET',
 				data : {
 					userName : userId,
-					subscriptionName: userToSearch
+					subscriptionName: userToSearch,
+					callType: 'add'
 				},
 				success : function(data) {
 					reloadSubscriptions();
@@ -177,11 +179,11 @@
 		});
 		
 		function getPersonalInfo(userId){
-			
 			$.ajax({
 				url : '${pageContext.request.contextPath}/UserAccountController',
 				type : 'GET',
 				data : {
+					callType: 'enterAccount',
 					id : userId
 				},
 				success: function(data){
@@ -201,12 +203,14 @@
 		
 		function getFriends(userId){
 			$.ajax({
-				url : '${pageContext.request.contextPath}/SubscriptionsController',
+				url : '${pageContext.request.contextPath}/UserAccountController',
 				type : 'POST',
 				data : {
+					callType: 'getFriends',
 					id : userId
 				},
 				success: function(data){
+					callType: "getSubscriptions",
 					loadFriends(data);
 			    },
 			    error: function(){
