@@ -38,24 +38,42 @@ public class UserAccountController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UserService userService = new UserService(); 
 		String user =request.getParameter("id");
+		String callType = request.getParameter("callType");
 		//id =Integer.parseInt(request.getParameter("id"));
 
 		try {
+			//System.out.println(callType);
 			int userId = userService.getUserID(user);
 			String userName = userService.getUserName(userId);
-			String email = userService.getUserEmail(userId);
-			
-			ArrayList<String> resp = new ArrayList<String>();
-			resp.add(userName);
-			resp.add(email);
-			
-			if(userService.userExistsByName(userName))	resp.add("true");
-			else	resp.add("false");
-
-			String json = new Gson().toJson(resp);
-		    response.setContentType("application/json");
-		    response.setCharacterEncoding("UTF-8");
-		    response.getWriter().write(json);
+			if(callType.equals("enterAccount")){
+				String email = userService.getUserEmail(userId);
+				
+				ArrayList<String> resp = new ArrayList<String>();
+				resp.add(userName);
+				resp.add(email);
+				
+				if(userService.userExistsByName(userName))	resp.add("true");
+				else	resp.add("false");
+	
+				String json = new Gson().toJson(resp);
+			    response.setContentType("application/json");
+			    response.setCharacterEncoding("UTF-8");
+			    response.getWriter().write(json);
+			}
+			else if(callType.equals("getFriends")){
+				
+				ArrayList<Integer> SubscriptionsList = userService.getSubscriptionsList(userId);
+				ArrayList<String> resp = new ArrayList<String>();
+				
+				for (int id: SubscriptionsList){
+					resp.add(userService.getUserName(id));
+				}
+				
+				String json = new Gson().toJson(resp);
+			    response.setContentType("application/json");
+			    response.setCharacterEncoding("UTF-8");
+			    response.getWriter().write(json);
+			}
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

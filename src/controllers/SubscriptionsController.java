@@ -36,26 +36,21 @@ public class SubscriptionsController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UserService userService = new UserService(); 
-		String user =request.getParameter("id");
-		System.out.println("User: "+user);
+		String subscriptionName =request.getParameter("subscriptionName");
+		String callType =request.getParameter("callType");
+		String userName =request.getParameter("userName");
+		
+		
 		//id =Integer.parseInt(request.getParameter("id"));
 
 		try {
-			int userId = userService.getUserID(user);
-			String userName = userService.getUserName(userId);
-			
-			ArrayList<Integer> SubscriptionsList = userService.getSubscriptionsList(userId);
-			ArrayList<String> resp = new ArrayList<String>();
-			
-			for (int id: SubscriptionsList){
-				resp.add(userService.getUserName(id));
-				System.out.println(userService.getUserName(id));
+			if(userService.userExistsByName(subscriptionName)){
+				if(callType.equals("add"))
+					userService.subscribe(userName, subscriptionName);
+				
+				else if(callType.equals("delete"))
+					userService.unSubscribe(userName, subscriptionName);
 			}
-			
-			String json = new Gson().toJson(resp);
-		    response.setContentType("application/json");
-		    response.setCharacterEncoding("UTF-8");
-		    response.getWriter().write(json);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

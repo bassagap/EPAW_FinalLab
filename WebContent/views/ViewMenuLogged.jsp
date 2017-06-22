@@ -115,6 +115,7 @@
 					url : '${pageContext.request.contextPath}/UserAccountController',
 					type : 'GET',
 					data : {
+						callType: 'enterAccount',
 						id : userId
 					},
 					success: function(data){
