@@ -27,7 +27,7 @@ public class TweetService {
 		else {
 			tweetsList =  tweetDAO.getFilteredTweetsList(userID, subscriptorsID);
 		}
-		tweetsList.sort(Comparator.comparing(BeanTweet::getPublicationDate).thenComparing(BeanTweet::getPopularity));
+		tweetsList.sort(Comparator.comparing(BeanTweet::getPublicationDate).thenComparing(BeanTweet::getLikes));
 		Collections.reverse(tweetsList);
 		return tweetsList;	
 	}
