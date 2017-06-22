@@ -37,24 +37,40 @@ public class UserAccountController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UserService userService = new UserService(); 
-		String user =request.getParameter("id");
+		String sessionName =request.getParameter("sessionId");
+		
+		String userIdString = request.getParameter("userId");
+		int userId = -1;
+		if(userIdString!=null){
+			try{
+				userId = Integer.parseInt(userIdString);
+			}
+			catch(NumberFormatException nbe){
+				nbe.printStackTrace();				
+			}
+		}	
+
 		String callType = request.getParameter("callType");
-		//id =Integer.parseInt(request.getParameter("id"));
 
 		try {
 			//System.out.println(callType);
-			int userId = userService.getUserID(user);
+			int sessionId = userService.getUserID(sessionName);
 			String userName = userService.getUserName(userId);
+			
 			if(callType.equals("enterAccount")){
 				String email = userService.getUserEmail(userId);
 				
 				ArrayList<String> resp = new ArrayList<String>();
-				resp.add(userName);
-				resp.add(email);
-				
-				if(userService.userExistsByName(userName))	resp.add("true");
+				//Check if session user is anonymous
+				if(userService.userExistsByName(sessionName))	resp.add("true");
 				else	resp.add("false");
-	
+				//Personal info
+				resp.add(String.valueOf(userName));
+				
+				if(userService.isPublicUser(userName) || userId == sessionId){
+					resp.add(email);
+				}
+				
 				String json = new Gson().toJson(resp);
 			    response.setContentType("application/json");
 			    response.setCharacterEncoding("UTF-8");

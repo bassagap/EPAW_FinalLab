@@ -27,7 +27,7 @@
 
 
 <body id = "body">
-	
+	<div class="user" id="40"></div>
 	<div class="user-block">
 		
 		<div class="col-sm-2">
@@ -121,10 +121,12 @@
 	<script>
 	$(document).ready(function() {
 		
+		var userId =  $("#user").attr('id');
+		var sessionId =  '${sessionScope.user}';
 		
-		var userId =  '${sessionScope.user}';
+		console.log(userId);
+		
 		getPersonalInfo(userId);
-		getFriends(userId);
 			
 		$(".delete-button").click(function() {
 			$.ajax({
@@ -184,10 +186,12 @@
 				type : 'GET',
 				data : {
 					callType: 'enterAccount',
-					id : userId
+					userId : '40',
+					sessionId: sessionId
 				},
 				success: function(data){
 					loadPersonalInfo(data);
+					//loadFriends(data);
 			    },
 			    error: function(){
 			        console.log("The request failed");
@@ -197,27 +201,8 @@
 		}
 		
 		function loadPersonalInfo(data){
-			$("#personal-info-name").append(data[0]);
-			$("#personal-info-email").append(data[1]);
-		}
-		
-		function getFriends(userId){
-			$.ajax({
-				url : '${pageContext.request.contextPath}/UserAccountController',
-				type : 'POST',
-				data : {
-					callType: 'getFriends',
-					id : userId
-				},
-				success: function(data){
-					callType: "getSubscriptions",
-					loadFriends(data);
-			    },
-			    error: function(){
-			        console.log("The request failed");
-			    }
-
-			});
+			$("#personal-info-name").append(data[1]);
+			$("#personal-info-email").append(data[2]);
 		}
 
 		function loadFriends(data){
