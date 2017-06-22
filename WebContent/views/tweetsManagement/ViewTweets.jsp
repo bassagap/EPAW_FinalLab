@@ -277,12 +277,60 @@
 						});
 						$(".edit-button").click(function() {
 							var id = $(this).attr("id");
-							$("#hidden").val(id);
-							editTweet(id);
+							$.ajax({
+								type : "GET",
+								url : '${pageContext.request.contextPath}/TweetController' ,
+								data :{
+									callType: 'verify',
+									id: id
+								},
+								success : function(data) {
+									$.ajax({
+										success : function(data) {
+											$("#hidden").val(id);
+											editTweet(id);
+										},
+										error : function() {
+											$("#deleteModal").modal('show');
+										}
+									});
+								},
+								error : function() {
+									$("#deleteModal").modal('show');
+								}
+
+							});
+
 						});
 						$(".retweet-button").click(function() {
 							var id = $(this).attr("id");
 							retweet(id);
+						});
+						$(".like-button").click(function() {
+							var id = $(this).attr("id");
+							$.ajax({
+								type : "GET",
+								url : '${pageContext.request.contextPath}/TweetController' ,
+								data :{
+									callType: 'like',
+									id: id
+								},
+								success : function(data) {
+									$.ajax({
+										success : function(data) {
+											getTweets(personalized);
+										},
+										error : function() {
+											
+										}
+									});
+								},
+								error : function() {
+									$("#deleteModal").modal('show');
+								}
+
+							});
+
 						});
 					
 					}
@@ -370,7 +418,8 @@
 			$("<div>").appendTo($div).text(tweet.description);
 			$("<div>").appendTo($div).addClass("panel-footer tweet tweet-footer")
 				.append($("<span>").addClass("glyphicon glyphicon-trash delete-button col-sm-1").attr("id", tweet.idTweet))
-				.append($("<span>").addClass("glyphicon glyphicon-pencil edit-button col-sm-11").attr("id", tweet.idTweet));
+				.append($("<span>").addClass("glyphicon glyphicon-thumbs-up like-button col-sm-2").text(tweet.likes).attr("id", tweet.idTweet))
+				.append($("<span>").addClass("glyphicon glyphicon-pencil edit-button col-sm-9").attr("id", tweet.idTweet));
 		});
 	}
 </script>

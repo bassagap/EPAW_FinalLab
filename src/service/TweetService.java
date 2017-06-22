@@ -69,4 +69,41 @@ public class TweetService {
 		insertTweet(tweet); 
 		return tweet; 
 	}
+	//Like feature: 
+	public void deleteLike(int userID, int tweetID) throws Exception {
+		TweetDAO tweetDAO = new TweetDAO(); 
+		tweetDAO.deleteLike(userID, tweetID);
+	}
+	public void addLike(int userID, int tweetID) throws Exception {
+		TweetDAO tweetDAO = new TweetDAO(); 
+		tweetDAO.addLike(userID, tweetID);
+	}
+	public void updateLike(BeanTweet tweet) throws Exception {
+		TweetDAO tweetDAO = new TweetDAO(); 
+		tweetDAO.updateLike(tweet);
+	}
+	public ArrayList<Integer> getLikes (int tweetID) throws Exception{
+		ArrayList<Integer> likesList = new ArrayList<Integer>();
+		TweetDAO tweetDAO = new TweetDAO(); 
+		likesList = tweetDAO.getLikes(tweetID); 
+		return likesList; 	
+	}
+	public BeanTweet getTweet(int idTweet) throws Exception {
+		BeanTweet tweet = new BeanTweet(); 
+		TweetDAO tweetDAO = new TweetDAO(); 
+		tweet = tweetDAO.getTweet(idTweet); 
+		return tweet; 
+	}
+	public int countTweetLikes(int idTweet) throws Exception {
+		TweetDAO tweetDAO = new TweetDAO(); 
+		return tweetDAO.countTweetLikes(idTweet);
+	}
+	public boolean userHasLiked(int idTweet, int userID) throws Exception {
+		TweetDAO tweetDAO = new TweetDAO(); 
+		return tweetDAO.userHasLiked(idTweet, userID);
+	}
+	public void disconectBD() throws Exception {
+		TweetDAO tweetDAO = new TweetDAO(); 
+		tweetDAO.disconnectBD();
+	}
 }
