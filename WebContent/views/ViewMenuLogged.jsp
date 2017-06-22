@@ -116,10 +116,11 @@
 					type : 'GET',
 					data : {
 						callType: 'enterAccount',
-						id : userId
+						userId : userId,
+						sessionId: userId
 					},
 					success: function(data){
-						var isAnonymous = (data[2] == 'true');
+						var isAnonymous = (data[1] == 'true');
 						if(isAnonymous){
 							gotoViewAccount();
 				    	}

@@ -84,4 +84,8 @@ public class UserService {
 			userDAO.deleteSubscription(userID, subscriptorID);
 		}
 	}
+	public Boolean isPrivate(int id) throws Exception{
+		UserDAO userDAO = new UserDAO(); 
+		return true;
+	}
 }
