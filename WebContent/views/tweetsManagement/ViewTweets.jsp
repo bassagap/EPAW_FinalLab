@@ -125,8 +125,8 @@
 	<div class="modal" id="deleteModal" tabindex="-1" role="dialog"
 		aria-labelledby="deleteModalLabel">
 		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
+			<div class="modal-content panel-danger">
+				<div class="modal-header panel-heading">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -137,19 +137,19 @@
 				<div class="modal-body">
 					<p>You can delete only your tweets</p>
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Confirm</button>
+				<div class="modal-footer panel-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Confirm</button>
 				</div>
 
 			</div>
 		</div>
 	</div>
 	<!-- Modal error on delete -->
-	<div class="modal" id="anonymousModal" tabindex="-1" role="dialog"
+	<div class="modal danger" id="anonymousModal" tabindex="-1" role="dialog"
 		aria-labelledby="deleteModalLabel">
 		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
+			<div class="modal-content panel-danger">
+				<div class="modal-header panel-heading">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -161,7 +161,7 @@
 					<p>Please register or login to add tweets</p>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Confirm</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Confirm</button>
 				</div>
 
 			</div>
@@ -245,18 +245,32 @@
 						$(".delete-button").click(function() {
 							var id = $(this).attr("id");
 							$.ajax({
+								type : "GET",
+								url : '${pageContext.request.contextPath}/TweetController' ,
+								data :{
+									callType: 'verify',
+									id: id
+								},
 								success : function(data) {
-									$("#confirmDeleteModal").modal('show');
-									$("#CancelDelete").click(function() {
-										
-									});
-									$("#ConfirmDelete").click(function() {
-										deleteTweet(id);
-										$("#confirmDeleteModal").modal('hide');
+									$.ajax({
+										success : function(data) {
+											$("#confirmDeleteModal").modal('show');
+											$("#CancelDelete").click(function() {
+												
+											});
+											$("#ConfirmDelete").click(function() {
+												deleteTweet(id);
+												$("#confirmDeleteModal").modal('hide');
+											});
+										},
+										error : function() {
+											$("#deleteModal").modal('show');
+										}
+
 									});
 								},
 								error : function() {
-									$("#anonymousModal").modal('show');
+									$("#deleteModal").modal('show');
 								}
 
 							});
@@ -265,6 +279,10 @@
 							var id = $(this).attr("id");
 							$("#hidden").val(id);
 							editTweet(id);
+						});
+						$(".retweet-button").click(function() {
+							var id = $(this).attr("id");
+							retweet(id);
 						});
 					
 					}
@@ -302,6 +320,7 @@
 			$(this).find('form')[0].reset();
 		}); */
 	}
+	
 	function deleteTweet(id) {
 		var personalized = $("#personalizedSearch").prop("checked"); 
 		$.ajax({
@@ -315,12 +334,27 @@
 				getTweets(personalized);
 			},
 			error : function() {
-				console.log(" error get Tweets");
-				$("#deleteModal").modal('show');
 			}
 		});
 	}
-
+	function retweet(id) {
+		var personalized = $("#personalizedSearch").prop("checked"); 
+		$.ajax({
+			url : '${pageContext.request.contextPath}/TweetController',
+			type : 'GET',
+			data : {
+				id : id,
+				callType: 'retweet'
+			},
+			success : function(data) {
+				alert("retweet", id);
+				getTweets(personalized);
+			},
+			error : function() {
+				
+			}
+		});
+	}
 	function loadTweet(responseJson) {
 		$.each(responseJson, function(index, tweet) {
 			var $divMain = $("<div>").addClass("panel tweet").appendTo(
@@ -328,23 +362,15 @@
 			var $div = $("<div>").addClass("panel-heading").appendTo($divMain);
 			$("<table>").appendTo($div)
 			var $table = $("<table>").appendTo($div)
-			$("<tr>").appendTo($table).append(
-					$("<td>").addClass("col-md-11").append(
-							$("<div>").addClass("tweet-header-user").text(
-									tweet.user))).append(
-					$("<td>").addClass("col-md-1").append(
-							$("<div>").addClass("tweet-header-date").text(
-									tweet.publicationDate)));
+			$("<tr>").appendTo($table)
+				.append($("<td>").addClass("col-md-10").append($("<div>").addClass("tweet-header-user").text(tweet.user)))
+				.append($("<td>").addClass("col-md-2").append($("<span>").addClass("glyphicon glyphicon-retweet retweet-button").attr("id", tweet.idTweet)))
+				.append($("<td>").addClass("col-md-1").append($("<div>").addClass("tweet-header-date").text(tweet.publicationDate)));
 			$("<p>").appendTo($div).text(tweet.hashTag);
 			$("<div>").appendTo($div).text(tweet.description);
-			$("<div>").appendTo($div).addClass(
-					"panel-footer tweet tweet-footer").append(
-					$("<span>").addClass(
-							"glyphicon glyphicon-trash delete-button col-sm-1")
-							.attr("id", tweet.idTweet)).append(
-					$("<span>").addClass(
-							"glyphicon glyphicon-pencil edit-button col-sm-11")
-							.attr("id", tweet.idTweet));
+			$("<div>").appendTo($div).addClass("panel-footer tweet tweet-footer")
+				.append($("<span>").addClass("glyphicon glyphicon-trash delete-button col-sm-1").attr("id", tweet.idTweet))
+				.append($("<span>").addClass("glyphicon glyphicon-pencil edit-button col-sm-11").attr("id", tweet.idTweet));
 		});
 	}
 </script>

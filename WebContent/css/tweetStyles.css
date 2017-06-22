@@ -52,3 +52,8 @@ input[type=text]:focus {
 	color: black;
     text-align: left;
 }
+.panel-heading
+{
+    border-top-left-radius: inherit; 
+    border-top-right-radius: inherit;
+}

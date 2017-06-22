@@ -39,6 +39,9 @@ public class TweetController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		TweetService tweetService = new TweetService(); 
 		UserService userService = new UserService(); 
+		BeanTweet tweet = new BeanTweet(); 
+		
+		// Get information
 		String hashTag = request.getParameter("hashTag"); 
 		String personalized = request.getParameter("clicked"); 
 		String description = request.getParameter("description"); 
@@ -48,8 +51,10 @@ public class TweetController extends HttpServlet {
 		String session_user = (String) session.getAttribute("user"); 
 		Calendar calendar = Calendar.getInstance();
 		java.sql.Date date = new java.sql.Date(calendar.getTime().getTime());	
-		BeanTweet tweet = new BeanTweet(); 	
+	
 		try {
+			//Manage tweet acctions: 
+			
 			if("add".equals(callType) && !session_user.equals("anonymous")){
 				tweet.setDescription(description);
 				tweet.setHashTag(hashTag); 
@@ -89,8 +94,18 @@ public class TweetController extends HttpServlet {
 					response.setStatus(400);
 				}
 			}
-			if(false){
-				tweetService.retweet(userService.getUserID(session_user), 5, date); 
+			if("retweet".equals(callType)){
+				System.out.println("Edit Tweet Controller Retweet:" + tweet_id_string );
+				int idTweet = Integer.parseInt(tweet_id_string);
+				tweetService.retweet(userService.getUserID(session_user), idTweet, date); 
+			}
+			if("verify".equals(callType)){
+				int idTweet = Integer.parseInt(tweet_id_string);
+				if(session_user.equals(tweetService.getTweetUser(idTweet))){
+					response.setStatus(200);
+				}else{
+					response.setStatus(400);
+				}	
 			}
 			ArrayList<BeanTweet> tweetList = tweetService.getTweetsList(session_user, personalized);
 		    String json = new Gson().toJson(tweetList);
