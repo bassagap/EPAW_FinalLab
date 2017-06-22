@@ -27,7 +27,7 @@
 
 
 <body id = "body">
-	<div class="user" id="paula222"></div>
+	<div class="user" id= '${sessionScope.user}'></div>
 	<div class="user-block">
 		
 		<div class="col-sm-2">
@@ -108,12 +108,14 @@
 	</table>
 	
 	<div id="main-test" style="margin-top:100px"></div>
-	
 	<script>
 	$(document).ready(function() {
 		
-		var userId =  $("#user").attr('id');
+		var userId =  $(".user").attr('id');
 		var sessionId =  '${sessionScope.user}';
+		
+		console.log("User id: "+userId);
+		console.log("Session id: "+sessionId);
 
 		getPersonalInfo(userId);
 		getFriends(userId);
@@ -169,6 +171,33 @@
 			})
 		});
 		
+		$(document).on('click','.friend',function(){
+			var userId2 =  $(this).attr('id');
+			$.ajax({
+				url : '${pageContext.request.contextPath}/UserAccountController',
+				type : 'GET',
+				data : {
+					callType: 'enterAccount',
+					userId : userId2,
+					sessionId: sessionId
+				},
+				success: function(data){
+					gotoViewAccount(userId2);
+				},
+			});
+		});
+		function gotoViewAccount(userId2) {
+			$.ajax({
+				url : '${pageContext.request.contextPath}/views/userManagement/ViewUserAccount.jsp',
+				type : 'GET',
+				success : function(result) {
+					//$("#main").remove();
+					$("#main").html(result);
+					$(".user").attr('id',userId2);
+				}
+			});
+		};
+		
 		function getPersonalInfo(userId){
 			$.ajax({
 				url : '${pageContext.request.contextPath}/UserAccountController',
@@ -206,20 +235,7 @@
 
 			});
 		}
-		/*
-		<tr>
-			<td class="col-md-11">
-				<form>
-					<input type="text" id="userToSearch" name="search" placeholder="Search User">
-				</form>
-			</td>
-			<td class="col-md-1">
-				<button id="id-button" type="button" class="btn btn-default btn-lg search-button" data-toggle="modal" data-target="#myModal">
-					Subscribe to User
-				</button>
-			</td>
-		</tr>
-		*/
+
 		function loadPersonalInfo(data){
 			$("#personal-info-name").append(data[2]);
 			$("#personal-info-email").append(data[3]);
@@ -237,7 +253,8 @@
 		function loadFriends(data){
 				$.each(data, function(index, friend) {
 					if(index !=0){
-						var $divMain = $("<div>").addClass("friend panel").css('margin-bottom','25px').appendTo("#main-test");
+						var $divMain = $("<div>").addClass("friend panel").attr("id",friend).css('margin-bottom','25px').appendTo("#main-test");
+						
 						var $div = $("<div>").addClass("col-sm-2").appendTo($divMain).css('padding-top','10px');
 						var $img = $("<div>").addClass("user-image").appendTo($div).css('background-image',"url('${pageContext.request.contextPath}/img/user_logo.png')");
 						
