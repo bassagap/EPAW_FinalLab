@@ -16,6 +16,7 @@ public class BeanTweet implements Serializable{
 	private int popularity = 0; 
 	private int user_id1 = 0;
 	private int likes = 0; 
+	private Boolean isLiked = false; 
 	/**
 	 * @return the description
 	 */
@@ -123,5 +124,17 @@ public class BeanTweet implements Serializable{
 	 */
 	public void setLikes(int likes) {
 		this.likes = likes;
+	}
+	/**
+	 * @return the isLiked
+	 */
+	public Boolean getIsLiked() {
+		return isLiked;
+	}
+	/**
+	 * @param isLiked the isLiked to set
+	 */
+	public void setIsLiked(Boolean isLiked) {
+		this.isLiked = isLiked;
 	}
 }

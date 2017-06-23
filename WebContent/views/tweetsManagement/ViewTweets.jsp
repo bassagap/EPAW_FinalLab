@@ -417,10 +417,14 @@
 			$("<p>").appendTo($div).text(tweet.hashTag);
 			$("<div>").appendTo($div).text(tweet.description);
 			$("<div>").appendTo($div).addClass("panel-footer tweet tweet-footer")
-				.append($("<span>").addClass("glyphicon glyphicon-trash delete-button col-sm-1").attr("id", tweet.idTweet))
-				.append($("<span>").addClass("glyphicon glyphicon-thumbs-up like-button col-sm-2").text(tweet.likes).attr("id", tweet.idTweet))
+			
+				.append($("<span>").addClass("glyphicon glyphicon-trash delete-button true-selected col-sm-1").attr("id", tweet.idTweet))
+				.append($("<span>").addClass("glyphicon glyphicon-thumbs-up like-button " + tweet.isLiked + "-selected col-sm-2").text(tweet.likes).attr("id", tweet.idTweet))
 				.append($("<span>").addClass("glyphicon glyphicon-pencil edit-button col-sm-9").attr("id", tweet.idTweet));
 		});
+	function appendIfOwnerOrAdmin(user){
+		
+	}
 	}
 </script>
 </html>

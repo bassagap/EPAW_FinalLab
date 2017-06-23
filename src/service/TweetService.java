@@ -17,8 +17,7 @@ public class TweetService {
 		UserService userService = new UserService();
 		int userID = userService.getUserID(userName);
 		ArrayList<Integer> subscriptorsID = userService.getSubscriptors(userID);
-		ArrayList<BeanTweet> tweetsList = new ArrayList<BeanTweet>();
-		
+		ArrayList<BeanTweet> tweetsList = new ArrayList<BeanTweet>();		
 		if(userService.isAdminUser(userName)){
 			tweetsList =  tweetDAO.getFullTweetsList(userName);
 		} else if ("true".equals(personalized)){
@@ -27,6 +26,7 @@ public class TweetService {
 		else {
 			tweetsList =  tweetDAO.getFilteredTweetsList(userID, subscriptorsID);
 		}
+		enrichTweetList(tweetsList, userID);
 		tweetsList.sort(Comparator.comparing(BeanTweet::getPublicationDate).thenComparing(BeanTweet::getLikes));
 		Collections.reverse(tweetsList);
 		return tweetsList;	
@@ -88,10 +88,12 @@ public class TweetService {
 		likesList = tweetDAO.getLikes(tweetID); 
 		return likesList; 	
 	}
-	public BeanTweet getTweet(int idTweet) throws Exception {
+	public BeanTweet getTweet(int idTweet, int userID) throws Exception {
 		BeanTweet tweet = new BeanTweet(); 
+		UserService userService = new UserService(); 
 		TweetDAO tweetDAO = new TweetDAO(); 
 		tweet = tweetDAO.getTweet(idTweet); 
+		enrichTweet(tweet, userID); 
 		return tweet; 
 	}
 	public int countTweetLikes(int idTweet) throws Exception {
@@ -106,4 +108,20 @@ public class TweetService {
 		TweetDAO tweetDAO = new TweetDAO(); 
 		tweetDAO.disconnectBD();
 	}
+	private BeanTweet enrichTweet (BeanTweet tweet, int userID) throws Exception{
+		tweet.setLikes(countTweetLikes(tweet.getIdTweet()));
+		if(userHasLiked(tweet.getIdTweet(), userID)){
+			 tweet.setIsLiked(true);
+		} else {
+			tweet.setIsLiked(false);
+		}
+		return tweet; 
+	}
+	private ArrayList<BeanTweet> enrichTweetList(ArrayList<BeanTweet> tweetsList, int userID) throws Exception{
+		for(BeanTweet tweet : tweetsList){
+			enrichTweet(tweet, userID);
+		}
+		return tweetsList;
+	}
+	
 }

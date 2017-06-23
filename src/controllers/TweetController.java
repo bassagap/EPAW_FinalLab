@@ -80,7 +80,6 @@ public class TweetController extends HttpServlet {
 				tweet.setUser_id1(userService.getUserID(session_user));
 				String tweet_user = tweetService.getTweetUser(tweet.getIdTweet());
 				if(session_user.equals(tweet_user) || userService.isAdminUser(session_user)){
-					System.out.println("Edit Tweet Controller Edit:");
 					tweetService.editTweet(tweet);
 					tweetService.disconectBD();
 				}else{
@@ -98,7 +97,6 @@ public class TweetController extends HttpServlet {
 				}
 			}
 			if("retweet".equals(callType)){
-				System.out.println("Edit Tweet Controller Retweet:" + tweet_id_string );
 				int idTweet = Integer.parseInt(tweet_id_string);
 				tweetService.retweet(userService.getUserID(session_user), idTweet, date); 
 				tweetService.disconectBD();
@@ -113,18 +111,15 @@ public class TweetController extends HttpServlet {
 			}
 			if("like".equals(callType)){
 				int idTweet = Integer.parseInt(tweet_id_string);
-				int userID = userService.getUserID(session_user); 
-				if(tweetService.userHasLiked(idTweet, userID)){
+				int userID = userService.getUserID(session_user);
+				tweet = tweetService.getTweet(idTweet, userID);
+				if(tweet.getIsLiked()){
 					tweetService.deleteLike(userID, idTweet);
-					tweet = tweetService.getTweet(idTweet);
-					tweet.setLikes(tweetService.countTweetLikes(idTweet));
 					tweetService.updateLike(tweet);	
 					tweetService.disconectBD();
 					
-				} else if(!tweetService.userHasLiked(idTweet, userID)){
-					tweet = tweetService.getTweet(idTweet);
+				} else if(!tweet.getIsLiked()){
 					tweetService.addLike(userID, idTweet);
-					tweet.setLikes(tweetService.countTweetLikes(idTweet));
 					tweetService.updateLike(tweet);
 					tweetService.disconectBD();
 				}
