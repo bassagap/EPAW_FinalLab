@@ -114,9 +114,11 @@
 		var userId =  $(".user").attr('id');
 		var sessionId =  '${sessionScope.user}';
 		
+		console.log("--------");
 		console.log("User id: "+userId);
 		console.log("Session id: "+sessionId);
-
+		console.log("--------");
+		
 		getPersonalInfo(userId);
 		getFriends(userId);
 			
@@ -171,8 +173,9 @@
 			})
 		});
 		
-		$(document).on('click','.friend',function(){
+		$(document).on('click','.friend-button',function(){
 			var userId2 =  $(this).attr('id');
+			console.log(userId2);
 			$.ajax({
 				url : '${pageContext.request.contextPath}/UserAccountController',
 				type : 'GET',
@@ -191,7 +194,6 @@
 				url : '${pageContext.request.contextPath}/views/userManagement/ViewUserAccount.jsp',
 				type : 'GET',
 				success : function(result) {
-					//$("#main").remove();
 					$("#main").html(result);
 					$(".user").attr('id',userId2);
 				}
@@ -240,8 +242,6 @@
 			$("#personal-info-name").append(data[2]);
 			$("#personal-info-email").append(data[3]);
 			
-			console.log(data);
-			
 			if(data[0] == "true"){
 				var $divTr = $("<tr>").appendTo(".addSubs");
 				var $td = $("<td>").addClass("col-md-10").appendTo($divTr);
@@ -251,26 +251,27 @@
 		}
 
 		function loadFriends(data){
+				$(".panel").remove();
 				$.each(data, function(index, friend) {
 					if(index !=0){
-						var $divMain = $("<div>").addClass("friend panel").attr("id",friend).css('margin-bottom','25px').appendTo("#main-test");
+						var $divMain = $("<div>").addClass("friend panel").css('margin-bottom','25px').appendTo("#main-test");
 						
 						var $div = $("<div>").addClass("col-sm-2").appendTo($divMain).css('padding-top','10px');
 						var $img = $("<div>").addClass("user-image").appendTo($div).css('background-image',"url('${pageContext.request.contextPath}/img/user_logo.png')");
 						
-						var $subsName = $("<div>").addClass("col-sm-7").appendTo($divMain).css('padding-top','35px').text(friend);
+						var $subsName = $("<div>").addClass("col-sm-7").css('padding-top','35px').appendTo($divMain);
+						var $subsName = $("<div>").addClass("friend-button").attr("id",friend).text(friend).appendTo($subsName);
 						if(data[0] == "true"){
 							var $trash = $("<div>").addClass("col-sm-3").appendTo($divMain);
 							var $delete = $("<span>").addClass("glyphicon glyphicon-trash unsubscribe-button").val("hola").attr("id",friend).appendTo($trash);
 						}
 					}
 				});
-			
 		}
-		
-		function reloadSubscriptions() {
+	
+		function reloadSubscriptions(userId) {
 			$("#main-test").remove();
-			getFriends();
+			getFriends(userId);
 		}
 	});
 	</script>
