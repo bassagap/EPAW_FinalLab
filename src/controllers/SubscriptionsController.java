@@ -40,7 +40,6 @@ public class SubscriptionsController extends HttpServlet {
 		String callType =request.getParameter("callType");
 		String userName =request.getParameter("userName");
 		
-		
 		//id =Integer.parseInt(request.getParameter("id"));
 
 		try {

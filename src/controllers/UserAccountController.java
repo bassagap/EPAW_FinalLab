@@ -46,9 +46,6 @@ public class UserAccountController extends HttpServlet {
 			int userId = userService.getUserID(userName);
 			int sessionId = userService.getUserID(sessionName);
 			
-			System.out.println(userName+" User Id: "+userId);
-			System.out.println(sessionName+" Session Id: "+sessionId);
-			
 			ArrayList<String> resp = new ArrayList<String>();
 			if(userId == sessionId || userService.getUserType(sessionId).equals("admin"))
 				resp.add("true");
@@ -75,6 +72,11 @@ public class UserAccountController extends HttpServlet {
 			    response.getWriter().write(json);
 			}
 			else if(callType.equals("getFriends")){
+				
+				System.out.println("============");
+				System.out.println(userName+" User Id: "+userId);
+				System.out.println(sessionName+" Session Id: "+sessionId);
+				System.out.println("============");
 				
 				ArrayList<Integer> SubscriptionsList = userService.getSubscriptionsList(userId);
 				for (int id: SubscriptionsList){
