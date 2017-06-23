@@ -125,4 +125,17 @@ public class UserDAO {
 		}
 		return userName;
 	}
+	public BeanUser getUser(String userName) throws Exception {
+		BeanUser user = new BeanUser(); 
+		String query = "SELECT * FROM USERS WHERE USERNAME = '" + userName + "'"; 
+		ResultSet resultSet =  statement.executeQuery(query);
+		if(resultSet.next()){
+			user.setUserName(resultSet.getString("userName"));
+			user.setMail(resultSet.getString("mail"));
+			user.setVisibility(resultSet.getString("visibility"));
+			user.setUserType(resultSet.getString("userType"));
+			user.setPassword(resultSet.getString("password"));
+		}
+		return user;
+	}
 }

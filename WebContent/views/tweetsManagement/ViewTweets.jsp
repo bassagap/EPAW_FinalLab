@@ -420,7 +420,8 @@
 			
 		});
 	function appendIfOwnerOrAdmin(tweet, $div){
-		if(tweet.user == '${sessionScope.user}'){
+		console.log("User Type: ", '${sessionScope.userType}');
+		if(tweet.user == '${sessionScope.user}' || '${sessionScope.userType}' == "admin" ){
 			$("<div>").appendTo($div).addClass("panel-footer tweet tweet-footer")
 			.append($("<span>").addClass("glyphicon glyphicon-trash delete-button col-sm-1").attr("id", tweet.idTweet))
 				.append($("<span>").addClass("glyphicon glyphicon-pencil edit-button col-sm-2").attr("id", tweet.idTweet))

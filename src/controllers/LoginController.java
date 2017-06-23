@@ -35,42 +35,33 @@ public class LoginController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
-		BeanUser user = new BeanUser();
-	    try {
-			
-	    	BeanUtils.populate(user, request.getParameterMap());
-	    	UserService userService = new UserService(); 
-	    	try {
-				if (userService.LoginUser(user)) {
-					HttpSession session = request.getSession();
-					session.setAttribute("user",user.getUserName());
-					session.setAttribute("userType",user.getUserType());
-					RequestDispatcher dispatcher = request.getRequestDispatcher("views/ViewMenuLogged.jsp");
-				    dispatcher.forward(request, response);
-				} 
-				if(request.getParameter("userType") != null && request.getParameter("userType").equals("anonymous")){
-					HttpSession session = request.getSession();
-					session.setAttribute("user", "anonymous");
-					RequestDispatcher dispatcher = request.getRequestDispatcher("views/ViewMenuLogged.jsp");
-				    dispatcher.forward(request, response);
-				}
-				else if (!userService.LoginUser(user)){
-					user.setErrorName();
-					request.setAttribute("user", user);
-				    RequestDispatcher dispatcher = request.getRequestDispatcher("/views/index.jsp");				    
-				    dispatcher.forward(request, response);
-					
-				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+    	UserService userService = new UserService(); 
+    	try {
+	    	BeanUser user = userService.getUser(request.getParameter("userName"));
+			if (userService.LoginUser(user)) {
+				HttpSession session = request.getSession();
+				session.setAttribute("user",user.getUserName());
+				session.setAttribute("userType",user.getUserType());
+				RequestDispatcher dispatcher = request.getRequestDispatcher("views/ViewMenuLogged.jsp");
+			    dispatcher.forward(request, response);
+			} 
+			if(request.getParameter("userType") != null && request.getParameter("userType").equals("anonymous")){
+				HttpSession session = request.getSession();
+				session.setAttribute("user", "anonymous");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("views/ViewMenuLogged.jsp");
+			    dispatcher.forward(request, response);
 			}
-		} catch (IllegalAccessException | InvocationTargetException e) {
+			else if (!userService.LoginUser(user)){
+				user.setErrorName();
+				request.setAttribute("user", user);
+			    RequestDispatcher dispatcher = request.getRequestDispatcher("/views/index.jsp");				    
+			    dispatcher.forward(request, response);
+				
+			}
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-	    
+		}    
 	}
 		
 	/**

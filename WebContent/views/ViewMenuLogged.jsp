@@ -42,6 +42,7 @@
 					style="background-image:url('${pageContext.request.contextPath}/img/user_logo.png')">
 				</div>${sessionScope.user} 
 				<div id = "admin">
+				${sessionScope.userType} 
 				</div>	
 			</li>
 		</ul>
@@ -69,6 +70,11 @@
 	document.getElementById("main").style.marginLeft = "250px";
 	console.log("User" , '${sessionScope.userType}');
 	$("#main-button").hide();
+	if('${sessionScope.userType}' == "admin" ){
+		$("#admin").show();
+	}else{
+		$("#admin").hide();
+	}
 	function openNav() {
 		document.getElementById("mySidenav").style.width = "250px";
 		document.getElementById("main").style.marginLeft = "250px";

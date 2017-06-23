@@ -111,8 +111,6 @@ public class TweetDAO {
 					tweet.setLikes(resultSet.getInt("likes"));
 					tweetsList.add(tweet);
 				}
-				//resultSet.close();
-				//statement.close();
 			}
 		} catch (SQLException e) {
             e.printStackTrace();
@@ -184,8 +182,6 @@ public class TweetDAO {
 	// Like feature: 
 	
 	public void addLike(int userID, int tweetID) throws SQLException{
-		System.out.println("Error: " + userID);
-		System.out.println("Error: " + tweetID);
 		String query = "INSERT INTO LIKES (USER_ID2, TWEET_ID2) VALUES ('" + userID + "', '" + tweetID + "')";
 		int resultSet =  statement.executeUpdate(query);
 		disconnectBD();
@@ -218,7 +214,6 @@ public class TweetDAO {
 		 while(resultSet.next()){
 			 likes ++;
 		  }
-		 System.out.println("Count: " + likes);
 		 disconnectBD();
 		return likes;		
 	}

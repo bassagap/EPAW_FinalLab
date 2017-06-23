@@ -88,4 +88,8 @@ public class UserService {
 		UserDAO userDAO = new UserDAO(); 
 		return true;
 	}
+	public BeanUser getUser(String userName) throws Exception {
+		UserDAO userDAO = new UserDAO(); 
+		return userDAO.getUser(userName);
+	}
 }
