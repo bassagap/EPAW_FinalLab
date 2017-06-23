@@ -32,7 +32,7 @@
 			</td>
 			<td class="col-md-2">
 				<div class="checkbox">
-  					<label><input type="checkbox" id = "personalizedSearch" value="">Personalized</label>
+  					<label><input type="checkbox" id = "personalizedSearch" value=""><h4>Personalized</h4></label>
 				</div>
 			</td>
 			<td class="col-md-1">
@@ -416,14 +416,19 @@
 				.append($("<td>").addClass("col-md-1").append($("<div>").addClass("tweet-header-date").text(tweet.publicationDate)));
 			$("<p>").appendTo($div).text(tweet.hashTag);
 			$("<div>").appendTo($div).text(tweet.description);
-			$("<div>").appendTo($div).addClass("panel-footer tweet tweet-footer")
+			appendIfOwnerOrAdmin(tweet, $div);
 			
-				.append($("<span>").addClass("glyphicon glyphicon-trash delete-button true-selected col-sm-1").attr("id", tweet.idTweet))
-				.append($("<span>").addClass("glyphicon glyphicon-thumbs-up like-button " + tweet.isLiked + "-selected col-sm-2").text(tweet.likes).attr("id", tweet.idTweet))
-				.append($("<span>").addClass("glyphicon glyphicon-pencil edit-button col-sm-9").attr("id", tweet.idTweet));
 		});
-	function appendIfOwnerOrAdmin(user){
-		
+	function appendIfOwnerOrAdmin(tweet, $div){
+		if(tweet.user == '${sessionScope.user}'){
+			$("<div>").appendTo($div).addClass("panel-footer tweet tweet-footer")
+			.append($("<span>").addClass("glyphicon glyphicon-trash delete-button col-sm-1").attr("id", tweet.idTweet))
+				.append($("<span>").addClass("glyphicon glyphicon-pencil edit-button col-sm-2").attr("id", tweet.idTweet))
+			.append($("<span>").addClass("glyphicon glyphicon-thumbs-up like-button " + tweet.isLiked + "-selected col-sm-9").text(tweet.likes).attr("id", tweet.idTweet));
+		} else {
+			$("<div>").appendTo($div).addClass("panel-footer tweet tweet-footer")
+			.append($("<span>").addClass("glyphicon glyphicon-thumbs-up like-button " + tweet.isLiked + "-selected col-sm-12").text(tweet.likes).attr("id", tweet.idTweet))
+		}
 	}
 	}
 </script>

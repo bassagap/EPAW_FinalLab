@@ -23,10 +23,19 @@
 .true-selected {
     font-size: 20px;
     color: #F09557 ;
-	text-align: right; }
+	text-align: right; 
+	}
 .delete-button {
     font-size: 20px;
     color: #F09557 ;
+	text-align: right;
+}
+.glyphicon{
+	cursor: pointer;
+}
+.edit-button {
+    font-size: 20px;
+    color: white ;
 	text-align: right;
 }
 input[type=text] {
@@ -47,7 +56,15 @@ input[type=text] {
 input[type=text]:focus {
     width: 100%;
 }
+h4{
+	color: black;
+	font-family: raleway !important;
+}
 .modal-title{
+	color: black;
+	font-family: raleway !important;
+}
+.personalized {
 	color: black;
 	font-family: raleway !important;
 }
