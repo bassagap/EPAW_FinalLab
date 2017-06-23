@@ -88,7 +88,6 @@ public class UserDAO {
 	}
 	public void deleteSubscription(int userID, int subscriptorID) throws SQLException{
 		String query = "DELETE FROM SUBSCRIPTIONS WHERE SUBSCRIPTION_ID = '"+ subscriptorID + "' AND USER_ID = '"+ userID +"'"; ;
-		System.out.println(query);
 		int resultSet =  statement.executeUpdate(query);
 	}
 	public void deleteSubscriptions( int subscriptorID) throws SQLException{
@@ -100,6 +99,7 @@ public class UserDAO {
 		ArrayList<Integer> subscriptionsList = new ArrayList<Integer>(); 
 		String query = "SELECT * FROM USERS INNER JOIN subscriptions ON (users.id = subscriptions.user_id) WHERE users.id = '" + userID + "'";
 		ResultSet resultSet =  statement.executeQuery(query);
+		
 		 while(resultSet.next()){
 			 Integer id = resultSet.getInt("subscription_id");
 			 subscriptionsList.add(id);

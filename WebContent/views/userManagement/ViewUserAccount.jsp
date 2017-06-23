@@ -112,15 +112,15 @@
 	$(document).ready(function() {
 		
 		var userId =  $(".user").attr('id');
-		var sessionId =  '${sessionScope.user}';
+		var sessionId =  $(".user-id").attr('id');
 		
 		console.log("--------");
 		console.log("User id: "+userId);
 		console.log("Session id: "+sessionId);
 		console.log("--------");
 		
-		getPersonalInfo(userId);
-		getFriends(userId);
+		getPersonalInfo(userId,sessionId);
+		getFriends(userId,sessionId);
 			
 		$(".delete-button").click(function() {
 			$.ajax({
@@ -175,7 +175,6 @@
 		
 		$(document).on('click','.friend-button',function(){
 			var userId2 =  $(this).attr('id');
-			console.log(userId2);
 			$.ajax({
 				url : '${pageContext.request.contextPath}/UserAccountController',
 				type : 'GET',
@@ -189,6 +188,8 @@
 				},
 			});
 		});
+		
+	});
 		function gotoViewAccount(userId2) {
 			$.ajax({
 				url : '${pageContext.request.contextPath}/views/userManagement/ViewUserAccount.jsp',
@@ -200,7 +201,7 @@
 			});
 		};
 		
-		function getPersonalInfo(userId){
+		function getPersonalInfo(userId,sessionId){
 			$.ajax({
 				url : '${pageContext.request.contextPath}/UserAccountController',
 				type : 'GET',
@@ -219,17 +220,41 @@
 			});
 		}
 		
-		function getFriends(userId){
+		/*var form = $('#addSubs');
+		form.submit(function() {
+			var personalized = $("#personalizedSearch").prop("checked"); 
+			$.ajax({
+				type : form.attr('method'),
+				url : form.attr('action'),
+				data : form.serialize() + "&callType=add",
+				success : function(data) {
+					getTweets(personalized);
+					$('#myModal').modal('hide');
+					$('body').removeClass('modal-open');
+					$('.modal-backdrop').remove();
+				},
+				error : function() {
+					$("#anonymousModal").modal('show');
+				}
+
+			});
+
+			return false;
+		});*/
+		
+		function getFriends(userId,sessionId){
 			$.ajax({
 				url : '${pageContext.request.contextPath}/UserAccountController',
 				type : 'GET',
 				data : {
 					callType: 'getFriends',
 					userId :  $(".user").attr('id'),
-					sessionId: sessionId
+					sessionId: $(".user-id").attr('id'),
 				},
 				success: function(data){
+					//$(".panel").remove();
 					loadFriends(data);
+					console.log(data);
 			    },
 			    error: function(){
 			        console.log("The request failed");
@@ -245,7 +270,7 @@
 			if(data[0] == "true"){
 				var $divTr = $("<tr>").appendTo(".addSubs");
 				var $td = $("<td>").addClass("col-md-10").appendTo($divTr);
-				var $form = $("<form>").append('<input type="text" id="userToSearch" name="search" placeholder="Search User" />').appendTo($td);
+				var $form = $("<form id='addSubs'>").append('<input type="text" id="userToSearch" name="search" placeholder="Search User" />').appendTo($td);
 				var $td2 = $("<td>").addClass("col-md-2").append('<button id="id-button" type="button" class="btn btn-default btn-lg search-button" data-toggle="modal" data-target="#myModal"> Subscribe to User</button>').appendTo($divTr);
 			}
 		}
@@ -270,10 +295,9 @@
 		}
 	
 		function reloadSubscriptions(userId) {
-			$("#main-test").remove();
+			$(".panel").remove();
 			getFriends(userId);
 		}
-	});
 	</script>
 	
 </body>
