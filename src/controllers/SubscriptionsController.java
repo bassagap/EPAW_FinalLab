@@ -50,6 +50,17 @@ public class SubscriptionsController extends HttpServlet {
 				else if(callType.equals("delete"))
 					userService.unSubscribe(userName, subscriptionName);
 			}
+			
+			ArrayList<String> resp = new ArrayList<String>();
+			ArrayList<Integer> SubscriptionsList = userService.getSubscriptionsList(userService.getUserID(userName));
+			for (int id: SubscriptionsList){
+				resp.add(userService.getUserName(id));
+			}
+			
+			String json = new Gson().toJson(resp);
+		    response.setContentType("application/json");
+		    response.setCharacterEncoding("UTF-8");
+		    response.getWriter().write(json);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

@@ -27,19 +27,18 @@
 
 
 <body id = "body">
+	<div class="main-account">
 	<div class="user" id= '${sessionScope.user}'></div>
 	<div class="user-block">
 		
 		<div class="col-sm-2">
 			<div class="user-image" style="background-image:url('${pageContext.request.contextPath}/img/user_logo.png')"></div>
 		</div>
-		<div class="col-sm-7">
+		<div class="col-sm-7 personal-info">
 			<div id="personal-info-name"> </div>
        		<div id="personal-info-email"> </div>
 		</div>
-		<div class="col-sm-3">
-			<span class = "glyphicon glyphicon-trash delete-button" id= '${sessionScope.user}'></span>
-		</div>
+		<div class="col-sm-3 trash"></div>
 	</div>		
 	
 	<div class="user-block">
@@ -92,37 +91,19 @@
 		</div>
 	</div>
 	
-	<table class="addSubs" style="margin-left:100px">
-	<!-- <tr>
-			<td class="col-md-11">
-				<form>
-					<input type="text" id="userToSearch" name="search" placeholder="Search User">
-				</form>
-			</td>
-			<td class="col-md-1">
-				<button id="id-button" type="button" class="btn btn-default btn-lg search-button"	data-toggle="modal" data-target="#myModal">
-					Subscribe to User
-				</button>
-			</td>
-		</tr>-->
-	</table>
+	<table class="addSubs" style="margin-left:100px"></table>
 	
 	<div id="main-test" style="margin-top:100px"></div>
+	</div>
+	
 	<script>
 	$(document).ready(function() {
-		
 		var userId =  $(".user").attr('id');
 		var sessionId =  $(".user-id").attr('id');
 		
-		console.log("--------");
-		console.log("User id: "+userId);
-		console.log("Session id: "+sessionId);
-		console.log("--------");
-		
-		getPersonalInfo(userId,sessionId);
-		getFriends(userId,sessionId);
+		enter(userId,sessionId);		
 			
-		$(".delete-button").click(function() {
+		$(document).on('click','.delete-button',function(){
 			$.ajax({
 				url : '${pageContext.request.contextPath}/DeleteUserController',
 				type : 'GET',
@@ -148,7 +129,8 @@
 					callType: 'delete'
 				},
 				success : function(data) {
-					reloadSubscriptions();
+					console.log(data);
+					getFriends(userId,sessionId);
 				},
 				error : function() {
 				}
@@ -166,7 +148,8 @@
 					callType: 'add'
 				},
 				success : function(data) {
-					reloadSubscriptions();
+					console.log(data);
+					getFriends(userId,sessionId);
 				},
 				error : function() {
 				}
@@ -184,121 +167,104 @@
 					sessionId: sessionId
 				},
 				success: function(data){
-					gotoViewAccount(userId2);
+					userId = userId2;
+					enter(userId,sessionId);
 				},
 			});
 		});
 		
 	});
-		function gotoViewAccount(userId2) {
-			$.ajax({
-				url : '${pageContext.request.contextPath}/views/userManagement/ViewUserAccount.jsp',
-				type : 'GET',
-				success : function(result) {
-					$("#main").html(result);
-					$(".user").attr('id',userId2);
-				}
-			});
-		};
-		
-		function getPersonalInfo(userId,sessionId){
-			$.ajax({
-				url : '${pageContext.request.contextPath}/UserAccountController',
-				type : 'GET',
-				data : {
-					callType: 'enterAccount',
-					userId : $(".user").attr('id'),
-					sessionId: sessionId
-				},
-				success: function(data){
-					loadPersonalInfo(data);
-			    },
-			    error: function(){
-			        console.log("The request failed");
-			    }
-
-			});
-		}
-		
-		/*var form = $('#addSubs');
-		form.submit(function() {
-			var personalized = $("#personalizedSearch").prop("checked"); 
-			$.ajax({
-				type : form.attr('method'),
-				url : form.attr('action'),
-				data : form.serialize() + "&callType=add",
-				success : function(data) {
-					getTweets(personalized);
-					$('#myModal').modal('hide');
-					$('body').removeClass('modal-open');
-					$('.modal-backdrop').remove();
-				},
-				error : function() {
-					$("#anonymousModal").modal('show');
-				}
-
-			});
-
-			return false;
-		});*/
-		
-		function getFriends(userId,sessionId){
-			$.ajax({
-				url : '${pageContext.request.contextPath}/UserAccountController',
-				type : 'GET',
-				data : {
-					callType: 'getFriends',
-					userId :  $(".user").attr('id'),
-					sessionId: $(".user-id").attr('id'),
-				},
-				success: function(data){
-					//$(".panel").remove();
-					loadFriends(data);
-					console.log(data);
-			    },
-			    error: function(){
-			        console.log("The request failed");
-			    }
-
-			});
-		}
-
-		function loadPersonalInfo(data){
-			$("#personal-info-name").append(data[2]);
-			$("#personal-info-email").append(data[3]);
-			
-			if(data[0] == "true"){
-				var $divTr = $("<tr>").appendTo(".addSubs");
-				var $td = $("<td>").addClass("col-md-10").appendTo($divTr);
-				var $form = $("<form id='addSubs'>").append('<input type="text" id="userToSearch" name="search" placeholder="Search User" />').appendTo($td);
-				var $td2 = $("<td>").addClass("col-md-2").append('<button id="id-button" type="button" class="btn btn-default btn-lg search-button" data-toggle="modal" data-target="#myModal"> Subscribe to User</button>').appendTo($divTr);
-			}
-		}
-
-		function loadFriends(data){
-				$(".panel").remove();
-				$.each(data, function(index, friend) {
-					if(index !=0){
-						var $divMain = $("<div>").addClass("friend panel").css('margin-bottom','25px').appendTo("#main-test");
-						
-						var $div = $("<div>").addClass("col-sm-2").appendTo($divMain).css('padding-top','10px');
-						var $img = $("<div>").addClass("user-image").appendTo($div).css('background-image',"url('${pageContext.request.contextPath}/img/user_logo.png')");
-						
-						var $subsName = $("<div>").addClass("col-sm-7").css('padding-top','35px').appendTo($divMain);
-						var $subsName = $("<div>").addClass("friend-button").attr("id",friend).text(friend).appendTo($subsName);
-						if(data[0] == "true"){
-							var $trash = $("<div>").addClass("col-sm-3").appendTo($divMain);
-							var $delete = $("<span>").addClass("glyphicon glyphicon-trash unsubscribe-button").val("hola").attr("id",friend).appendTo($trash);
-						}
-					}
-				});
-		}
 	
-		function reloadSubscriptions(userId) {
-			$(".panel").remove();
-			getFriends(userId);
+	function enter(userId,sessionId){			
+		/*console.log("--------");
+		console.log("User id: "+userId);
+		console.log("Session id: "+sessionId);
+		console.log("--------");*/
+		
+		getPersonalInfo(userId,sessionId);
+		getFriends(userId,sessionId);
+	}
+			
+	function getPersonalInfo(userId,sessionId){
+		$.ajax({
+			url : '${pageContext.request.contextPath}/UserAccountController',
+			type : 'GET',
+			data : {
+				callType: 'enterAccount',
+				userId : userId,
+				sessionId: sessionId
+			},
+			success: function(data){
+				reloadPersonalInfo(data,sessionId)
+		    },
+		    error: function(){
+		        console.log("The request failed");
+		    }
+			});
+	}
+	
+	function reloadPersonalInfo(data,sessionId){
+		$(".mainSearch").remove();
+		loadPersonalInfo(data,sessionId);
+	}
+	function getFriends(userId,sessionId){
+		$.ajax({
+			url : '${pageContext.request.contextPath}/UserAccountController',
+			type : 'GET',
+			data : {
+				callType: 'getFriends',
+				userId :  userId,
+				sessionId: sessionId,
+			},
+			success: function(data){
+				reloadFriends(data);
+		    },
+		    error: function(){
+		        console.log("The request failed");
+		    }
+		});
+	}
+	function reloadFriends(data){
+		$(".panel").remove();
+		loadFriends(data);
+	}
+	
+	function loadPersonalInfo(data,userId){
+		$("#personal-info-name").text(data[2]);
+		$("#personal-info-email").text(data[3]);
+		
+		$(".mainSearch").remove();
+		$(".delete-button").remove();
+		
+		if(data[0] == "true"){
+			var $deleteUser = $("<span>").addClass("glyphicon glyphicon-trash delete-button").attr('id',userId).appendTo(".trash");
+			
+			var $mainSearch = $("<div>").addClass("mainSearch").appendTo(".addSubs");
+			var $divTr = $("<tr>").appendTo($mainSearch);
+			var $td = $("<td>").addClass("col-md-10").appendTo($divTr);
+			var $form = $("<form id='addSubs'>").append('<input type="text" id="userToSearch" name="search" placeholder="Search User" />').appendTo($td);
+			var $td2 = $("<td>").addClass("col-md-2").append('<button id="id-button" type="button" class="btn btn-default btn-lg search-button" data-toggle="modal" data-target="#myModal"> Subscribe to User</button>').appendTo($divTr);
 		}
-	</script>
+	}
+	function loadFriends(data){
+		$(".panel").remove();
+		$.each(data, function(index, friend) {
+			if(index !=0){
+				var $divMain = $("<div>").addClass("friend panel").css('margin-bottom','25px').appendTo("#main-test");
+				
+				var $div = $("<div>").addClass("col-sm-2").appendTo($divMain).css('padding-top','10px');
+				var $img = $("<div>").addClass("user-image").appendTo($div).css('background-image',"url('${pageContext.request.contextPath}/img/user_logo.png')");
+				
+				var $subsName = $("<div>").addClass("col-sm-7").css('padding-top','35px').appendTo($divMain);
+				var $subsName = $("<div>").addClass("friend-button").attr("id",friend).text(friend).appendTo($subsName);
+				if(data[0] == "true"){
+					var $trash = $("<div>").addClass("col-sm-3").appendTo($divMain);
+					var $delete = $("<span>").addClass("glyphicon glyphicon-trash unsubscribe-button").val("hola").attr("id",friend).appendTo($trash);
+				}
+			}
+	});
+}
+</script>
 	
 </body>
 </html>
