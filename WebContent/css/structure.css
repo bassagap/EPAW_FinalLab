@@ -75,6 +75,9 @@ h3:after{
 	letter-spacing: 0.2em;
 	text-align: right; 
 }
+#admin{
+	color: #B43A45;
+}
 
 .sidenav a {
     padding: 8px 8px 8px 32px;

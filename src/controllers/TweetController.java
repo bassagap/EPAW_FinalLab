@@ -68,6 +68,7 @@ public class TweetController extends HttpServlet {
 					tweet.setVisibility("private");
 				}
 				tweetService.insertTweet(tweet);
+				tweetService.disconectBD();
 			}
 			if("add".equals(callType) && session_user.equals("anonymous")){
 				response.setStatus(400);
@@ -79,8 +80,8 @@ public class TweetController extends HttpServlet {
 				tweet.setUser_id1(userService.getUserID(session_user));
 				String tweet_user = tweetService.getTweetUser(tweet.getIdTweet());
 				if(session_user.equals(tweet_user) || userService.isAdminUser(session_user)){
-					System.out.println("Edit Tweet Controller Edit:");
 					tweetService.editTweet(tweet);
+					tweetService.disconectBD();
 				}else{
 					response.setStatus(400);
 				}
@@ -90,14 +91,15 @@ public class TweetController extends HttpServlet {
 				String tweet_user = tweetService.getTweetUser(idTweet);
 				if(session_user.equals(tweet_user) || userService.isAdminUser(session_user)){
 					tweetService.deleteTweet(idTweet);
+					tweetService.disconectBD();
 				}else{
 					response.setStatus(400);
 				}
 			}
 			if("retweet".equals(callType)){
-				System.out.println("Edit Tweet Controller Retweet:" + tweet_id_string );
 				int idTweet = Integer.parseInt(tweet_id_string);
 				tweetService.retweet(userService.getUserID(session_user), idTweet, date); 
+				tweetService.disconectBD();
 			}
 			if("verify".equals(callType)){
 				int idTweet = Integer.parseInt(tweet_id_string);
@@ -107,11 +109,27 @@ public class TweetController extends HttpServlet {
 					response.setStatus(400);
 				}	
 			}
+			if("like".equals(callType)){
+				int idTweet = Integer.parseInt(tweet_id_string);
+				int userID = userService.getUserID(session_user);
+				tweet = tweetService.getTweet(idTweet, userID);
+				if(tweet.getIsLiked()){
+					tweetService.deleteLike(userID, idTweet);
+					tweetService.updateLike(tweet);	
+					tweetService.disconectBD();
+					
+				} else if(!tweet.getIsLiked()){
+					tweetService.addLike(userID, idTweet);
+					tweetService.updateLike(tweet);
+					tweetService.disconectBD();
+				}
+			}
 			ArrayList<BeanTweet> tweetList = tweetService.getTweetsList(session_user, personalized);
 		    String json = new Gson().toJson(tweetList);
 		    response.setContentType("application/json");
 		    response.setCharacterEncoding("UTF-8");
 		    response.getWriter().write(json);
+		    tweetService.disconectBD();
 
 
 		} catch (Exception e) {
