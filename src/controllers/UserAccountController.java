@@ -61,23 +61,18 @@ public class UserAccountController extends HttpServlet {
 				//Personal info
 				resp.add(String.valueOf(userName));
 				
-				if(userService.isPublicUser(userName) || userId == sessionId){
+				if(userService.isPublicUser(userName) || userId == sessionId || userService.isAdminUser(sessionName)){
 					resp.add(email);
 				}
-				
+				else resp.add("");
+				System.out.println(userService.isPublicUser(userName));
 				
 				String json = new Gson().toJson(resp);
 			    response.setContentType("application/json");
 			    response.setCharacterEncoding("UTF-8");
 			    response.getWriter().write(json);
 			}
-			else if(callType.equals("getFriends")){
-				
-				System.out.println("============");
-				System.out.println(userName+" User Id: "+userId);
-				System.out.println(sessionName+" Session Id: "+sessionId);
-				System.out.println("============");
-				
+			else if(callType.equals("getFriends")){				
 				ArrayList<Integer> SubscriptionsList = userService.getSubscriptionsList(userId);
 				for (int id: SubscriptionsList){
 					resp.add(userService.getUserName(id));
