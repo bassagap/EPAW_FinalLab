@@ -3,15 +3,9 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<script>
-$(document).ready(function(){
-	console.log("Hi");
-    $("#loginForm").validate();
-  });
-</script>
 
 <div class="top-logo"></div>
-<form action="/Lab3/LoginController" method="post">
+<form action="/Lab3/IAMController" method="post" id="loginForm">
 	<table>
 		<tr>
 			<td><input type="text" name="userName" value="${param.userName}"
@@ -20,16 +14,35 @@ $(document).ready(function(){
 		</tr>
 		<tr>
 			<td><input type="password" name="password" id="password"
-				class="required login-input" minlength="5" placeholder="Password " /></td>
+				class="required login-input" minlength="5" placeholder="Password " />
+			<div id="error"></div></td>
 		</tr>
-		<c:if test="${param.error== 1}">
-			<tr>
-				<td class="error">Nonexistent username or password in our DB!</td>
-			</tr>
-		</c:if>
 		<tr>
 			<td><input name="sumbit" type="submit" value="Login"
 				class="login-button"></td>
 		</tr>
 	</table>
 </form>
+<script>
+	var form = $('#loginForm');
+	form
+			.submit(function() {
+				$
+						.ajax({
+							type : form.attr('method'),
+							url : form.attr('action'),
+							data : form.serialize() + "&callType=login",
+							success : function(data) {
+								window.location.href = '${pageContext.request.contextPath}/views/ViewMenuLogged.jsp';
+							},
+							error : function() {
+								$("#error")
+										.text(
+												"Nonexistent username or password in our DB!").addClass("error");
+							}
+
+						});
+
+				return false;
+			});
+</script>

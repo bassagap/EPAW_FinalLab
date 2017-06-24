@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 
 import models.BeanTweet;
+import models.BeanUser;
 import service.UserService;
 
 /**
@@ -39,11 +40,12 @@ public class SubscriptionsController extends HttpServlet {
 		String subscriptionName =request.getParameter("subscriptionName");
 		String callType =request.getParameter("callType");
 		String userName =request.getParameter("userName");
-		
+		BeanUser subscriptor = new BeanUser(); 
 		//id =Integer.parseInt(request.getParameter("id"));
 
 		try {
-			if(userService.userExistsByName(subscriptionName)){
+			subscriptor.setUserName(subscriptionName);
+			if(userService.userExists(subscriptor)){
 				if(callType.equals("add"))
 					userService.subscribe(userName, subscriptionName);
 				
@@ -52,7 +54,7 @@ public class SubscriptionsController extends HttpServlet {
 			}
 			
 			ArrayList<String> resp = new ArrayList<String>();
-			ArrayList<Integer> SubscriptionsList = userService.getSubscriptionsList(userService.getUserID(userName));
+			ArrayList<Integer> SubscriptionsList = userService.getSubscriptionsList(userService.getUser(userName).getUserId());
 			for (int id: SubscriptionsList){
 				resp.add(userService.getUserName(id));
 			}

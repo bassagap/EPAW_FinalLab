@@ -13,7 +13,6 @@ public class BeanTweet implements Serializable{
 	private String visibility = "private";
 	private Date publicationDate = new Date(0); 
 	private int idTweet = 0; 
-	private int popularity = 0; 
 	private int user_id1 = 0;
 	private int likes = 0; 
 	private Boolean isLiked = false; 
@@ -101,18 +100,7 @@ public class BeanTweet implements Serializable{
 	public void setUser_id1(int user_id1) {
 		this.user_id1 = user_id1;
 	} 
-	/**
-	 * @return the popularity
-	 */
-	public int getPopularity() {
-		return popularity;
-	}
-	/**
-	 * @param popularity the popularity to set
-	 */
-	public void setPopularity(int popularity) {
-		this.popularity = popularity;
-	}
+	
 	/**
 	 * @return the likes
 	 */

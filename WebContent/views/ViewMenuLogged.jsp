@@ -68,7 +68,6 @@
 <script>
 	document.getElementById("mySidenav").style.width = "250px";
 	document.getElementById("main").style.marginLeft = "250px";
-	console.log("User" , '${sessionScope.userType}');
 	$("#main-button").hide();
 	if('${sessionScope.userType}' == "admin" ){
 		$("#admin").show();
@@ -94,8 +93,11 @@
 										function() {
 											$
 													.ajax({
-														url : '${pageContext.request.contextPath}/LogoutController',
+														url : '${pageContext.request.contextPath}/IAMController',
 														type : 'GET',
+														data: {
+															callType : "logout"
+														},
 														success : function(data) {
 															window.location.href = '${pageContext.request.contextPath}/views/index.jsp';
 														},

@@ -18,15 +18,13 @@
 <body>
 	<div class="top-logo"></div>
 	<div class="singup" id="Register">
-		<form action="/Lab3/FormController" method="post" id="registerForm">
+		<form action="/Lab3/IAMController" method="post" id="registerForm">
 			<!--===============USERNAME===================-->
 			<div class="field">
 				<input type="text" name="userName" id="userName"
 					placeholder="Username" value="${param.userName}" required
 					minlength="6" maxlength="16" />
-				<c:if test="${param.error== 1}">
-				out.println("The username already exists in our DB!");
-			</c:if>
+				<div id="error"></div>
 			</div>
 
 			<!--===============PASSWORD===================-->
@@ -48,8 +46,9 @@
 
 			<!--===============T&C===================-->
 			<div class="field">
-				<input type="checkbox" id="tc" name="tc" required /> <label for="tc"><span></span>I
-					accept the <a href="#"><u>Terms and conditions</u></a></label>
+				<input type="checkbox" id="tc" name="tc" required /> <label
+					for="tc"><span></span>I accept the <a href="#"><u>Terms
+							and conditions</u></a></label>
 			</div>
 
 			<!--===============OPTIONAL FIELDS===================-->
@@ -93,8 +92,8 @@
 									for="s8"><span></span>Rugby</label></li>
 								<li><input type="checkbox" value="Boxing" id="s9" /> <label
 									for="s9"><span></span>Boxing</label></li>
-								<li><input type="checkbox" value="Volleyball" id="s10" /> <label
-									for="s10"><span></span>Volleyball</label></li>
+								<li><input type="checkbox" value="Volleyball" id="s10" />
+									<label for="s10"><span></span>Volleyball</label></li>
 								<li><input type="checkbox" value="Golf" id="s11" /> <label
 									for="s11"><span></span>Golf</label></li>
 								<li><input type="checkbox" value="Qwiditch" id="s12" /> <label
@@ -148,6 +147,28 @@
 	</div>
 
 	<script>
+		var form = $('#registerForm');
+		form
+				.submit(function() {
+					$
+							.ajax({
+								type : form.attr('method'),
+								url : form.attr('action'),
+								data : form.serialize() + "&callType=register",
+								success : function(data) {
+									window.location.href = '${pageContext.request.contextPath}/views/ViewMenuLogged.jsp';
+								},
+								error : function() {
+									$("#error")
+											.text(
+													"The username already exists in our DB!").addClass("error");
+								}
+
+							});
+
+					return false;
+				});
+
 		$(".dropdown dt a").on('click', function() {
 			$(".dropdown dd ul").slideToggle('fast');
 		});
@@ -187,9 +208,6 @@
 					}
 				});
 	</script>
-
-
-	</div>
 </body>
 </html>
 

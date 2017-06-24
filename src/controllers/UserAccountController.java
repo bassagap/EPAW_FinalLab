@@ -37,36 +37,40 @@ public class UserAccountController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UserService userService = new UserService(); 
-		String sessionName =request.getParameter("sessionId");
+		//String sessionName =request.getParameter("sessionId");
 		String userName= request.getParameter("userId");
-
+		HttpSession session = request.getSession();
 		String callType = request.getParameter("callType");
-
+		String sessionName = (String) session.getAttribute("user");
 		try {
-			int userId = userService.getUserID(userName);
-			int sessionId = userService.getUserID(sessionName);
+			int userId = userService.getUser(userName).getUserId();
+			int sessionId = userService.getUser(sessionName).getUserId();
 			
 			ArrayList<String> resp = new ArrayList<String>();
-			if(userId == sessionId || userService.getUserType(sessionId).equals("admin"))
+			if(userId == sessionId || userService.getUser(sessionName).getUserType().equals("admin"))
 				resp.add("true");
 			else resp.add("false");
-			
+			if("deleteUser".equals(callType)){
+				int userID = userService.getUser(sessionName).getUserId();
+				userService.deletetUser(userID);
+			}
 			if(callType.equals("enterAccount")){
-				String email = userService.getUserEmail(userId);
+				String email = userService.getUser(sessionName).getMail();
 				
 				//Check if session user is anonymous
-				if(userService.userExistsByName(sessionName))	resp.add("true");
-				else	resp.add("false");
+				if("anonymous".equals(session.getAttribute("user"))){
+					resp.add("false");
+				}else{
+					resp.add("true");
+				}
 				
 				//Personal info
-				resp.add(String.valueOf(userName));
+				resp.add(String.valueOf(sessionName));
 				
-				if(userService.isPublicUser(userName) || userId == sessionId || userService.isAdminUser(sessionName)){
+				if("public".equals(userService.getUser(userName).getVisibility()) || userId == sessionId || "admin".equals(userService.getUser(sessionName).getUserType())){
 					resp.add(email);
 				}
 				else resp.add("");
-				System.out.println(userService.isPublicUser(userName));
-				
 				String json = new Gson().toJson(resp);
 			    response.setContentType("application/json");
 			    response.setCharacterEncoding("UTF-8");

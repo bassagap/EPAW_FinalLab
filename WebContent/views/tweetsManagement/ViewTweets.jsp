@@ -32,7 +32,9 @@
 			</td>
 			<td class="col-md-2">
 				<div class="checkbox">
-  					<label><input type="checkbox" id = "personalizedSearch" value=""><h4>Personalized</h4></label>
+					<label><input type="checkbox" id="personalizedSearch"
+						value="">
+					<h4>Personalized</h4></label>
 				</div>
 			</td>
 			<td class="col-md-1">
@@ -145,8 +147,8 @@
 		</div>
 	</div>
 	<!-- Modal error on delete -->
-	<div class="modal danger" id="anonymousModal" tabindex="-1" role="dialog"
-		aria-labelledby="deleteModalLabel">
+	<div class="modal danger" id="anonymousModal" tabindex="-1"
+		role="dialog" aria-labelledby="deleteModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content panel-danger">
 				<div class="modal-header panel-heading">
@@ -177,14 +179,16 @@
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title">Your tweet is going to be permanently deleted</h4>
+					<h4 class="modal-title">Your tweet is going to be permanently
+						deleted</h4>
 				</div>
 				<div class="modal-body">
 					<p>Are you sure you want to delete it?&hellip;</p>
 				</div>
 				<div class="modal-footer">
-					<button id= "CancelDelete" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-					<button id= "ConfirmDelete" type="button" class="btn btn-danger">Delete</button>
+					<button id="CancelDelete" type="button" class="btn btn-default"
+						data-dismiss="modal">Cancel</button>
+					<button id="ConfirmDelete" type="button" class="btn btn-danger">Delete</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->
@@ -200,19 +204,18 @@
 	$(document).ready(function() {
 		getTweets(false);
 		$("#myAlert").hide();
-		$("#personalizedSearch").click(
-				function() {
-					var personalized = false;
-					if($(this).prop("checked") == true){
-						personalized = true;
-					}
-					getTweets(personalized); 	
-					
-				});
+		$("#personalizedSearch").click(function() {
+			var personalized = false;
+			if ($(this).prop("checked") == true) {
+				personalized = true;
+			}
+			getTweets(personalized);
+
+		});
 	});
 	var form = $('#addTweetForm');
 	form.submit(function() {
-		var personalized = $("#personalizedSearch").prop("checked"); 
+		var personalized = $("#personalizedSearch").prop("checked");
 		$.ajax({
 			type : form.attr('method'),
 			url : form.attr('action'),
@@ -232,112 +235,155 @@
 		return false;
 	});
 	function getTweets(personalized) {
-		$.ajax({
-			url :  '${pageContext.request.contextPath}/TweetController',
-			type : 'POST',
-			data:{
-				clicked : personalized,
-				callType: 'update'
-			},
-			success : function(result) {
+		$
+				.ajax({
+					url : '${pageContext.request.contextPath}/TweetController',
+					type : 'POST',
+					data : {
+						clicked : personalized,
+						callType : 'update'
+					},
+					success : function(result) {
 						$(".panel").remove();
 						loadTweet(result);
-						$(".delete-button").click(function() {
-							var id = $(this).attr("id");
-							$.ajax({
-								type : "GET",
-								url : '${pageContext.request.contextPath}/TweetController' ,
-								data :{
-									callType: 'verify',
-									id: id
-								},
-								success : function(data) {
-									$.ajax({
-										success : function(data) {
-											$("#confirmDeleteModal").modal('show');
-											$("#CancelDelete").click(function() {
-												
-											});
-											$("#ConfirmDelete").click(function() {
-												deleteTweet(id);
-												$("#confirmDeleteModal").modal('hide');
-											});
-										},
-										error : function() {
-											$("#deleteModal").modal('show');
-										}
+						$(".delete-button")
+								.click(
+										function() {
+											var id = $(this).attr("id");
+											$
+													.ajax({
+														type : "GET",
+														url : '${pageContext.request.contextPath}/TweetController',
+														data : {
+															callType : 'verify',
+															id : id
+														},
+														success : function(data) {
+															$
+																	.ajax({
+																		success : function(
+																				data) {
+																			$(
+																					"#confirmDeleteModal")
+																					.modal(
+																							'show');
+																			$(
+																					"#CancelDelete")
+																					.click(
+																							function() {
 
-									});
-								},
-								error : function() {
-									$("#deleteModal").modal('show');
-								}
+																							});
+																			$(
+																					"#ConfirmDelete")
+																					.click(
+																							function() {
+																								deleteTweet(id);
+																								$(
+																										"#confirmDeleteModal")
+																										.modal(
+																												'hide');
+																							});
+																		},
+																		error : function() {
+																			$(
+																					"#deleteModal")
+																					.modal(
+																							'show');
+																		}
 
-							});
-						});
-						$(".edit-button").click(function() {
-							var id = $(this).attr("id");
-							$.ajax({
-								type : "GET",
-								url : '${pageContext.request.contextPath}/TweetController' ,
-								data :{
-									callType: 'verify',
-									id: id
-								},
-								success : function(data) {
-									$.ajax({
-										success : function(data) {
-											$("#hidden").val(id);
-											editTweet(id);
-										},
-										error : function() {
-											$("#deleteModal").modal('show');
-										}
-									});
-								},
-								error : function() {
-									$("#deleteModal").modal('show');
-								}
+																	});
+														},
+														error : function() {
+															$("#deleteModal")
+																	.modal(
+																			'show');
+														}
 
-							});
+													});
+										});
+						$(".edit-button")
+								.click(
+										function() {
+											var id = $(this).attr("id");
+											$
+													.ajax({
+														type : "GET",
+														url : '${pageContext.request.contextPath}/TweetController',
+														data : {
+															callType : 'verify',
+															id : id
+														},
+														success : function(data) {
+															$
+																	.ajax({
+																		success : function(
+																				data) {
+																			$(
+																					"#hidden")
+																					.val(
+																							id);
+																			editTweet(id);
+																		},
+																		error : function() {
+																			$(
+																					"#deleteModal")
+																					.modal(
+																							'show');
+																		}
+																	});
+														},
+														error : function() {
+															$("#deleteModal")
+																	.modal(
+																			'show');
+														}
 
-						});
+													});
+
+										});
 						$(".retweet-button").click(function() {
 							var id = $(this).attr("id");
 							retweet(id);
 						});
-						$(".like-button").click(function() {
-							var id = $(this).attr("id");
-							$.ajax({
-								type : "GET",
-								url : '${pageContext.request.contextPath}/TweetController' ,
-								data :{
-									callType: 'like',
-									id: id
-								},
-								success : function(data) {
-									$.ajax({
-										success : function(data) {
-											getTweets(personalized);
-										},
-										error : function() {
-											
-										}
-									});
-								},
-								error : function() {
-									$("#deleteModal").modal('show');
-								}
+						$(".like-button")
+								.click(
+										function() {
+											var id = $(this).attr("id");
+											$
+													.ajax({
+														type : "GET",
+														url : '${pageContext.request.contextPath}/TweetController',
+														data : {
+															callType : 'like',
+															id : id
+														},
+														success : function(data) {
+															$
+																	.ajax({
+																		success : function(
+																				data) {
+																			getTweets(personalized);
+																		},
+																		error : function() {
 
-							});
+																		}
+																	});
+														},
+														error : function() {
+															$("#deleteModal")
+																	.modal(
+																			'show');
+														}
 
-						});
-					
+													});
+
+										});
+
 					}
-		});	
+				});
 	}
 	function editTweet(id, responseJson) {
-		var personalized = $("#personalizedSearch").prop("checked"); 
+		var personalized = $("#personalizedSearch").prop("checked");
 		$("#myModalEdit").modal('show');
 		$.each(responseJson, function(index, tweet) {
 			if (tweet.idTweet == id) {
@@ -364,19 +410,19 @@
 			});
 			return false;
 		});
-/* 		$('.modal').on('hidden.bs.modal', function() {
-			$(this).find('form')[0].reset();
-		}); */
+		/* 		$('.modal').on('hidden.bs.modal', function() {
+		 $(this).find('form')[0].reset();
+		 }); */
 	}
-	
+
 	function deleteTweet(id) {
-		var personalized = $("#personalizedSearch").prop("checked"); 
+		var personalized = $("#personalizedSearch").prop("checked");
 		$.ajax({
 			url : '${pageContext.request.contextPath}/TweetController',
 			type : 'GET',
 			data : {
 				id : id,
-				callType: 'delete'
+				callType : 'delete'
 			},
 			success : function(data) {
 				getTweets(personalized);
@@ -386,51 +432,101 @@
 		});
 	}
 	function retweet(id) {
-		var personalized = $("#personalizedSearch").prop("checked"); 
+		var personalized = $("#personalizedSearch").prop("checked");
 		$.ajax({
 			url : '${pageContext.request.contextPath}/TweetController',
 			type : 'GET',
 			data : {
 				id : id,
-				callType: 'retweet'
+				callType : 'retweet'
 			},
 			success : function(data) {
 				alert("retweet", id);
 				getTweets(personalized);
 			},
 			error : function() {
-				
+
 			}
 		});
 	}
 	function loadTweet(responseJson) {
-		$.each(responseJson, function(index, tweet) {
-			var $divMain = $("<div>").addClass("panel tweet").appendTo(
-					$("#main-test"));
-			var $div = $("<div>").addClass("panel-heading").appendTo($divMain);
-			$("<table>").appendTo($div)
-			var $table = $("<table>").appendTo($div)
-			$("<tr>").appendTo($table)
-				.append($("<td>").addClass("col-md-10").append($("<div>").addClass("tweet-header-user").text(tweet.user)))
-				.append($("<td>").addClass("col-md-2").append($("<span>").addClass("glyphicon glyphicon-retweet retweet-button").attr("id", tweet.idTweet)))
-				.append($("<td>").addClass("col-md-1").append($("<div>").addClass("tweet-header-date").text(tweet.publicationDate)));
-			$("<p>").appendTo($div).text(tweet.hashTag);
-			$("<div>").appendTo($div).text(tweet.description);
-			appendIfOwnerOrAdmin(tweet, $div);
-			
-		});
-	function appendIfOwnerOrAdmin(tweet, $div){
-		console.log("User Type: ", '${sessionScope.userType}');
-		if(tweet.user == '${sessionScope.user}' || '${sessionScope.userType}' == "admin" ){
-			$("<div>").appendTo($div).addClass("panel-footer tweet tweet-footer")
-			.append($("<span>").addClass("glyphicon glyphicon-trash delete-button col-sm-1").attr("id", tweet.idTweet))
-				.append($("<span>").addClass("glyphicon glyphicon-pencil edit-button col-sm-2").attr("id", tweet.idTweet))
-			.append($("<span>").addClass("glyphicon glyphicon-thumbs-up like-button " + tweet.isLiked + "-selected col-sm-9").text(tweet.likes).attr("id", tweet.idTweet));
-		} else {
-			$("<div>").appendTo($div).addClass("panel-footer tweet tweet-footer")
-			.append($("<span>").addClass("glyphicon glyphicon-thumbs-up like-button " + tweet.isLiked + "-selected col-sm-12").text(tweet.likes).attr("id", tweet.idTweet))
+		$
+				.each(
+						responseJson,
+						function(index, tweet) {
+							var $divMain = $("<div>").addClass("panel tweet")
+									.appendTo($("#main-test"));
+							var $div = $("<div>").addClass("panel-heading")
+									.appendTo($divMain);
+							$("<table>").appendTo($div)
+							var $table = $("<table>").appendTo($div)
+							$("<tr>")
+									.appendTo($table)
+									.append(
+											$("<td>")
+													.addClass("col-md-10")
+													.append(
+															$("<div>")
+																	.addClass(
+																			"tweet-header-user")
+																	.text(
+																			tweet.user)))
+									.append(
+											$("<td>")
+													.addClass("col-md-2")
+													.append(
+															$("<span>")
+																	.addClass(
+																			"glyphicon glyphicon-retweet retweet-button")
+																	.attr(
+																			"id",
+																			tweet.idTweet)))
+									.append(
+											$("<td>")
+													.addClass("col-md-1")
+													.append(
+															$("<div>")
+																	.addClass(
+																			"tweet-header-date")
+																	.text(
+																			tweet.publicationDate)));
+							$("<p>").appendTo($div).text(tweet.hashTag);
+							$("<div>").appendTo($div).text(tweet.description);
+							appendIfOwnerOrAdmin(tweet, $div);
+
+						});
+		function appendIfOwnerOrAdmin(tweet, $div) {
+			if (tweet.user == '${sessionScope.user}'
+					|| '${sessionScope.userType}' == "admin") {
+				$("<div>")
+						.appendTo($div)
+						.addClass("panel-footer tweet tweet-footer")
+						.append(
+								$("<span>")
+										.addClass(
+												"glyphicon glyphicon-trash delete-button col-sm-1")
+										.attr("id", tweet.idTweet))
+						.append(
+								$("<span>")
+										.addClass(
+												"glyphicon glyphicon-pencil edit-button col-sm-2")
+										.attr("id", tweet.idTweet)).append(
+								$("<span>").addClass(
+										"glyphicon glyphicon-thumbs-up like-button "
+												+ tweet.isLiked
+												+ "-selected col-sm-9").text(
+										tweet.likes).attr("id", tweet.idTweet));
+			} else {
+				$("<div>").appendTo($div).addClass(
+						"panel-footer tweet tweet-footer").append(
+						$("<span>")
+								.addClass(
+										"glyphicon glyphicon-thumbs-up like-button "
+												+ tweet.isLiked
+												+ "-selected col-sm-12").text(
+										tweet.likes).attr("id", tweet.idTweet))
+			}
 		}
-	}
 	}
 </script>
 </html>

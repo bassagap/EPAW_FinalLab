@@ -136,9 +136,10 @@
 											function() {
 												$
 														.ajax({
-															url : '../LoginController',
+															url : '../IAMController',
 															type : 'GET',
 															data : {
+																callType: "anonymous",
 																userType : "anonymous"
 															},
 															success : function(

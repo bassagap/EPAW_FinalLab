@@ -17,18 +17,14 @@ public class UserDAO {
 		connection = DriverManager.getConnection("jdbc:mysql://localhost/ts1?user=" + user + "&password=" + password ); 
 		statement = connection.createStatement(); 
 	}
-	public Boolean isValidUserName(String userName) throws SQLException{
-		Boolean isValid = true; 
-		String query = "SELECT * FROM USERS WHERE USERNAME = '" + userName +"'"; 
-		ResultSet resultSet =  statement.executeQuery(query);
-		if(resultSet.next()){
-			isValid = false; 
-		}
-		return isValid; 
+	public void disconnectBD() throws SQLException {
+		statement.close();
+		connection.close();
 	}
 	public void insertUser(BeanUser user) throws SQLException{
 		String query = "INSERT INTO USERS (USERNAME, PASSWORD, GENDER, WEIGHT, DATEOFBIRTH, MAIL) VALUES ('"+user.getUserName()+ "', '" + user.getPassword()+  "', '" +user.getGender()+ "', '"+ user.getWeight() + "', '"+user.getDateOfBirth()+"', '"+ user.getMail()+ "')"; 
 		int resultSet =  statement.executeUpdate(query);
+		disconnectBD();
 	}
 	public void deletetUser(int userID) throws SQLException{
 		String query ="DELETE FROM USERS WHERE ID = '"+ userID + "'"; 
@@ -41,6 +37,7 @@ public class UserDAO {
 		ArrayList<BeanUser> userList = new ArrayList<BeanUser>();
 		  while(resultSet.next()){
 			 BeanUser user = new BeanUser(); 
+			 user.setUserId(resultSet.getInt("id"));
 			 user.setUserName(resultSet.getString("userName"));
 			 user.setPassword(resultSet.getString("password"));
 			 user.setMail(resultSet.getString("mail"));
@@ -48,12 +45,8 @@ public class UserDAO {
 			 user.setUserType(resultSet.getString("userType"));
 			 userList.add(user);
 		  }
+		  disconnectBD();
 		  return userList;
-		
-	}
-	public void disconnectBD() throws SQLException {
-		statement.close();
-		connection.close();
 	}
 	public boolean isValidLogin(String userName, String password) throws SQLException {
 		Boolean isValid = false; 
@@ -62,37 +55,19 @@ public class UserDAO {
 		if(resultSet.next()){
 			isValid = true; 
 		}
+		disconnectBD();
 		return isValid; 
 	}
-	public boolean isAdminUser(String userName) throws SQLException {
-		Boolean isAdmin = false; 
-		String query = "SELECT * FROM USERS WHERE USERNAME = '" + userName + "' AND USERTYPE = 'admin'";  
-		ResultSet resultSet =  statement.executeQuery(query);
-		if(resultSet.next()){
-			isAdmin = true; 
-		}
-		return isAdmin; 
-	}
-	public boolean isPublicUser(String userName) throws SQLException {
-		Boolean isPublicUser = false; 
-		String query = "SELECT * FROM USERS WHERE USERNAME = '" + userName + "' AND VISIBILITY = 'public'"; 
-		ResultSet resultSet =  statement.executeQuery(query);
-		if(resultSet.next()){
-			isPublicUser = true; 
-		}
-		return isPublicUser; 
-	}
+
 	public void addSubscriptions(int userID, int subscriptorID) throws SQLException{
 		String query = "INSERT INTO SUBSCRIPTIONS (USER_ID, SUBSCRIPTION_ID) VALUES ('" + userID+ "', '" + subscriptorID + "')";
-		int resultSet =  statement.executeUpdate(query);
+		int resultSet =  statement.executeUpdate(query);	
+		disconnectBD();
 	}
 	public void deleteSubscription(int userID, int subscriptorID) throws SQLException{
 		String query = "DELETE FROM SUBSCRIPTIONS WHERE SUBSCRIPTION_ID = '"+ subscriptorID + "' AND USER_ID = '"+ userID +"'"; ;
 		int resultSet =  statement.executeUpdate(query);
-	}
-	public void deleteSubscriptions( int subscriptorID) throws SQLException{
-		String query = "DELETE FROM SUBSCRIPTIONS WHERE SUBSCRIPTION_ID = '"+ subscriptorID + "'"; ;
-		int resultSet =  statement.executeUpdate(query);
+		disconnectBD();
 	}
 	
 	public ArrayList<Integer> getSubscriptions(int userID) throws SQLException{
@@ -104,16 +79,8 @@ public class UserDAO {
 			 Integer id = resultSet.getInt("subscription_id");
 			 subscriptionsList.add(id);
 		  }
+		 disconnectBD();
 		return subscriptionsList;		
-	}
-	public int getUserID(String userName) throws SQLException {		
-		String query = "SELECT * FROM USERS WHERE USERNAME = '" + userName + "'"; 
-		int userID = -1;
-		ResultSet resultSet =  statement.executeQuery(query);
-		if(resultSet.next()){
-			userID = resultSet.getInt("id");
-		}
-		return userID;
 	}
 
 	public String getUserNameByAttr(int id, String attr) throws SQLException{
@@ -123,6 +90,7 @@ public class UserDAO {
 		if(resultSet.next()){
 			userName = resultSet.getString(attr);
 		}
+		disconnectBD();
 		return userName;
 	}
 	public BeanUser getUser(String userName) throws Exception {
@@ -130,12 +98,15 @@ public class UserDAO {
 		String query = "SELECT * FROM USERS WHERE USERNAME = '" + userName + "'"; 
 		ResultSet resultSet =  statement.executeQuery(query);
 		if(resultSet.next()){
+			user.setUserId(resultSet.getInt("id"));
 			user.setUserName(resultSet.getString("userName"));
 			user.setMail(resultSet.getString("mail"));
 			user.setVisibility(resultSet.getString("visibility"));
 			user.setUserType(resultSet.getString("userType"));
 			user.setPassword(resultSet.getString("password"));
 		}
+		disconnectBD();
 		return user;
 	}
+
 }

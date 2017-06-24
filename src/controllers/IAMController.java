@@ -62,12 +62,13 @@ public class IAMController extends HttpServlet {
 					response.setStatus(400);
 				}
 			}
-
-			if(request.getParameter("userType") != null && request.getParameter("userType").equals("anonymous")){
+			if("logout".equals(callType)){
+				HttpSession session = request.getSession();
+				session.invalidate();	
+			}
+			if("anonymous".equals(callType)){
 				HttpSession session = request.getSession();
 				session.setAttribute("user", "anonymous");
-				RequestDispatcher dispatcher = request.getRequestDispatcher("views/ViewMenuLogged.jsp");
-				dispatcher.forward(request, response);
 			}
 
 		} catch (Exception e) {
