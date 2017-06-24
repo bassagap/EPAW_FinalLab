@@ -58,6 +58,7 @@ public class TweetService {
 		tweet.setUser_id1(userID);
 		tweet.setUser(userService.getUserName(userID));
 		tweet.setPublicationDate(date);
+		tweet.setParentTweet(tweetID);
 		insertTweet(tweet); 
 		return tweet; 
 	}

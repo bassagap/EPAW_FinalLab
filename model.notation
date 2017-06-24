@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:configuration="http://www.eclipse.org/papyrus/infra/viewpoints/configuration" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:style="http://www.eclipse.org/papyrus/infra/viewpoints/policy/style" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_A7wfAFj9EeeQWtgvmNu9nw" type="PapyrusUMLClassDiagram" name="Package Diagram" measurementUnit="Pixel">
+  <styles xmi:type="notation:StringValueStyle" xmi:id="_A7xGEFj9EeeQWtgvmNu9nw" name="diagram_compatibility_version" stringValue="1.2.0"/>
+  <styles xmi:type="notation:DiagramStyle" xmi:id="_A7xGEVj9EeeQWtgvmNu9nw"/>
+  <styles xmi:type="style:PapyrusViewStyle" xmi:id="_A7xGElj9EeeQWtgvmNu9nw">
+    <owner xmi:type="uml:Model" href="model.uml#_A5-WUFj9EeeQWtgvmNu9nw"/>
+    <configuration xmi:type="configuration:PapyrusDiagram" href="platform:/plugin/org.eclipse.papyrus.uml.diagram.clazz/model/clazzdiagram.configuration#_zzf4cXDtEeWh-MssWmCB_A"/>
+  </styles>
+  <element xmi:type="uml:Model" href="model.uml#_A5-WUFj9EeeQWtgvmNu9nw"/>
+</notation:Diagram>

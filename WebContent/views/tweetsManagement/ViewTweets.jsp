@@ -34,7 +34,7 @@
 				<div class="checkbox">
 					<label><input type="checkbox" id="personalizedSearch"
 						value="">
-					<h4>Personalized</h4></label>
+						<h4>Personalized</h4></label>
 				</div>
 			</td>
 			<td class="col-md-1">
@@ -251,94 +251,60 @@
 										function() {
 											var id = $(this).attr("id");
 											$
-													.ajax({
-														type : "GET",
-														url : '${pageContext.request.contextPath}/TweetController',
-														data : {
-															callType : 'verify',
-															id : id
-														},
-														success : function(data) {
-															$
-																	.ajax({
-																		success : function(
-																				data) {
-																			$(
-																					"#confirmDeleteModal")
-																					.modal(
-																							'show');
-																			$(
-																					"#CancelDelete")
-																					.click(
-																							function() {
-
-																							});
-																			$(
-																					"#ConfirmDelete")
-																					.click(
-																							function() {
-																								deleteTweet(id);
-																								$(
-																										"#confirmDeleteModal")
-																										.modal(
-																												'hide');
-																							});
-																		},
-																		error : function() {
-																			$(
-																					"#deleteModal")
-																					.modal(
-																							'show');
-																		}
+											.ajax({
+												success : function(
+														data) {
+													$(
+															"#confirmDeleteModal")
+															.modal(
+																	'show');
+													$(
+															"#CancelDelete")
+															.click(
+																	function() {
 
 																	});
-														},
-														error : function() {
-															$("#deleteModal")
-																	.modal(
-																			'show');
-														}
+													$(
+															"#ConfirmDelete")
+															.click(
+																	function() {
+																		deleteTweet(id);
+																		$(
+																				"#confirmDeleteModal")
+																				.modal(
+																						'hide');
+																	});
+												},
+												error : function() {
+													$(
+															"#deleteModal")
+															.modal(
+																	'show');
+												}
 
-													});
+											});
 										});
 						$(".edit-button")
 								.click(
 										function() {
 											var id = $(this).attr("id");
 											$
-													.ajax({
-														type : "GET",
-														url : '${pageContext.request.contextPath}/TweetController',
-														data : {
-															callType : 'verify',
-															id : id
-														},
-														success : function(data) {
-															$
-																	.ajax({
-																		success : function(
-																				data) {
-																			$(
-																					"#hidden")
-																					.val(
-																							id);
-																			editTweet(id);
-																		},
-																		error : function() {
-																			$(
-																					"#deleteModal")
-																					.modal(
-																							'show');
-																		}
-																	});
-														},
-														error : function() {
-															$("#deleteModal")
-																	.modal(
-																			'show');
-														}
-
-													});
+											.ajax({
+												success : function(
+														data) {
+													$(
+															"#hidden")
+															.val(
+																	id);
+													editTweet(id, result);
+												},
+												error : function() {
+													$(
+															"#deleteModal")
+															.modal(
+																	'show');
+												}
+											});
 
 										});
 						$(".retweet-button").click(function() {
@@ -378,17 +344,42 @@
 													});
 
 										});
+						$(".tweet-header-user")
+								.click(
+										function() {
+											var id = $(this).attr("id");
+											console.log(id);
+											$
+													.ajax({
+														url : '${pageContext.request.contextPath}/UserAccountController',
+														type : 'POST',
+														data : {
+															callType : 'navigate',
+															userId : id,
+															sessionId : '${sessionScope.user}'
+														},
+														success : function(data) {
+															console.log(
+																	"succes",
+																	data);
+															$("#body").html(
+																	data);
+														},
+													});
+
+										});
 
 					}
 				});
 	}
 	function editTweet(id, responseJson) {
+		console.log("response: ", responseJson);
 		var personalized = $("#personalizedSearch").prop("checked");
 		$("#myModalEdit").modal('show');
 		$.each(responseJson, function(index, tweet) {
 			if (tweet.idTweet == id) {
-				$("#descriptionEdit").val(tweet.hashTag);
-				$("#hashTagEdit").val(tweet.description);
+				$("#descriptionEdit").val(tweet.description);
+				$("#hashTagEdit").val(tweet.hashTag);
 			}
 		});
 		var formEdit = $('#editTweetForm');
@@ -410,9 +401,6 @@
 			});
 			return false;
 		});
-		/* 		$('.modal').on('hidden.bs.modal', function() {
-		 $(this).find('form')[0].reset();
-		 }); */
 	}
 
 	function deleteTweet(id) {
@@ -441,7 +429,6 @@
 				callType : 'retweet'
 			},
 			success : function(data) {
-				alert("retweet", id);
 				getTweets(personalized);
 			},
 			error : function() {
@@ -454,7 +441,7 @@
 				.each(
 						responseJson,
 						function(index, tweet) {
-							var $divMain = $("<div>").addClass("panel tweet")
+							var $divMain = $("<div>").addClass("panel")
 									.appendTo($("#main-test"));
 							var $div = $("<div>").addClass("panel-heading")
 									.appendTo($divMain);
@@ -469,6 +456,9 @@
 															$("<div>")
 																	.addClass(
 																			"tweet-header-user")
+																	.attr(
+																			"id",
+																			tweet.idTweet)
 																	.text(
 																			tweet.user)))
 									.append(
@@ -493,6 +483,7 @@
 							$("<p>").appendTo($div).text(tweet.hashTag);
 							$("<div>").appendTo($div).text(tweet.description);
 							appendIfOwnerOrAdmin(tweet, $div);
+							drawRetweets(tweet, $divMain);
 
 						});
 		function appendIfOwnerOrAdmin(tweet, $div) {
@@ -525,6 +516,13 @@
 												+ tweet.isLiked
 												+ "-selected col-sm-12").text(
 										tweet.likes).attr("id", tweet.idTweet))
+			}
+		}
+		function drawRetweets(tweet, $divMain) {
+			if (tweet.parentTweet != -1) {
+				$divMain.addClass("retweet");
+			} else {
+				$divMain.addClass("tweet");
 			}
 		}
 	}

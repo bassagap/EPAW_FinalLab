@@ -76,6 +76,29 @@ public class UserAccountController extends HttpServlet {
 			    response.setCharacterEncoding("UTF-8");
 			    response.getWriter().write(json);
 			}
+			if(callType.equals("navigate")){
+				userName = userService.getUserName(Integer.parseInt(userName));
+				String email = userService.getUser(userName).getMail();
+				
+				//Check if session user is anonymous
+				if("anonymous".equals(session.getAttribute("user"))){
+					resp.add("false");
+				}else{
+					resp.add("true");
+				}
+				
+				//Personal info
+				resp.add(String.valueOf(userName));
+				
+				if("public".equals(userService.getUser(userName).getVisibility()) || userId == sessionId || "admin".equals(userService.getUser(sessionName).getUserType())){
+					resp.add(email);
+				}
+				else resp.add("");
+				String json = new Gson().toJson(resp);
+			    response.setContentType("application/json");
+			    response.setCharacterEncoding("UTF-8");
+			    response.getWriter().write(json);
+			}
 			else if(callType.equals("getFriends")){				
 				ArrayList<Integer> SubscriptionsList = userService.getSubscriptionsList(userId);
 				for (int id: SubscriptionsList){

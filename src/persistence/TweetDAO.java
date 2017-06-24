@@ -40,6 +40,7 @@ public class TweetDAO {
 					tweet.setPublicationDate(resultSet.getDate("publicationDate"));
 					tweet.setIdTweet(resultSet.getInt("id"));
 					tweet.setLikes(resultSet.getInt("likes"));
+					tweet.setParentTweet(resultSet.getInt("parentTweet"));
 					tweetsList.add(tweet);
 				}
 			}
@@ -54,6 +55,7 @@ public class TweetDAO {
 				tweet.setPublicationDate(resultSet.getDate("publicationDate"));
 				tweet.setIdTweet(resultSet.getInt("id"));
 				tweet.setLikes(resultSet.getInt("likes"));
+				tweet.setParentTweet(resultSet.getInt("parentTweet"));
 				tweetsList.add(tweet);
 			}
 			resultSet.close();
@@ -105,6 +107,7 @@ public class TweetDAO {
 					tweet.setPublicationDate(resultSet.getDate("publicationDate"));
 					tweet.setIdTweet(resultSet.getInt("id"));
 					tweet.setLikes(resultSet.getInt("likes"));
+					tweet.setParentTweet(resultSet.getInt("parentTweet"));
 					tweetsList.add(tweet);
 				}
 			}
@@ -115,7 +118,7 @@ public class TweetDAO {
 		return tweetsList;
 	}
 	public void insertTweet(BeanTweet tweet) throws SQLException {
-		String query = "INSERT INTO TWEETS (HASHTAG, USER, PUBLICATIONDATE, DESCRIPTION, VISIBILITY, USER_ID1) VALUES ('"+tweet.getHashTag()+ "', '" + tweet.getUser()+  "', '" +tweet.getPublicationDate()+ "', '"+ tweet.getDescription() + "', '"+tweet.getVisibility()+ "','" + tweet.getUser_id1() + "')"; 
+		String query = "INSERT INTO TWEETS (HASHTAG, USER, PUBLICATIONDATE, DESCRIPTION, VISIBILITY, USER_ID1, PARENTTWEET) VALUES ('"+tweet.getHashTag()+ "', '" + tweet.getUser()+  "', '" +tweet.getPublicationDate()+ "', '"+ tweet.getDescription() + "', '"+tweet.getVisibility()+ "','" + tweet.getUser_id1() + "', '"+tweet.getParentTweet() + "')"; 
 		int resultSet =  statement.executeUpdate(query);
 		disconnectBD();
 	}
@@ -141,7 +144,7 @@ public class TweetDAO {
 	}
 
 	public void editTweet(BeanTweet tweet) throws SQLException {
-		String query = "UPDATE tweets SET LIKES = '" +tweet.getLikes()+ "' WHERE ID = '" + tweet.getIdTweet() +"'";
+		String query = "UPDATE tweets SET LIKES = '" +tweet.getLikes()+ "', HASHTAG = '" + tweet.getHashTag() + "' , DESCRIPTION = '"+tweet.getDescription()  +"' WHERE ID = '" + tweet.getIdTweet() +"'";
 		int resultSet =  statement.executeUpdate(query);
 		statement.close();
 		disconnectBD();
@@ -159,6 +162,7 @@ public class TweetDAO {
 			tweet.setPublicationDate(resultSet.getDate("publicationDate"));
 			tweet.setIdTweet(resultSet.getInt("id"));
 			tweet.setLikes(resultSet.getInt("likes"));
+			tweet.setParentTweet(resultSet.getInt("parentTweet"));
 		}
 		disconnectBD();
 		return tweet;

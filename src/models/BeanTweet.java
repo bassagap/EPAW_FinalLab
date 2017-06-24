@@ -11,10 +11,11 @@ public class BeanTweet implements Serializable{
 	private String user = "";
 	private String hashTag = ""; 
 	private String visibility = "private";
-	private Date publicationDate = new Date(0); 
 	private int idTweet = 0; 
 	private int user_id1 = 0;
 	private int likes = 0; 
+	private int parentTweet = -1; 
+	private Date publicationDate = new Date(0); 
 	private Boolean isLiked = false; 
 	/**
 	 * @return the description
@@ -124,5 +125,17 @@ public class BeanTweet implements Serializable{
 	 */
 	public void setIsLiked(Boolean isLiked) {
 		this.isLiked = isLiked;
+	}
+	/**
+	 * @return the parentTweet
+	 */
+	public int getParentTweet() {
+		return parentTweet;
+	}
+	/**
+	 * @param parentTweet the parentTweet to set
+	 */
+	public void setParentTweet(int parentTweet) {
+		this.parentTweet = parentTweet;
 	}
 }

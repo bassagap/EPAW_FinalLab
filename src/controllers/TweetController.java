@@ -96,14 +96,6 @@ public class TweetController extends HttpServlet {
 				tweetService.retweet(userService.getUser(session_user).getUserId(), idTweet, date); 
 				tweetService.disconectBD();
 			}
-			if("verify".equals(callType)){
-				int idTweet = Integer.parseInt(tweet_id_string);
-				if(session_user.equals(tweetService.getTweetUser(idTweet))){
-					response.setStatus(200);
-				}else{
-					response.setStatus(400);
-				}	
-			}
 			if("like".equals(callType)){
 				int idTweet = Integer.parseInt(tweet_id_string);
 				int userID = userService.getUser(session_user).getUserId();

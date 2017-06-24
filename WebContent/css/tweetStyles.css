@@ -5,9 +5,20 @@
 	margin: 0 auto;
   	width: auto;
   	margin-top: 1%;
+  	margin-bottom: 1%;
 }
 .tweet-footer {
 	text-align: right;
+}
+.retweet{
+	border-color:  #054358;
+	background-color: #1DACB6;
+	font-size: 1.8rem;
+	margin: 0 auto;
+  	width: auto;
+  	margin-top: 1%;
+  	border-width: 5px;
+  	margin-bottom: 1%;
 }
 .tweet-header-user {
 	color: #F09557;
