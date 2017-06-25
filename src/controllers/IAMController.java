@@ -72,7 +72,6 @@ public class IAMController extends HttpServlet {
 			}
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}    
 	}

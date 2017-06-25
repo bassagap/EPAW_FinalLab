@@ -73,7 +73,7 @@ public class TweetController extends HttpServlet {
 				tweet.setDescription(request.getParameter("description"));
 				tweet.setHashTag(request.getParameter("hashTag"));
 				tweet.setUser_id1(userService.getUser(session_user).getUserId());
-				String tweet_user = tweetService.getTweetUser(tweet.getIdTweet());
+				String tweet_user = tweetService.getTweet(tweet.getIdTweet(), userService.getUser(session_user).getUserId()).getUser(); ;
 				if(session_user.equals(tweet_user) || "admin".equals(userService.getUser(session_user).getUserType())){
 					tweetService.editTweet(tweet);
 					tweetService.disconectBD();
@@ -83,7 +83,7 @@ public class TweetController extends HttpServlet {
 			}
 			if("delete".equals(callType)){
 				int idTweet = Integer.parseInt(tweet_id_string);
-				String tweet_user = tweetService.getTweetUser(idTweet);
+				String tweet_user = tweetService.getTweet(idTweet, userService.getUser(session_user).getUserId()).getUser();
 				if(session_user.equals(tweet_user) || "admin".equals(userService.getUser(session_user).getUserType())){
 					tweetService.deleteTweet(idTweet);
 					tweetService.disconectBD();

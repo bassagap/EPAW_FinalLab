@@ -20,8 +20,8 @@ public class UserService {
 
 	/**
 	 * Check if the user exists in the database
-	 * @param a User 
-	 * @return a Boolean true if exists. 
+	 * @param user  
+	 * @return exists a Boolean true if exists. 
 	 * @throws Exception
 	 */
 	public Boolean userExists (BeanUser user) throws Exception{
@@ -37,7 +37,7 @@ public class UserService {
 	
 	/**
 	 * Insert a user into the database
-	 * @param a User 
+	 * @param user to be inserted
 	 * @throws Exception
 	 */
 	public void insertUser(BeanUser user) throws Exception{
@@ -47,7 +47,7 @@ public class UserService {
 	
 	/**
 	 * Checks if the user can login 
-	 * @param user
+	 * @param user to check if can be loged or not
 	 * @return Boolean true if the user can login
 	 * @throws Exception
 	 */
@@ -79,7 +79,7 @@ public class UserService {
 
 	/**
 	 * Get the subscriptions' list of a given user id
-	 * @param id
+	 * @param id of the user from which the subscriptions are recovered
 	 * @return The complete list of Subscriptions in ArrayList<Integer> type
 	 * @throws Exception
 	 */
@@ -105,8 +105,9 @@ public class UserService {
 	}
 	
 	/**
-	 * @param userName
-	 * @param subscriptorName
+	 * Erases one of the subscription of one user
+	 * @param userName of the user from which a subscription is about to be erased
+	 * @param subscriptorName subscription name of the user to which the current user is about to subscribe
 	 * @throws Exception
 	 */
 	public void unSubscribe(String userName, String subscriptorName) throws Exception{
@@ -119,8 +120,9 @@ public class UserService {
 	}
 	
 	/**
-	 * @param userName
-	 * @return
+	 * Get the user object with the given userName
+	 * @param userName the user name of the user to be retrieved from the DB
+	 * @return user object
 	 * @throws Exception
 	 */
 	public BeanUser getUser(String userName) throws Exception {
