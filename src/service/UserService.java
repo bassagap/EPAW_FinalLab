@@ -129,4 +129,34 @@ public class UserService {
 		UserDAO userDAO = new UserDAO(); 
 		return userDAO.getUser(userName);
 	}
+	/**
+	 * Set the mail of the user. 
+	 * @param user ID of the current user. 
+	 * @param new mail.
+	 * @throws Exception
+	 */
+	public void setMail(int id, String mail) throws Exception{
+		UserDAO userDAO = new UserDAO(); 
+		userDAO.setMail(id, mail);
+	}
+	/**
+	 * Set the visibility of the user. 
+	 * @param user ID of the current user. 
+	 * @param visibility.
+	 * @throws Exception
+	 */
+	public void setVisibility(int userId, String visibility) throws Exception{
+		UserDAO userDAO = new UserDAO();
+		userDAO.setVisibility(userId, visibility);
+	}
+	/**
+	 * Check if the user exists in the database
+	 * @param a User name
+	 * @return a Boolean true if exists. 
+	 * @throws Exception
+	 */
+	public Boolean userExistsByName (String user) throws Exception{
+		UserDAO userDAO = new UserDAO(); 
+		return !userDAO.isValidUserName(user); 
+	}
 }

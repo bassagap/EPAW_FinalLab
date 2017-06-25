@@ -36,14 +36,15 @@ public class SubscriptionsController extends HttpServlet {
 		String subscriptionName =request.getParameter("subscriptionName");
 		String callType =request.getParameter("callType");
 		String userName =request.getParameter("userName");
-		BeanUser subscriptor = new BeanUser(); 
 		//id =Integer.parseInt(request.getParameter("id"));
-
+		
 		try {
-			subscriptor.setUserName(subscriptionName);
-			if(userService.userExists(subscriptor)){
-				if(callType.equals("add"))
+			if(userService.userExistsByName(subscriptionName)){
+				System.out.println("holasdasdaa");
+				if(callType.equals("add")){
+					System.out.println("holaa");
 					userService.subscribe(userName, subscriptionName);
+				}
 				
 				else if(callType.equals("delete"))
 					userService.unSubscribe(userName, subscriptionName);
