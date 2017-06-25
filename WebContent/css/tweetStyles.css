@@ -17,29 +17,51 @@
 	margin: 0 auto;
   	width: auto;
   	margin-top: 1%;
-  	border-width: 5px;
+  	border-width: 3px;
   	margin-bottom: 1%;
+}
+.user-image {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border-radius: 60%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  margin-right: 15px;
+  margin-top: -2%;
+  border: 3px solid #045358;
+}
+
+.user-image: hover {
+  border: 3px solid #1DACB6;
 }
 .tweet-header-user {
 	color: #F09557;
 	text-align: left;
 	font-weight: bold;
-	font-size: 2rem;
+	font-size: 1.8rem;
+	padding-top: 2%;
 }
 .tweet-header-date {
 	text-align: right;
 	font-weight: bold;
-	font-size: 2rem;
+	font-size: 1.8rem;
+}
+.like-button{
+		margin-left: 1%; 
 }
 .true-selected {
     font-size: 20px;
     color: #F09557 ;
-	text-align: right; 
+	text-align: right;
+	margin-left: 1%;  
 	}
 .delete-button {
     font-size: 20px;
     color: #F09557 ;
 	text-align: right;
+	margin-right: 1%; 
 }
 .glyphicon{
 	cursor: pointer;
@@ -82,6 +104,10 @@ h4{
 .modal-body {
 	color: black;
     text-align: left;
+}
+p{
+	font-weight: bold;
+	font-size: 1.8rem;
 }
 .panel-heading
 {

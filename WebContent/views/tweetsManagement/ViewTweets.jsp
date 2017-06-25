@@ -63,13 +63,13 @@
 					class="form-horizontal" role="form">
 					<div class="modal-body">
 						<div class="form-group">
-							<label class="col-sm-2 control-label" for="inputEmail3">HashTag</label>
-							<div class="col-sm-10">
+							<label class="col-md-2 control-label" for="inputEmail3">HashTag</label>
+							<div class="col-md-10">
 								<input type="hashTag" name="hashTag" class="form-control"
 									id="hashTag" placeholder="#hashTag" />
 							</div>
-							<label class="col-sm-2 control-label" for="inputEmail3">Description</label>
-							<div class="col-sm-10">
+							<label class="col-md-2 control-label" for="inputEmail3">Description</label>
+							<div class="col-md-10">
 								<input type="description" name="description"
 									class="form-control" id="description" placeholder="Description" />
 							</div>
@@ -94,19 +94,19 @@
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title" id="myModalLabel">New Tweet</h4>
+					<h4 class="modal-title" id="myModalLabel">Edit Tweet</h4>
 				</div>
 				<form id="editTweetForm" action="/Lab3/TweetController"
 					method="post" class="form-horizontal" role="form">
 					<div class="modal-body">
 						<div class="form-group">
-							<label class="col-sm-2 control-label" for="inputEmail3">HashTag</label>
-							<div class="col-sm-10">
+							<label class="col-md-2 control-label" for="inputEmail3">HashTag</label>
+							<div class="col-md-10">
 								<input type="hashTag" name="hashTag" class="form-control"
 									id="hashTagEdit" placeholder="#hashTag" />
 							</div>
-							<label class="col-sm-2 control-label" for="inputEmail3">Description</label>
-							<div class="col-sm-10">
+							<label class="col-md-2 control-label" for="inputEmail3">Description</label>
+							<div class="col-md-10">
 								<input type="description" name="description"
 									class="form-control" id="descriptionEdit"
 									placeholder="Description" /> <input type="hidden" name="id"
@@ -123,29 +123,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- Modal error on delete -->
-	<div class="modal" id="deleteModal" tabindex="-1" role="dialog"
-		aria-labelledby="deleteModalLabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content panel-danger">
-				<div class="modal-header panel-heading">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h4 class="modal-title" id="myModalLabel">You are not the
-						owner of the tweet</h4>
-				</div>
-				<div class="modal-body">
-					<p>You can delete only your tweets</p>
-				</div>
-				<div class="modal-footer panel-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Confirm</button>
-				</div>
 
-			</div>
-		</div>
-	</div>
 	<!-- Modal error on delete -->
 	<div class="modal danger" id="anonymousModal" tabindex="-1"
 		role="dialog" aria-labelledby="deleteModalLabel">
@@ -196,7 +174,14 @@
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- /.modal -->
-	<div id="main-test"></div>
+	<div id="main-test">
+		<table>
+			<tr>
+				<td class="col-md-6" id="left"></td>
+				<td class="col-md-6" id="right"></td>
+			</tr>
+		</table>
+	</div>
 </body>
 
 
@@ -246,67 +231,38 @@
 					success : function(result) {
 						$(".panel").remove();
 						loadTweet(result);
-						$(".delete-button")
-								.click(
-										function() {
-											var id = $(this).attr("id");
-											$
-											.ajax({
-												success : function(
-														data) {
-													$(
-															"#confirmDeleteModal")
-															.modal(
-																	'show');
-													$(
-															"#CancelDelete")
-															.click(
-																	function() {
+						$(".delete-button").click(function() {
+							var id = $(this).attr("id");
+							$.ajax({
+								success : function(data) {
+									$("#confirmDeleteModal").modal('show');
+									$("#CancelDelete").click(function() {
 
-																	});
-													$(
-															"#ConfirmDelete")
-															.click(
-																	function() {
-																		deleteTweet(id);
-																		$(
-																				"#confirmDeleteModal")
-																				.modal(
-																						'hide');
-																	});
-												},
-												error : function() {
-													$(
-															"#deleteModal")
-															.modal(
-																	'show');
-												}
+									});
+									$("#ConfirmDelete").click(function() {
+										deleteTweet(id);
+										$("#confirmDeleteModal").modal('hide');
+									});
+								},
+								error : function() {
+									$("#deleteModal").modal('show');
+								}
 
-											});
-										});
-						$(".edit-button")
-								.click(
-										function() {
-											var id = $(this).attr("id");
-											$
-											.ajax({
-												success : function(
-														data) {
-													$(
-															"#hidden")
-															.val(
-																	id);
-													editTweet(id, result);
-												},
-												error : function() {
-													$(
-															"#deleteModal")
-															.modal(
-																	'show');
-												}
-											});
+							});
+						});
+						$(".edit-button").click(function() {
+							var id = $(this).attr("id");
+							$.ajax({
+								success : function(data) {
+									$("#hidden").val(id);
+									editTweet(id, result);
+								},
+								error : function() {
+									$("#deleteModal").modal('show');
+								}
+							});
 
-										});
+						});
 						$(".retweet-button").click(function() {
 							var id = $(this).attr("id");
 							retweet(id);
@@ -437,55 +393,28 @@
 		});
 	}
 	function loadTweet(responseJson) {
-		$
-				.each(
-						responseJson,
-						function(index, tweet) {
-							var $divMain = $("<div>").addClass("panel")
-									.appendTo($("#main-test"));
-							var $div = $("<div>").addClass("panel-heading")
-									.appendTo($divMain);
-							$("<table>").appendTo($div)
-							var $table = $("<table>").appendTo($div)
-							$("<tr>")
-									.appendTo($table)
-									.append(
-											$("<td>")
-													.addClass("col-md-10")
-													.append(
-															$("<div>")
-																	.addClass(
-																			"tweet-header-user")
-																	.attr(
-																			"id",
-																			tweet.idTweet)
-																	.text(
-																			tweet.user)))
-									.append(
-											$("<td>")
-													.addClass("col-md-2")
-													.append(
-															$("<span>")
-																	.addClass(
-																			"glyphicon glyphicon-retweet retweet-button")
-																	.attr(
-																			"id",
-																			tweet.idTweet)))
-									.append(
-											$("<td>")
-													.addClass("col-md-1")
-													.append(
-															$("<div>")
-																	.addClass(
-																			"tweet-header-date")
-																	.text(
-																			tweet.publicationDate)));
-							$("<p>").appendTo($div).text(tweet.hashTag);
-							$("<div>").appendTo($div).text(tweet.description);
-							appendIfOwnerOrAdmin(tweet, $div);
-							drawRetweets(tweet, $divMain);
+		$.each(responseJson, function(index, tweet) {
+			var $divMain = $("<div>").addClass("panel tweet").appendTo(
+					$("#main-test"));
+			var $div = $("<div>").addClass("panel-heading").appendTo($divMain);
+			$("<table>").appendTo($div)
+			var $table = $("<table>").appendTo($div)
 
-						});
+			$("<tr>").appendTo($table).append(
+					$("<td>").addClass("col-md-10").append(
+							$("<div>").addClass("tweet-header-user").attr("id",
+									tweet.idTweet).text(tweet.user).append(
+											$("<div>").addClass("user-image pull-left"))))
+
+			.append(
+					$("<td>").addClass("col-md-1").append(
+							$("<div>").addClass("tweet-header-date").text(
+									tweet.publicationDate)));
+			$("<p>").appendTo($div).text(tweet.hashTag);
+			$("<div>").appendTo($div).text(tweet.description);
+			appendIfOwnerOrAdmin(tweet, $div);
+			drawRetweets(tweet, $divMain);
+		});
 		function appendIfOwnerOrAdmin(tweet, $div) {
 			if (tweet.user == '${sessionScope.user}'
 					|| '${sessionScope.userType}' == "admin") {
@@ -495,30 +424,45 @@
 						.append(
 								$("<span>")
 										.addClass(
-												"glyphicon glyphicon-trash delete-button col-sm-1")
+												"glyphicon glyphicon-trash delete-button pull-left")
 										.attr("id", tweet.idTweet))
 						.append(
 								$("<span>")
 										.addClass(
-												"glyphicon glyphicon-pencil edit-button col-sm-2")
-										.attr("id", tweet.idTweet)).append(
+												"glyphicon glyphicon-pencil edit-button pull-left")
+										.attr("id", tweet.idTweet))
+						.append(
 								$("<span>").addClass(
 										"glyphicon glyphicon-thumbs-up like-button "
 												+ tweet.isLiked
-												+ "-selected col-sm-9").text(
-										tweet.likes).attr("id", tweet.idTweet));
+												+ "-selected  pull-right")
+										.text(tweet.likes).attr("id",
+												tweet.idTweet))
+						.append(
+								$("<span>")
+										.addClass(
+												"glyphicon glyphicon-retweet retweet-button pull-right")
+										.attr("id", tweet.idTweet));
 			} else {
-				$("<div>").appendTo($div).addClass(
-						"panel-footer tweet tweet-footer").append(
-						$("<span>")
-								.addClass(
+				$("<div>")
+						.appendTo($div)
+						.addClass("panel-footer tweet tweet-footer")
+						.append(
+								$("<span>").addClass(
 										"glyphicon glyphicon-thumbs-up like-button "
 												+ tweet.isLiked
-												+ "-selected col-sm-12").text(
+												+ "-selected pull-right").text(
 										tweet.likes).attr("id", tweet.idTweet))
+						.append(
+								$("<span>")
+										.addClass(
+												"glyphicon glyphicon-retweet retweet-button pull-right")
+										.attr("id", tweet.idTweet));
+
 			}
 		}
 		function drawRetweets(tweet, $divMain) {
+			console.log("Retweet: ", tweet);
 			if (tweet.parentTweet != -1) {
 				$divMain.addClass("retweet");
 			} else {

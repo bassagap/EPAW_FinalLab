@@ -34,7 +34,7 @@ public class TweetDAO {
 		try {
 			subscriptors.add(userID);	
 			for (Integer user : subscriptors){
-				String query = "SELECT * FROM TWEETS WHERE (USER_ID1 = '" + user + "' AND NOT VISIBILITY = 'public' ) OR (VISIBILITY = 'public')";
+				String query = "SELECT * FROM TWEETS WHERE (USER_ID1 = '" + user + "' AND NOT VISIBILITY = 'public' ) OR (VISIBILITY = 'public' AND NOT USER_ID1 = '"+ user +"')";
 				ResultSet resultSet =  statement.executeQuery(query);
 				while(resultSet.next()){
 					BeanTweet tweet = new BeanTweet(); 
