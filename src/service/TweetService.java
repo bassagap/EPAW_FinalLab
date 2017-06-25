@@ -1,10 +1,9 @@
 package service;
 
-import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 import models.BeanTweet;
 import models.BeanUser;
@@ -134,7 +133,6 @@ public class TweetService {
 	 */
 	public BeanTweet getTweet(int idTweet, int userID) throws Exception {
 		BeanTweet tweet = new BeanTweet(); 
-		UserService userService = new UserService(); 
 		TweetDAO tweetDAO = new TweetDAO(); 
 		tweet = tweetDAO.getTweet(idTweet); 
 		enrichTweet(tweet, userID); 

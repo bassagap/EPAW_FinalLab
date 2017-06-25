@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import models.BeanTweet;
-import models.BeanUser;
 
 public class TweetDAO {
 	private Connection connection;
