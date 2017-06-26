@@ -30,8 +30,13 @@
 <div class="user-block">
 	<div class="col-sm-2">Your mail is: </div>
 	<div class="col-sm-10">
-		<input type="mail" id="replaceMail" name="search" placeholder="None" />
-	</div>
+	<form id="mail">
+		<input class="replaceMail" type="mail" name="mail" placeholder="Email" required
+					value="${param.userName}"
+					pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+					title="Enter a valid email">
+		</form>
+	</div>	
 </div>
 
 <div class="user-block">
@@ -66,25 +71,26 @@ $(document).ready(function() {
 	getPersonalInfo(userId);
 		
 	$(document).on('click','.save-button',function(){
+		if($(".replaceMail").is(":invalid")==false){
+			var mail = $(".replaceMail").val(); 			
+			$.ajax({
+				url : '${pageContext.request.contextPath}/UserAccountController',
+				type : 'GET',
+				data : {
+					callType: 'changeConfig',
+					userId : userId,
+					sessionId: "",
+					mail : mail,
+					privacy : $("#button-checkbox").is(':checked')
+				},
+				success: function(data){
+					$(".Msg").remove();
+					$("<div>").addClass("Msg").text("Changes saved").appendTo('.display-msg');
+					getPersonalInfo(userId);
+				},
+			});
+		}
 		
-		var mail = $("#replaceMail").val(); 
-		
-		$.ajax({
-			url : '${pageContext.request.contextPath}/UserAccountController',
-			type : 'GET',
-			data : {
-				callType: 'changeConfig',
-				userId : userId,
-				sessionId: "",
-				mail : mail,
-				privacy : $("#button-checkbox").is(':checked')
-			},
-			success: function(data){
-				$(".Msg").remove();
-				$("<div>").addClass("Msg").text("Changes saved").appendTo('.display-msg');
-				getPersonalInfo(userId);
-			},
-		});
 	});
 });
 
@@ -106,9 +112,9 @@ function getPersonalInfo(userId,sessionId){
 	});
 }
 function loadInfo(data) {
-	$('#replaceMail').val(data[1]);
+	console.log(data[1]);
+	$('.replaceMail').val(data[1]);
 	$('.button-checkbox').prop('checked', data[2] == 'true');
-	console.log($("#button-checkbox").is(':checked'));
 };
 
 $(function () {
