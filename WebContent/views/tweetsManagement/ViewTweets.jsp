@@ -28,7 +28,7 @@
 			<td class="col-md-10">
 				<form id="searchTweet" action="/Lab3/TweetController"
 					method="post">
-					<input type="text" id = "search" name="search" placeholder="Search...">
+					<input type="text" id = "search" name="search" placeholder="Search...   @user, #hashTag, or description">
 				</form>
 			</td>
 			<td class="col-md-2">

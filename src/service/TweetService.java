@@ -30,7 +30,9 @@ public class TweetService {
 		} else if ("true".equals(personalized)){
 			tweetsList =  tweetDAO.getPersonalizedTweetsList(user.getUserId(), subscriptorsID);
 		} else if (isSearching){
-			tweetsList = tweetDAO.searchTweetByAttr(search, "user");
+			String attribute =  getSearchAttribute(search); 
+			search = search.substring(1); 
+			tweetsList = tweetDAO.searchTweetByAttr(search, attribute);
 		}
 		else {
 			tweetsList =  tweetDAO.getFilteredTweetsList(user.getUserId(), subscriptorsID);
@@ -200,4 +202,14 @@ public class TweetService {
 		return tweetsList;
 	}
 	
+	private String getSearchAttribute(String search){
+		String searchBy = search.substring(0, 1); 
+		String attribute = "description"; 
+		if("@".equals(searchBy)){
+			attribute = "user"; 
+		} else if ("#".equals(searchBy)){
+			attribute = "hashtag";  
+		} 
+		return attribute; 
+	}
 }
