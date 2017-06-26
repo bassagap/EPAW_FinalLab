@@ -19,7 +19,7 @@ public class TweetService {
 	 * @return tweetList of type ArrayList<BeanTweet>  with the tweets already filtered and orderd
 	 * @throws Exception
 	 */
-	public ArrayList<BeanTweet> getTweetsList(String userName, String personalized) throws Exception{
+	public ArrayList<BeanTweet> getTweetsList(String userName, String personalized, Boolean isSearching, String search) throws Exception{
 		TweetDAO tweetDAO = new TweetDAO(); 
 		UserService userService = new UserService();
 		BeanUser user = userService.getUser(userName);
@@ -29,6 +29,8 @@ public class TweetService {
 			tweetsList =  tweetDAO.getFullTweetsList();
 		} else if ("true".equals(personalized)){
 			tweetsList =  tweetDAO.getPersonalizedTweetsList(user.getUserId(), subscriptorsID);
+		} else if (isSearching){
+			tweetsList = tweetDAO.searchTweetByAttr(search, "user");
 		}
 		else {
 			tweetsList =  tweetDAO.getFilteredTweetsList(user.getUserId(), subscriptorsID);
@@ -38,6 +40,7 @@ public class TweetService {
 		Collections.reverse(tweetsList);
 		return tweetsList;	
 	}
+	
 	
 	/**
 	 * Inserts a tweet into the database

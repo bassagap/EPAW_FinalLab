@@ -244,5 +244,31 @@ public class TweetDAO {
 		statement.close();
 		connection.close();
 	}
+	/**
+	 * Search Tweet by given attribute
+	 * @param search
+	 * @param attribute
+	 * @return tweetsList
+	 * @throws SQLException
+	 */
+	public ArrayList<BeanTweet>  searchTweetByAttr (String search, String attribute) throws SQLException{
+		ArrayList<BeanTweet> tweetsList = new ArrayList<BeanTweet>(); 
+		String query = "SELECT * FROM TWEETS WHERE " + attribute  + " LIKE '%" + search + "%'"; 
+		ResultSet resultSet =  statement.executeQuery(query);
+		while(resultSet.next()){
+			BeanTweet tweet = new BeanTweet(); 
+			tweet.setHashTag(resultSet.getString("hashtag"));
+			tweet.setDescription(resultSet.getString("description"));
+			tweet.setUser(resultSet.getString("user"));
+			tweet.setVisibility(resultSet.getString("visibility"));
+			tweet.setPublicationDate(resultSet.getDate("publicationDate"));
+			tweet.setIdTweet(resultSet.getInt("id"));
+			tweet.setLikes(resultSet.getInt("likes"));
+			tweet.setParentTweet(resultSet.getInt("parentTweet"));
+			tweetsList.add(tweet);
+		}
+		disconnectBD();
+		return tweetsList;		
+	}
 }
 
