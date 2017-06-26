@@ -110,7 +110,7 @@ public class TweetController extends HttpServlet {
 						tweetService.disconectBD();
 					}
 				}
-				if(! "".equals(search)){
+				if(!( "".equals(search)) && !(search == null)){
 					isSearching = true; 
 						
 				}

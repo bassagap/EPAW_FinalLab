@@ -202,10 +202,18 @@
 	var form = $('#addTweetForm');
 	form.submit(function() {
 		var personalized = $("#personalizedSearch").prop("checked");
+		var hashTag = $("#hashTag").val();
+		var description = $("#description").val();
+		console.log("hashTag", hashTag); 
+		console.log("description", description); 
 		$.ajax({
 			type : form.attr('method'),
 			url : form.attr('action'),
-			data : form.serialize() + "&callType=add",
+			data : {
+				hashTag: hashTag, 
+				description: description, 
+				callType: 'add'
+			},
 			success : function(data) {
 				getTweets(personalized);
 				$('#myModal').modal('hide');
@@ -252,7 +260,6 @@
 					success : function(result) {
 						$(".panel").remove();
 						loadTweet(result);
-						console.log("Search: " , search);
 						$(".delete-button").click(function() {
 							var id = $(this).attr("id");
 							$.ajax({
