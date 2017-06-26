@@ -26,9 +26,8 @@
 	<table>
 		<tr>
 			<td class="col-md-10">
-				<form id="searchTweet" action="/Lab3/TweetController"
-					method="post">
-					<input type="text" id = "search" name="search" placeholder="Search...   @user, #hashTag, or description">
+				<form>
+					<input type="text" name="search" placeholder="Search...">
 				</form>
 			</td>
 			<td class="col-md-2">
@@ -202,18 +201,10 @@
 	var form = $('#addTweetForm');
 	form.submit(function() {
 		var personalized = $("#personalizedSearch").prop("checked");
-		var hashTag = $("#hashTag").val();
-		var description = $("#description").val();
-		console.log("hashTag", hashTag); 
-		console.log("description", description); 
 		$.ajax({
 			type : form.attr('method'),
 			url : form.attr('action'),
-			data : {
-				hashTag: hashTag, 
-				description: description, 
-				callType: 'add'
-			},
+			data : form.serialize() + "&callType=add",
 			success : function(data) {
 				getTweets(personalized);
 				$('#myModal').modal('hide');
@@ -228,33 +219,13 @@
 
 		return false;
 	});
-	var form = $('#searchTweet');
-	form.submit(function() {
-		var personalized = $("#personalizedSearch").prop("checked");
-		$.ajax({
-			type : form.attr('method'),
-			url : form.attr('action'),
-			data : form.serialize() + "&callType=search",
-			success : function(data) {
-				getTweets(personalized);
-			},
-			error : function() {
-				$("#anonymousModal").modal('show');
-			}
-
-		});
-
-		return false;
-	}); 
 	function getTweets(personalized) {
-		var search = $("#search").val();
 		$
 				.ajax({
 					url : '${pageContext.request.contextPath}/TweetController',
 					type : 'POST',
 					data : {
 						clicked : personalized,
-						search: search, 
 						callType : 'update'
 					},
 					success : function(result) {
@@ -306,7 +277,6 @@
 														url : '${pageContext.request.contextPath}/TweetController',
 														data : {
 															callType : 'like',
-															search: search, 
 															id : id
 														},
 														success : function(data) {
@@ -314,7 +284,7 @@
 																	.ajax({
 																		success : function(
 																				data) {
-																			getTweets(personalized, search);
+																			getTweets(personalized);
 																		},
 																		error : function() {
 
@@ -360,7 +330,6 @@
 											};
 
 										});
-						
 
 					}
 				});

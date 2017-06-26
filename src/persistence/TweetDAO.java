@@ -90,6 +90,35 @@ public class TweetDAO {
 	 * @return tweetsList with tweets from the user and its subscriptors only
 	 * @throws SQLException
 	 */
+	/**
+	 * Gets the User's Tweets
+	 * @param userID of the user from which the tweet list is going to be retrieved
+	 * @return tweetsList with tweets from the user
+	 * @throws SQLException
+	 */
+	public ArrayList<BeanTweet> getUserTweets(int userID) throws SQLException{
+		ArrayList<BeanTweet> tweetsList = new ArrayList<BeanTweet>();
+		try {
+			String query = "SELECT * FROM TWEETS WHERE (USER_ID1 = '" + userID + "')";
+			ResultSet resultSet =  statement.executeQuery(query);
+			while(resultSet.next()){
+				BeanTweet tweet = new BeanTweet(); 
+				tweet.setHashTag(resultSet.getString("hashtag"));
+				tweet.setDescription(resultSet.getString("description"));
+				tweet.setUser(resultSet.getString("user"));
+				tweet.setVisibility(resultSet.getString("visibility"));
+				tweet.setPublicationDate(resultSet.getDate("publicationDate"));
+				tweet.setIdTweet(resultSet.getInt("id"));
+				tweet.setLikes(resultSet.getInt("likes"));
+				tweet.setParentTweet(resultSet.getInt("parentTweet"));
+				tweetsList.add(tweet);
+			}
+		} catch (SQLException e) {
+            e.printStackTrace();
+        }
+		disconnectBD();
+		return tweetsList;
+	}
 	public ArrayList<BeanTweet> getPersonalizedTweetsList(int userID, ArrayList<Integer> subscriptors) throws SQLException{
 		ArrayList<BeanTweet> tweetsList = new ArrayList<BeanTweet>();
 		try {
@@ -271,4 +300,3 @@ public class TweetDAO {
 		return tweetsList;		
 	}
 }
-

@@ -25,7 +25,7 @@ public class TweetService {
 		BeanUser user = userService.getUser(userName);
 		ArrayList<Integer> subscriptorsID = userService.getSubscriptionsList(user.getUserId());
 		ArrayList<BeanTweet> tweetsList = new ArrayList<BeanTweet>();		
-		if("admin".equals(user.getUserType())){
+		if("admin".equals(user.getUserType()) && !"user".equals(personalized)){
 			tweetsList =  tweetDAO.getFullTweetsList();
 		} else if ("true".equals(personalized)){
 			tweetsList =  tweetDAO.getPersonalizedTweetsList(user.getUserId(), subscriptorsID);
@@ -33,6 +33,9 @@ public class TweetService {
 			String attribute =  getSearchAttribute(search); 
 			search = search.substring(1); 
 			tweetsList = tweetDAO.searchTweetByAttr(search, attribute);
+		}
+		else if ("user".equals(personalized)){
+			tweetsList =  tweetDAO.getUserTweets(user.getUserId());
 		}
 		else {
 			tweetsList =  tweetDAO.getFilteredTweetsList(user.getUserId(), subscriptorsID);

@@ -3,7 +3,7 @@
 	color: #054358;
 	font-size: 1.8rem;
 	margin: 0 auto;
-	margin-bottom: 25px;
+	margin-bottom: 10px;
   	padding-left:100px;
   	height: 100px;
 }
@@ -17,7 +17,7 @@
   	width: auto;
   	height: 100px;
 }
-.unsubscribe-button {
+.unsubscribe-button,.add-button {
     font-size: 20px;
     color: #F09557 ;
 	text-align: right;

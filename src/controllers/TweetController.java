@@ -45,6 +45,7 @@ public class TweetController extends HttpServlet {
 		String description = request.getParameter("description"); 
 		String callType = request.getParameter("callType"); 
 		String tweet_id_string = request.getParameter("id");
+		String userId = request.getParameter("userId");
 		HttpSession session = request.getSession();
 		String session_user = (String) session.getAttribute("user"); 
 		Calendar calendar = Calendar.getInstance();
@@ -114,8 +115,25 @@ public class TweetController extends HttpServlet {
 					isSearching = true; 
 						
 				}
-				ArrayList<BeanTweet> tweetList = tweetService.getTweetsList(session_user, personalized, isSearching, search);
-				String json = new Gson().toJson(tweetList);
+				ArrayList<BeanTweet> tweetsList = new ArrayList<BeanTweet>();
+				if("updateProfile".equals(callType)){
+					BeanTweet info = new BeanTweet();
+					if(userService.getUser(userId).getVisibility().equals("public") || userId.equals(session_user) || userService.getUser(session_user).getUserType().equals("admin")){
+						info.setVisibility("true");
+					}
+					else{ 
+						info.setVisibility("false"); 
+					}
+					System.out.println(info.getVisibility());
+					tweetsList.add(info);
+					tweetsList.addAll(tweetService.getTweetsList(userId, personalized,false,""));
+					
+					
+				}
+				
+				else tweetsList = tweetService.getTweetsList(session_user, personalized, isSearching, search);
+				
+				String json = new Gson().toJson(tweetsList);
 				response.setContentType("application/json");
 				response.setCharacterEncoding("UTF-8");
 				response.getWriter().write(json);

@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
@@ -16,14 +17,14 @@ import service.UserService;
 /**
  * Servlet implementation class UserAccountController
  */
-@WebServlet("/SubscriptionsController")
-public class SubscriptionsController extends HttpServlet {
+@WebServlet("/AllUsersController")
+public class AllUsersController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SubscriptionsController() {
+    public AllUsersController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,29 +34,35 @@ public class SubscriptionsController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UserService userService = new UserService(); 
-		String subscriptionName =request.getParameter("subscriptionName");
-		String callType =request.getParameter("callType");
-		String userName =request.getParameter("userName");
-		//id =Integer.parseInt(request.getParameter("id"));
+		String userName= request.getParameter("userId");
+		HttpSession session = request.getSession();
+		String callType = request.getParameter("callType");
+		String sessionName = (String) session.getAttribute("user");
 		
 		try {
-			if(userService.userExistsByName(subscriptionName)){
-				if(callType.equals("add"))
-					userService.subscribe(userName, subscriptionName);
-				else if(callType.equals("delete"))
-					userService.unSubscribe(userName, subscriptionName);
-			}
+			int userId = userService.getUser(userName).getUserId();
+			int sessionId = userService.getUser(sessionName).getUserId();
 			
-			ArrayList<String> resp = new ArrayList<String>();
-			ArrayList<Integer> SubscriptionsList = userService.getSubscriptionsList(userService.getUser(userName).getUserId());
-			for (int id: SubscriptionsList){
-				resp.add(userService.getUserName(id));
-			}
+			ArrayList<ArrayList<String>> resp = new ArrayList<ArrayList<String>>();
 			
+			if(callType.equals("getUsers")){				
+				ArrayList<BeanUser> usersList = new ArrayList<BeanUser>();
+				usersList =  userService.getUsersList();
+				for (BeanUser user : usersList){
+					ArrayList<String> oneUser = new ArrayList<String>();
+					oneUser.add(user.getUserName());
+					oneUser.add(userService.isSubscribed(sessionId,user.getUserId()).toString());
+					resp.add(oneUser);
+				}
+				userService.disconectBD();
+					
+				
+			}
 			String json = new Gson().toJson(resp);
 		    response.setContentType("application/json");
 		    response.setCharacterEncoding("UTF-8");
 		    response.getWriter().write(json);
+		    userService.disconectBD();
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

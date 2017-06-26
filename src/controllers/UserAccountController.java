@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
+
+import models.BeanUser;
 import service.UserService;
 
 /**
@@ -50,6 +52,7 @@ public class UserAccountController extends HttpServlet {
 			if("deleteUser".equals(callType)){
 				int userID = userService.getUser(sessionName).getUserId();
 				userService.deletetUser(userID);
+				userService.disconectBD();
 			}
 			if(callType.equals("navigate")){
 				
@@ -59,20 +62,27 @@ public class UserAccountController extends HttpServlet {
 				//Personal info
 				resp.add(String.valueOf(userName));
 				
-				if(userService.getUser(userName).getVisibility().equals("public") || userId == sessionId || userService.getUser(sessionName).getUserType().equals("Admin")){
+				if(userService.getUser(userName).getVisibility().equals("public") || userName.equals(sessionName) || userService.getUser(sessionName).getUserType().equals("admin")){
 					resp.add(email);
 				}
 				else resp.add("");
+				userService.disconectBD();
 			}
 			else if(callType.equals("getFriends")){				
+				if(userService.getUser(userName).getVisibility().equals("public") || userName.equals(sessionName) || userService.getUser(sessionName).getUserType().equals("admin")){
+					resp.add("true");
+				}
+				else resp.add("false");
+				
 				ArrayList<Integer> SubscriptionsList = userService.getSubscriptionsList(userId);
 				for (int id: SubscriptionsList){
 					resp.add(userService.getUserName(id));
 				}
+				userService.disconectBD();
 			}
 			else if(callType.equals("enterConfig")){
 				resp.add(email);
-				if(userService.getUser(userName).getVisibility().equals("Public"))
+				if(userService.getUser(userName).getVisibility().equals("public"))
 					resp.add("false");
 				else resp.add("true");
 			}
@@ -85,12 +95,25 @@ public class UserAccountController extends HttpServlet {
 					userService.setVisibility(userId,"private");
 				}
 				else	userService.setVisibility(userId,"public");	
+				
+				userService.disconectBD();
 			}
-			
+			else if(callType.equals("getUsers")){				
+				ArrayList<BeanUser> usersList = new ArrayList<BeanUser>();
+				usersList =  userService.getUsersList();
+				userService.disconectBD();
+				
+				for (BeanUser user : usersList){
+					resp.add(user.getUserName());
+				}
+					
+				
+			}
 			String json = new Gson().toJson(resp);
 		    response.setContentType("application/json");
 		    response.setCharacterEncoding("UTF-8");
 		    response.getWriter().write(json);
+		    userService.disconectBD();
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

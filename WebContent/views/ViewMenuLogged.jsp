@@ -54,7 +54,7 @@
 		</ul>
 		<hr class="hr-left-side-menu">
 		<ul>
-			<li class="About">About</li>
+			<li class="Users" id="Users"> Users </li>
 		</ul>
 		<hr class="hr-left-side-menu">
 	</div>
@@ -159,6 +159,21 @@
 								responseText,
 								session) {
 									$("#main").html(result);
+								}
+					});
+				});
+		
+		$("#Users").click(
+				function() {
+					$.ajax({
+						url : '${pageContext.request.contextPath}/views/allUsersManagement/ViewUsers.jsp',
+						type : 'GET',
+						success : function(
+								result,
+								responseText,
+								session) {
+									$("#main").html(result);
+									$(".user-id").attr('id','${sessionScope.user}' );
 								}
 					});
 				});

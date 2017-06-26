@@ -3,6 +3,7 @@ package service;
 
 import java.util.ArrayList;
 import models.BeanUser;
+import persistence.TweetDAO;
 import persistence.UserDAO;
 
 public class UserService {	
@@ -34,7 +35,13 @@ public class UserService {
 		}	
 		return exists; 
 	}
-	
+	/**
+	 * @throws Exception
+	 */
+	public void disconectBD() throws Exception {
+		UserDAO userDAO = new UserDAO(); 
+		userDAO.disconnectBD();
+	}
 	/**
 	 * Insert a user into the database
 	 * @param user to be inserted
@@ -87,6 +94,19 @@ public class UserService {
 		UserDAO userDAO = new UserDAO(); 
 		ArrayList<Integer> usersList =  userDAO.getSubscriptions(id);
 		return usersList;	
+	}
+	
+	/**
+	 * Check if the user is subscribed to other user
+	 * @param id of the user
+	 * @param id of the possible subscriber
+	 * @return True if it's a subscription
+	 * @throws Exception
+	 */
+	public Boolean isSubscribed(int id, int id2) throws Exception{
+		UserDAO userDAO = new UserDAO(); 
+		ArrayList<Integer> usersList =  userDAO.getSubscriptions(id);
+		return usersList.contains(id2);	
 	}
 	
 	/**
