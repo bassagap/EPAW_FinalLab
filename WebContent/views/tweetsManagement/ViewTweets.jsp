@@ -327,7 +327,7 @@
 								.click(
 										function() {
 											var id = $(this).attr("id");
-											console.log(id);
+											var userName = $(this).text();
 											$
 													.ajax({
 														url : '${pageContext.request.contextPath}/UserAccountController',
@@ -338,13 +338,19 @@
 															sessionId : '${sessionScope.user}'
 														},
 														success : function(data) {
-															console.log(
-																	"succes",
-																	data);
-															$("#body").html(
-																	data);
+															gotoPerfil();
 														},
 													});
+											function gotoPerfil() {
+												$.ajax({
+													url : '${pageContext.request.contextPath}/views/userManagement/ViewUserAccount.jsp',
+													type : 'GET',
+													success : function(result) {
+														$("#main").html(result);
+														$(".user-id").attr('id',userName);
+													}
+												});
+											};
 
 										});
 						
@@ -353,7 +359,7 @@
 				});
 	}
 	function editTweet(id, responseJson) {
-		console.log("response: ", responseJson);
+		//console.log("response: ", responseJson);
 		var personalized = $("#personalizedSearch").prop("checked");
 		$("#myModalEdit").modal('show');
 		$.each(responseJson, function(index, tweet) {
@@ -427,7 +433,7 @@
 			$("<tr>").appendTo($table).append(
 					$("<td>").addClass("col-md-10").append(
 							$("<div>").addClass("tweet-header-user").attr("id",
-									tweet.idTweet).text(tweet.user).append(
+									tweet.idTweet).text(tweet.user).css('cursor','pointer').append(
 											$("<div>").addClass("user-image pull-left"))))
 
 			.append(
@@ -486,7 +492,7 @@
 			}
 		}
 		function drawRetweets(tweet, $divMain) {
-			console.log("Retweet: ", tweet);
+			//console.log("Retweet: ", tweet);
 			if (tweet.parentTweet != -1) {
 				$divMain.addClass("retweet");
 			} else {

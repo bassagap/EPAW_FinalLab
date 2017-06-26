@@ -40,6 +40,7 @@
 			<div class="field">
 				<input type="mail" name="mail" placeholder="Email" required
 					value="${param.userName}"
+					minlength="6"
 					pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
 					title="Enter a valid email">
 			</div>
@@ -207,6 +208,11 @@
 						$('.dropdown dt a').append(ret);
 					}
 				});
+		
+		function showOptional() {
+			document.getElementById('optional').style.display = 'block';
+			document.getElementById('optionalButton').style.display = 'none';
+		} 
 	</script>
 </body>
 </html>

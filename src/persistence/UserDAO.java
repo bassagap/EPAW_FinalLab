@@ -161,6 +161,44 @@ public class UserDAO {
 		disconnectBD();
 		return userName;
 	}
+	/**
+	 * Set the mail of the user. 
+	 * @param user ID of the current user. 
+	 * @param new mail.
+	 * @throws SQLException
+	 */
+	public void setMail(int id, String mail) throws SQLException{
+		String query = "UPDATE ts1.users SET mail='"+mail+"' WHERE id='"+id+"'";
+		int resultSet =  statement.executeUpdate(query);
+		disconnectBD();
+	}
+	/**
+	 * Set the visibility of the user. 
+	 * @param user ID of the current user. 
+	 * @param visibility.
+	 * @throws SQLException
+	 */
+	public void setVisibility(int id, String visibility) throws SQLException{
+		String query = "UPDATE ts1.users SET visibility='"+visibility+"' WHERE id='"+id+"'";
+		int resultSet =  statement.executeUpdate(query);
+		disconnectBD();
+	}
+	/**
+	 * Check if the user exists in the database
+	 * @param a User name
+	 * @return a Boolean true if exists. 
+	 * @throws SQLException
+	 */
+	public Boolean isValidUserName(String userName) throws SQLException{
+		Boolean isValid = true; 
+		String query = "SELECT * FROM USERS WHERE USERNAME = '" + userName +"'"; 
+		ResultSet resultSet =  statement.executeQuery(query);
+		if(resultSet.next()){
+			isValid = false; 
+		}
+		disconnectBD();
+		return isValid; 
+	}
 
 
 }

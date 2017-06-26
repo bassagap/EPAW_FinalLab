@@ -44,66 +44,53 @@ public class UserAccountController extends HttpServlet {
 			if(userId == sessionId || userService.getUser(sessionName).getUserType().equals("admin"))
 				resp.add("true");
 			else resp.add("false");
+			
+			String email = userService.getUser(userName).getMail();
+			
 			if("deleteUser".equals(callType)){
 				int userID = userService.getUser(sessionName).getUserId();
 				userService.deletetUser(userID);
 			}
-			if(callType.equals("enterAccount")){
-				String email = userService.getUser(sessionName).getMail();
-				
-				//Check if session user is anonymous
-				if("anonymous".equals(session.getAttribute("user"))){
-					resp.add("false");
-				}else{
-					resp.add("true");
-				}
-				
-				//Personal info
-				resp.add(String.valueOf(sessionName));
-				
-				if("public".equals(userService.getUser(userName).getVisibility()) || userId == sessionId || "admin".equals(userService.getUser(sessionName).getUserType())){
-					resp.add(email);
-				}
-				else resp.add("");
-				String json = new Gson().toJson(resp);
-			    response.setContentType("application/json");
-			    response.setCharacterEncoding("UTF-8");
-			    response.getWriter().write(json);
-			}
 			if(callType.equals("navigate")){
-				userName = userService.getUserName(Integer.parseInt(userName));
-				String email = userService.getUser(userName).getMail();
 				
-				//Check if session user is anonymous
-				if("anonymous".equals(session.getAttribute("user"))){
-					resp.add("false");
-				}else{
-					resp.add("true");
-				}
+				if(userService.userExistsByName(userName))	resp.add("true");
+				else	resp.add("false");
 				
 				//Personal info
 				resp.add(String.valueOf(userName));
 				
-				if("public".equals(userService.getUser(userName).getVisibility()) || userId == sessionId || "admin".equals(userService.getUser(sessionName).getUserType())){
+				if(userService.getUser(userName).getVisibility().equals("public") || userId == sessionId || userService.getUser(sessionName).getUserType().equals("Admin")){
 					resp.add(email);
 				}
 				else resp.add("");
-				String json = new Gson().toJson(resp);
-			    response.setContentType("application/json");
-			    response.setCharacterEncoding("UTF-8");
-			    response.getWriter().write(json);
 			}
 			else if(callType.equals("getFriends")){				
 				ArrayList<Integer> SubscriptionsList = userService.getSubscriptionsList(userId);
 				for (int id: SubscriptionsList){
 					resp.add(userService.getUserName(id));
 				}
-				
-				String json = new Gson().toJson(resp);
-			    response.setContentType("application/json");
-			    response.setCharacterEncoding("UTF-8");
-			    response.getWriter().write(json);
 			}
+			else if(callType.equals("enterConfig")){
+				resp.add(email);
+				if(userService.getUser(userName).getVisibility().equals("Public"))
+					resp.add("false");
+				else resp.add("true");
+			}
+			else if(callType.equals("changeConfig")){				
+				String mail= request.getParameter("mail");
+				userService.setMail(userId,mail);
+
+				String privacy= request.getParameter("privacy");
+				if(privacy.equals("true")){
+					userService.setVisibility(userId,"private");
+				}
+				else	userService.setVisibility(userId,"public");	
+			}
+			
+			String json = new Gson().toJson(resp);
+		    response.setContentType("application/json");
+		    response.setCharacterEncoding("UTF-8");
+		    response.getWriter().write(json);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

@@ -123,7 +123,7 @@
 					url : '${pageContext.request.contextPath}/UserAccountController',
 					type : 'GET',
 					data : {
-						callType: 'enterAccount',
+						callType: 'navigate',
 						userId : userId,
 						sessionId: userId
 					},
@@ -144,6 +144,7 @@
 				success : function(
 						result) {
 							$("#main").html(result);
+							$(".user-id").attr('id','${sessionScope.user}' );
 						}
 			});
 		};

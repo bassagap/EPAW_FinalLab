@@ -125,7 +125,10 @@ h3:after{
 }
 
 /*============== OTHER ======================*/
-
+.center{
+	display: block;
+	margin-left: 15%;
+}
 .top-logo{
 	margin-top:-100px;
 	padding-bottom:300px;
