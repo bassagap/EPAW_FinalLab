@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import models.BeanTweet;
 
@@ -32,21 +33,22 @@ public class TweetDAO {
 		ArrayList<BeanTweet> tweetsList = new ArrayList<BeanTweet>();
 		try {
 			subscriptors.add(userID);	
-			for (Integer user : subscriptors){
-				String query = "SELECT * FROM TWEETS WHERE (USER_ID1 = '" + user + "' AND NOT VISIBILITY = 'public' ) OR (VISIBILITY = 'public' AND NOT USER_ID1 = '"+ user +"')";
-				ResultSet resultSet =  statement.executeQuery(query);
-				while(resultSet.next()){
-					BeanTweet tweet = new BeanTweet(); 
-					tweet.setHashTag(resultSet.getString("hashtag"));
-					tweet.setDescription(resultSet.getString("description"));
-					tweet.setUser(resultSet.getString("user"));
-					tweet.setVisibility(resultSet.getString("visibility"));
-					tweet.setPublicationDate(resultSet.getDate("publicationDate"));
-					tweet.setIdTweet(resultSet.getInt("id"));
-					tweet.setLikes(resultSet.getInt("likes"));
-					tweet.setParentTweet(resultSet.getInt("parentTweet"));
-					tweetsList.add(tweet);
-				}
+			String listString = subscriptors.stream().map(Object::toString)
+                    .collect(Collectors.joining(", "));
+			System.out.println("list String: " + listString);			
+			String query = "SELECT * FROM TWEETS WHERE USER_ID1 IN (" + listString + ") OR (VISIBILITY = 'public' and USER_ID1 NOT IN (" + listString + " ))";
+			ResultSet resultSet =  statement.executeQuery(query);
+			while(resultSet.next()){
+				BeanTweet tweet = new BeanTweet(); 
+				tweet.setHashTag(resultSet.getString("hashtag"));
+				tweet.setDescription(resultSet.getString("description"));
+				tweet.setUser(resultSet.getString("user"));
+				tweet.setVisibility(resultSet.getString("visibility"));
+				tweet.setPublicationDate(resultSet.getDate("publicationDate"));
+				tweet.setIdTweet(resultSet.getInt("id"));
+				tweet.setLikes(resultSet.getInt("likes"));
+				tweet.setParentTweet(resultSet.getInt("parentTweet"));
+				tweetsList.add(tweet);
 			}
 		} catch (SQLException e) {
             e.printStackTrace();
