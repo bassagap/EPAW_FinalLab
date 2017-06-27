@@ -54,6 +54,8 @@ public class TweetController extends HttpServlet {
 		String search = request.getParameter("search"); 
 
 		try {
+			int sessionId = userService.getUser(session_user).getUserId();
+			int intUserId = userService.getUser(userId).getUserId();
 			//Manage tweet acctions: 
 				if("add".equals(callType) && !session_user.equals("anonymous")){
 					tweet.setDescription(description);
@@ -118,13 +120,12 @@ public class TweetController extends HttpServlet {
 				ArrayList<BeanTweet> tweetsList = new ArrayList<BeanTweet>();
 				if("updateProfile".equals(callType)){
 					BeanTweet info = new BeanTweet();
-					if(userService.getUser(userId).getVisibility().equals("public") || userId.equals(session_user) || userService.getUser(session_user).getUserType().equals("admin")){
+					if(userService.getUser(userId).getVisibility().equals("public") || userId.equals(session_user) || userService.getUser(session_user).getUserType().equals("admin") || userService.isSubscribed(sessionId, intUserId)){
 						info.setVisibility("true");
 					}
 					else{ 
 						info.setVisibility("false"); 
 					}
-					System.out.println(info.getVisibility());
 					tweetsList.add(info);
 					tweetsList.addAll(tweetService.getTweetsList(userId, personalized,false,""));
 					

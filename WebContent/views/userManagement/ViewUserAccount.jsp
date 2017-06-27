@@ -290,7 +290,7 @@
 				var $subsName = $("<div>").addClass("friend-button").css('cursor','pointer').attr("id",friend).text(friend).appendTo($subsName);
 				if(data[0] == "true"){
 					var $trash = $("<div>").addClass("col-sm-3").appendTo($divMain);
-					var $delete = $("<span>").addClass("glyphicon glyphicon-trash unsubscribe-button").val("hola").attr("id",friend).appendTo($trash);
+					var $delete = $("<span>").addClass("glyphicon glyphicon-trash unsubscribe-button").css('padding-top','25px').attr("id",friend).appendTo($trash);
 				}
 			}
 	});

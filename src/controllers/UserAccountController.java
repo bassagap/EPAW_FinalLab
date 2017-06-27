@@ -62,14 +62,14 @@ public class UserAccountController extends HttpServlet {
 				//Personal info
 				resp.add(String.valueOf(userName));
 				
-				if(userService.getUser(userName).getVisibility().equals("public") || userName.equals(sessionName) || userService.getUser(sessionName).getUserType().equals("admin")){
+				if(userService.getUser(userName).getVisibility().equals("public") || userName.equals(sessionName) || userService.getUser(sessionName).getUserType().equals("admin") ||  userService.isSubscribed(sessionId, userId)){
 					resp.add(email);
 				}
 				else resp.add("");
 				userService.disconectBD();
 			}
 			else if(callType.equals("getFriends")){				
-				if(userService.getUser(userName).getVisibility().equals("public") || userName.equals(sessionName) || userService.getUser(sessionName).getUserType().equals("admin")){
+				if(userService.getUser(userName).getVisibility().equals("public") || userName.equals(sessionName) || userService.getUser(sessionName).getUserType().equals("admin") ||  userService.isSubscribed(sessionId, userId)){
 					resp.add("true");
 				}
 				else resp.add("false");
