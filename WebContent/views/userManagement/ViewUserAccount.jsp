@@ -707,7 +707,6 @@
 						.each(
 								responseJson,
 								function(index, tweet) {
-									if (index != 0) {
 										var $divMain = $("<div>").addClass(
 												"panel tweet").appendTo(
 
@@ -761,7 +760,6 @@
 												tweet.description);
 										appendIfOwnerOrAdmin(tweet, $div);
 										drawRetweets(tweet, $divMain);
-									}
 								});
 			} else {
 				var $divMain = $("<div>").addClass("panel tweet").appendTo(
