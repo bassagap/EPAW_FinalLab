@@ -86,6 +86,7 @@ public class UserAccountController extends HttpServlet {
 					userService.unSubscribe(userName, subscriptionName);
 			}
 			
+			
 			usersList =  userService.getUsersList(user.getUserId());
 			String json = new Gson().toJson(usersList);
 		    response.setContentType("application/json");

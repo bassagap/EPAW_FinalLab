@@ -127,11 +127,8 @@
 						$('.replaceMail').val(user.mail);
 						console.log(user.visibility);
 						if(user.visibility == 'private'){
-							//$('.button-checkbox').prop('checked', 'true');
-							console.log("hola");
 							$('.button-checkbox').attr('checked', true);
 						} else {
-							//$('.button-checkbox').prop('checked', 'false');
 							$('.button-checkbox').attr('checked', false);
 						}
 					}

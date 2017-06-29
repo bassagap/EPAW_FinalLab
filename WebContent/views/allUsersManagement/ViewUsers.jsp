@@ -61,12 +61,12 @@
 					var userId2 =   $('.user-id').attr('id');
 					var userToDelete = $(this).attr('id');
 					$.ajax({
-						url : '${pageContext.request.contextPath}/SubscriptionsController',
+						url : '${pageContext.request.contextPath}/UserAccountController',
 						type : 'GET',
 						data : {
 							userName : userId,
 							subscriptionName: userToDelete,
-							callType: 'delete'
+							callType: 'deleteSubscription'
 						},
 						success : function(data) {
 							$('.user-id').attr('id',userId);
@@ -80,13 +80,14 @@
 				$('.add-button').click(function() {
 					var userId2 =   $('.user-id').attr('id');
 					var userToSearch = $(this).attr('id');
+					console.log(userId2+" "+userToSearch);
 					$.ajax({
-						url : '${pageContext.request.contextPath}/SubscriptionsController',
+						url : '${pageContext.request.contextPath}/UserAccountController',
 						type : 'GET',
 						data : {
 							userName : userId,
 							subscriptionName: userToSearch,
-							callType: 'add'
+							callType: 'addSubscriptions'
 						},
 						success : function(data) {
 							enter(userId2,sessionId);

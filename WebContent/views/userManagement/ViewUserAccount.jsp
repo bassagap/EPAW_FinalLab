@@ -358,15 +358,20 @@
 									$(".configuration").remove();
 									$(".userSearch").remove();
 
-									var $deleteUser = $("<span>")
+									if('${sessionScope.userType}' == "admin" || user.userName == '${sessionScope.user}'){
+											var $deleteUser = $("<span>")
+									
 											.addClass(
 													"glyphicon glyphicon-trash delete-button-user")
 											.attr('id', user.userId).appendTo(
 													".trash");
-
-									var $userBlock = $("<div>").addClass(
+											var $userBlock = $("<div>").addClass(
 											"user-block configuration")
 											.appendTo(".config");
+											
+									}
+
+									
 									var $img = $("<div>").addClass("col-sm-2")
 											.appendTo($userBlock);
 									var $img2 = $(
