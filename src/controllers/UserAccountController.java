@@ -78,6 +78,15 @@ public class UserAccountController extends HttpServlet {
 						userService.subscribe(userName, subscriptionName);
 					else if(callType.equals("deleteSubscription"))
 						userService.unSubscribe(userName, subscriptionName);
+					//All users
+					if(callType.equals("addSubscriptionsAll")){
+						subscriptionName = userService.getUserName(Integer.parseInt(subscriptionName));
+						userService.subscribe(userName, subscriptionName);
+					}
+					else if(callType.equals("deleteSubscriptionAll")){
+						subscriptionName = userService.getUserName(Integer.parseInt(subscriptionName));
+						userService.unSubscribe(userName, subscriptionName);
+					}
 			}
 			if(userService.userExistsByName(subscriptionName)){
 				if(callType.equals("addSubscription"))

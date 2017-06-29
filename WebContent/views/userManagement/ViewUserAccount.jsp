@@ -367,8 +367,7 @@
 													".trash");
 											var $userBlock = $("<div>").addClass(
 											"user-block configuration")
-											.appendTo(".config");
-											
+											.appendTo(".config");		
 									}
 
 									

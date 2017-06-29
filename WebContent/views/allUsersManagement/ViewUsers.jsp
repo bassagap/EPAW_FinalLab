@@ -66,7 +66,7 @@
 						data : {
 							userName : userId,
 							subscriptionName: userToDelete,
-							callType: 'deleteSubscription'
+							callType: 'deleteSubscriptionAll'
 						},
 						success : function(data) {
 							$('.user-id').attr('id',userId);
@@ -87,7 +87,7 @@
 						data : {
 							userName : userId,
 							subscriptionName: userToSearch,
-							callType: 'addSubscriptions'
+							callType: 'addSubscriptionsAll'
 						},
 						success : function(data) {
 							enter(userId2,sessionId);
