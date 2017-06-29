@@ -65,7 +65,10 @@
 					function() {
 						var userId = $(".user-id").attr('id');
 						var sessionId = '${sessionScope.user}';
-						getPersonalInfo(userId, sessionId);
+						
+						console.log(userId);
+						
+						getPersonalInfo(userId, userId);
 
 						$(document)
 								.on(
@@ -84,7 +87,7 @@
 															data : {
 																callType : 'changeConfig',
 																userName : userId,
-																sessionId : '${sessionScope.user}',
+																sessionId : userId,
 																mail : mail,
 																privacy : $(
 																		".button-checkbox")
@@ -118,14 +121,13 @@
 			data : {
 				callType : 'enterConfig',
 				userName : userId,
-				sessionName : '${sessionScope.user}',
+				sessionName : userId
 			},
 			success : function(data) {
 				$
 				.each(data, function(index,user) {
 					if(user.userName == sessionId){
 						$('.replaceMail').val(user.mail);
-						console.log(user.visibility);
 						if(user.visibility == 'private'){
 							$('.button-checkbox').attr('checked', true);
 						} else {

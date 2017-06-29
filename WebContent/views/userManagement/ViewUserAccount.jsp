@@ -243,6 +243,7 @@
 															success : function(
 																	data) {
 																gotoConfig();
+																$('.user-id').attr('id',userId);
 															},
 														});
 
@@ -288,6 +289,7 @@
 																		.attr(
 																				'id',
 																				userId2);
+																
 																getPersonalInformation(userId2,
 																		sessionName);
 																getTweets("user", userId2);
