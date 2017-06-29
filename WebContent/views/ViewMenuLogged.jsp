@@ -116,23 +116,32 @@
 				}
 			});
 	$("#UserAccount").click(
-			
-			function(){
-				var userId = $(".user-id").attr("id");
+			function() {
+				var userName = '${sessionScope.user}';
+				$
+						.ajax({
+							url : '${pageContext.request.contextPath}/UserAccountController',
+							type : 'POST',
+							data : {
+								callType : 'navigateFromTweet',
+								userName : userName,
+								sessionId : '${sessionScope.user}'
+							},
+							success : function(data) {
+								gotoPerfil();
+							},
+						});
+				function gotoPerfil() {
 					$.ajax({
 						url : '${pageContext.request.contextPath}/views/userManagement/ViewUserAccount.jsp',
 						type : 'GET',
-						data:{
-							callType: 'fromMenu'
-						},
-						success : function(
-								result,
-								responseText,
-								session) {
-									$("#main").html(result);
-								}
+						success : function(result) {
+							$("#main").html(result);
+							$(".user-id").attr('id',userName);
+						}
 					});
-				});
+				};
+		});
 	
 		function gotoViewAccount() {
 			$.ajax({

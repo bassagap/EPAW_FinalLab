@@ -27,7 +27,7 @@ public class UserService {
 	 * @throws Exception
 	 */
 	private BeanUser enrichUser (BeanUser user, int userID) throws Exception{
-		if(isSubscribed(user.getUserId(), userID)){
+		if(isSubscribed(userID, user.getUserId())){
 			 user.setIsSubscribed(true);
 		} else {
 			user.setIsSubscribed(false);
@@ -128,8 +128,8 @@ public class UserService {
 	 */
 	public Boolean isSubscribed(int id, int id2) throws Exception{
 		UserDAO userDAO = new UserDAO(); 
-		ArrayList<Integer> usersList =  userDAO.getSubscriptions(id2);
-		return usersList.contains(id);	
+		ArrayList<Integer> usersList =  userDAO.getSubscriptions(id);
+		return usersList.contains(id2);	
 	}
 	
 	/**

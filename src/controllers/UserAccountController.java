@@ -42,18 +42,13 @@ public class UserAccountController extends HttpServlet {
 		
 		try {
 			BeanUser user = userService.getUser(sessionName);
-			ArrayList<BeanUser> usersList = new ArrayList<BeanUser>();	
-			String email = user.getMail();
+			ArrayList<BeanUser> usersList = new ArrayList<BeanUser>();
+			
 			if("deleteUser".equals(callType) && (userName.equals(user.getUserName()) || "admin".equals(user.getUserType()))){
 				int userID = userService.getUser(sessionName).getUserId();
 				userService.deletetUser(userID);
 				userService.disconectBD();
 			}
-			System.out.println("---------------------");
-			System.out.println("UserName: "+ userName);
-			System.out.println("SessionName: "+ sessionName);
-			System.out.println("callType: "+ callType);
-			System.out.println("---------------------");
 			if(callType.equals("navigate")){
 				user = userService.getUser(sessionName);
 				
@@ -65,15 +60,9 @@ public class UserAccountController extends HttpServlet {
 					 user = userService.getUser(userName);
 				}
 			}
-			else if(callType.equals("getFriends")){				
-
-			}
-			else if(callType.equals("enterConfig")){
-
-			}
 			else if(callType.equals("changeConfig") && (sessionName.equals(userName) || "admin".equals(userService.getUser(sessionName).getUserType()))){				
 				String mail= request.getParameter("mail");
-				userService.setMail(user.getUserId(),mail);
+				userService.setMail(user.getUserId(), mail);
 
 				String privacy= request.getParameter("privacy");
 				if(privacy.equals("true")){
@@ -83,14 +72,18 @@ public class UserAccountController extends HttpServlet {
 				
 				userService.disconectBD();
 			}
-			else if(callType.equals("getUsers")){				
-				
-			}
+
 			if(userService.userExistsByName(userName)){
 					if(callType.equals("addSubscriptions"))
 						userService.subscribe(userName, subscriptionName);
 					else if(callType.equals("deleteSubscription"))
 						userService.unSubscribe(userName, subscriptionName);
+			}
+			if(userService.userExistsByName(subscriptionName)){
+				if(callType.equals("addSubscription"))
+					userService.subscribe(userName, subscriptionName);
+				else if(callType.equals("deleteSubscription"))
+					userService.unSubscribe(userName, subscriptionName);
 			}
 			
 			usersList =  userService.getUsersList(user.getUserId());

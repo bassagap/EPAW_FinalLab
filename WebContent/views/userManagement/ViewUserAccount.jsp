@@ -24,7 +24,7 @@
 
 <link rel="stylesheet" type="text/css"
 	href="//fonts.googleapis.com/css?family=Raleway" />
-	<link rel="stylesheet" type="text/css" runat="server"
+<link rel="stylesheet" type="text/css" runat="server"
 	href="${pageContext.request.contextPath}/css/tweetStyles.css" />
 </head>
 
@@ -160,7 +160,6 @@
 			var sessionName = '${sessionScope.user}';
 
 			getPersonalInformation(userName, sessionName);
-			console.log("User: ", userName);
 			getTweets("user", userName);
 		});
 
@@ -176,19 +175,17 @@
 						},
 						success : function(data) {
 							loadPersonalInfo(data, userName, sessionName);
-							loadFriends(data);
+							loadFriends(data, userName);
 							$('.unsubscribe-button')
 									.click(
 											function() {
 												var userId = $('.user-id')
 														.attr('id');
-												console.log("userId:; ", userId);
 												var userToDelete = $(this)
 														.attr('id');
-												console.log("userToDelete:; ", userToDelete);
 												$
 														.ajax({
-															url : '${pageContext.request.contextPath}/SubscriptionsController',
+															url : '${pageContext.request.contextPath}/UserAccountController',
 															type : 'GET',
 															data : {
 																userName : userId,
@@ -198,10 +195,6 @@
 															success : function(
 																	data) {
 																getPersonalInformation(userName, sessionName);
-																console
-																		.log(
-																				"delete user subscription: ",
-																				userToDelete);
 															},
 															error : function() {
 															}
@@ -217,7 +210,7 @@
 												"#userToSearch").val();
 										$
 												.ajax({
-													url : '${pageContext.request.contextPath}/SubscriptionsController',
+													url : '${pageContext.request.contextPath}/UserAccountController',
 													type : 'GET',
 													data : {
 														userName : userId,
@@ -295,9 +288,10 @@
 																		.attr(
 																				'id',
 																				userId2);
-																console.log("friend-button: ", userId2, sessionName);
 																getPersonalInformation(userId2,
 																		sessionName);
+																getTweets("user", userId2);
+																
 															},
 														});
 											});
@@ -350,9 +344,6 @@
 					.each(
 							data,
 							function(index, user) {
-								console.log("Data:", user);
-								console.log("userId:", userName, user.userName);
-								console.log(user.userName == userName);
 								if (user.userName == userName) {
 									$("#personal-info-name")
 											.text(user.userName);
@@ -389,64 +380,71 @@
 													"User account configuration: privacy, friends, user data etc.")
 											.appendTo($userBlock);
 
-									var $userSearch = $("<div>").addClass(
-											"user-block userSearch").appendTo(
-											".config");
-									var $img = $("<div>").addClass("col-sm-5")
-											.appendTo($userSearch);
-									var $img2 = $(
-											'<input type="text" id="userToSearch" name="search" placeholder="Search User" />')
-											.appendTo($img);
-									var $conf = $("<div>")
-											.addClass("col-sm-7")
-											.append(
-													'<button id="id-button" type="button" class="btn btn-default btn-lg search-button" data-toggle="modal" data-target="#myModal"> Subscribe to User</button>')
-											.appendTo($userSearch);
+									
+									if('${sessionScope.userType}' == "admin" || user.userName == '${sessionScope.user}'){
+										var $userSearch = $("<div>").addClass(
+										"user-block userSearch").appendTo(
+										".config");
+										var $img = $("<div>").addClass("col-sm-5")
+												.appendTo($userSearch);
+										var $img2 = $(
+										'<input type="text" id="userToSearch" name="search" placeholder="Search User" />')
+										.appendTo($img);
+										var $conf = $("<div>")
+										.addClass("col-sm-7")
+										.append(
+												'<button id="id-button" type="button" class="btn btn-default btn-lg search-button" data-toggle="modal" data-target="#myModal"> Subscribe to User</button>')
+										.appendTo($userSearch);
+									}
+									
 								}
 							})
 		}
 
-		function loadFriends(data) {
+		function loadFriends(data, userName) {
 			$(".panelUser").remove();
 			$
 					.each(
 							data,
 							function(index, friend) {
-								if (friend.isSubscribed) {
+								if('${sessionScope.userType}' == "admin" || userName == '${sessionScope.user}'){
+									if (friend.isSubscribed) {
 
-									var $divMain = $("<div>").addClass(
-											"friend panelUser").css(
-											'margin-bottom', '25px').appendTo(
-											"#main-subs");
+										var $divMain = $("<div>").addClass(
+												"friend panelUser").css(
+												'margin-bottom', '25px').appendTo(
+												"#main-subs");
 
-									var $div = $("<div>").addClass("col-sm-2")
-											.appendTo($divMain).css(
-													'padding-top', '10px');
-									var $img = $("<div>")
-											.addClass("user-image")
-											.appendTo($div)
-											.css('background-image',
-													"url('${pageContext.request.contextPath}/img/user_logo.png')");
+										var $div = $("<div>").addClass("col-sm-2")
+												.appendTo($divMain).css(
+														'padding-top', '10px');
+										var $img = $("<div>")
+												.addClass("user-image")
+												.appendTo($div)
+												.css('background-image',
+														"url('${pageContext.request.contextPath}/img/user_logo.png')");
 
-									var $subsName = $("<div>").addClass(
-											"col-sm-7").css('padding-top',
-											'35px').appendTo($divMain);
-									var $subsName = $("<div>").addClass(
-											"friend-button").css('cursor',
-											'pointer').attr("id",
-											friend.userName).text(
-											friend.userName)
-											.appendTo($subsName);
-									var $trash = $("<div>")
-											.addClass("col-sm-3").appendTo(
-													$divMain);
-									var $delete = $("<span>")
-											.addClass(
-													"glyphicon glyphicon-trash unsubscribe-button")
-											.css('padding-top', '25px').attr(
-													"id", friend.userName)
-											.appendTo($trash);
+										var $subsName = $("<div>").addClass(
+												"col-sm-7").css('padding-top',
+												'35px').appendTo($divMain);
+										var $subsName = $("<div>").addClass(
+												"friend-button").css('cursor',
+												'pointer').attr("id",
+												friend.userName).text(
+												friend.userName)
+												.appendTo($subsName);
+										var $trash = $("<div>")
+												.addClass("col-sm-3").appendTo(
+														$divMain);
+										var $delete = $("<span>")
+												.addClass(
+														"glyphicon glyphicon-trash unsubscribe-button")
+												.css('padding-top', '25px').attr(
+														"id", friend.userName)
+												.appendTo($trash);
+									}
 								}
+								
 							});
 		}
 
@@ -802,7 +800,6 @@
 													"glyphicon glyphicon-retweet retweet-button pull-right")
 											.attr("id", tweet.idTweet));
 				} else {
-					console.log("isLiked: ", tweet.isLiked);
 					$("<div>")
 							.appendTo($div)
 							.addClass("panel-footer tweet tweet-footer")
@@ -822,7 +819,6 @@
 				}
 			}
 			function drawRetweets(tweet, $divMain) {
-				//console.log("Retweet: ", tweet);
 				if (tweet.parentTweet != -1) {
 					$divMain.addClass("retweet");
 				} else {

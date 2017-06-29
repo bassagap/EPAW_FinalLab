@@ -165,9 +165,6 @@
 			
 			getPersonalInformation(sessionId, userId); 
 			getTweets("user", userId);
-			
-			console.log("User ID: ", userId); 
-			console.log("Session ID: ", sessionId); 
 
 			$('<a name="top"/>').insertBefore($('body').children().eq(0));
 			window.location.hash = 'top';
@@ -267,7 +264,6 @@
 											});
 						},
 						error : function() {
-							console.log("The request failed");
 						}
 					});
 		}
@@ -371,7 +367,6 @@
 											});
 						},
 						error : function() {
-							console.log("The request failed");
 						}
 					});
 		}

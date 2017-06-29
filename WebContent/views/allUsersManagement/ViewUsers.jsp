@@ -69,7 +69,6 @@
 							callType: 'delete'
 						},
 						success : function(data) {
-							console.log(userId);
 							$('.user-id').attr('id',userId);
 							enter(userId2,sessionId);
 						},
@@ -97,23 +96,32 @@
 					})
 				});
 				
-				$('.friend-button').click(function() {
-					var userId2 =  $(this).attr('id');
-					$.ajax({
-						url : '${pageContext.request.contextPath}/UserAccountController',
-						type : 'GET',
-						data : {
-							callType: 'navigate',
-							userId : userId2,
-							sessionId: '${sessionScope.user}'
-						},
-						success: function(data){
-							var isAnonymous = (data[1] == 'true');
-							if(isAnonymous){
-								gotoViewAccount(userId2);
-					    	}
-						},
-					});
+				$('.friend-button').click(
+						function() {
+							var userName = $(this).attr("id");
+							$
+									.ajax({
+										url : '${pageContext.request.contextPath}/UserAccountController',
+										type : 'POST',
+										data : {
+											callType : 'navigateFromTweet',
+											userName : userName,
+											sessionId : '${sessionScope.user}'
+										},
+										success : function(data) {
+											gotoPerfil();
+										},
+									});
+							function gotoPerfil() {
+								$.ajax({
+									url : '${pageContext.request.contextPath}/views/userManagement/ViewUserAccount.jsp',
+									type : 'GET',
+									success : function(result) {
+										$("#main").html(result);
+										$(".user-id").attr('id',userName);
+									}
+								});
+							};
 				});
 			
 					
@@ -125,13 +133,11 @@
 							result) {
 								$("#main").html(result);
 								$(".user-id").attr('id',userId2);
-								console.log(userId);
 							}
 				});
 			};
 		    },
 		    error: function(){
-		        console.log("The request failed");
 		    }
 		});
 	}
@@ -149,7 +155,7 @@
 				var $img = $("<div>").addClass("user-image").appendTo($div).css('background-image',"url('${pageContext.request.contextPath}/img/user_logo.png')");
 						
 				var $subsName = $("<div>").addClass("col-sm-5").css('padding-top','35px').appendTo($divMain);
-				var $subsName = $("<div>").addClass("friend-button").css('cursor','pointer').attr("id",friend.userId).text(friend.userName).appendTo($subsName);
+				var $subsName = $("<div>").addClass("friend-button").css('cursor','pointer').attr("id",friend.userName).text(friend.userName).appendTo($subsName);
 				if(friend.isSubscribed){
 					var $trash = $("<div>").addClass("col-sm-5").css('padding-top','35px').appendTo($divMain);
 					var $delete = $("<span>").addClass("glyphicon glyphicon-minus unsubscribe-button").attr("id",friend.userId).attr("id",friend[0]).prop('title', 'Unsubscribe').appendTo($trash);

@@ -52,7 +52,6 @@ public class TweetController extends HttpServlet {
 		java.sql.Date date = new java.sql.Date(calendar.getTime().getTime());	
 		Boolean isSearching = false; 
 		String search = request.getParameter("search"); 
-		System.out.println("userId: " +userId);
 		try {
 			int sessionId = userService.getUser(session_user).getUserId();
 			int intUserId = userService.getUser(userId).getUserId();
@@ -119,8 +118,6 @@ public class TweetController extends HttpServlet {
 				}
 				ArrayList<BeanTweet> tweetsList = new ArrayList<BeanTweet>();
 				if("updateProfile".equals(callType)){
-					System.out.println(userId);
-					System.out.println(userService.isSubscribed(sessionId, intUserId));
 					if(userService.getUser(userId).getVisibility().equals("public") || userId.equals(session_user) || userService.getUser(session_user).getUserType().equals("admin") || userService.isSubscribed(sessionId, intUserId)){
 						tweetsList = tweetService.getTweetsList(userId, personalized, isSearching, search);
 					}

@@ -122,7 +122,6 @@
 			success : function(data) {
 				$
 				.each(data, function(index,user) {
-					console.log(user.userName == sessionId);
 					if(user.userName == sessionId){
 						$('.replaceMail').val(user.mail);
 						if(user.visibility == 'private'){
@@ -134,7 +133,6 @@
 				})
 			},
 			error : function() {
-				console.log("The request failed");
 			}
 		});
 	}

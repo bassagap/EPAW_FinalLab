@@ -335,7 +335,6 @@
 				});
 	}
 	function editTweet(id, responseJson) {
-		//console.log("response: ", responseJson);
 		var personalized = $("#personalizedSearch").prop("checked");
 		$("#myModalEdit").modal('show');
 		$.each(responseJson, function(index, tweet) {
@@ -399,7 +398,6 @@
 		});
 	}
 	function loadTweet(responseJson) {
-		console.log("responseJson: ", responseJson);
 		$.each(responseJson, function(index, tweet) {
 			var $divMain = $("<div>").addClass("panel tweet").appendTo(
 					$("#main-test"));
@@ -469,7 +467,6 @@
 			}
 		}
 		function drawRetweets(tweet, $divMain) {
-			//console.log("Retweet: ", tweet);
 			if (tweet.parentTweet != -1) {
 				$divMain.addClass("retweet");
 			} else {
