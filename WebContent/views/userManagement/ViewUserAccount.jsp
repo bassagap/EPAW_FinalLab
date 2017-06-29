@@ -164,12 +164,16 @@
 		});
 
 		function getPersonalInformation(userName, sessionName) {
+			var navigate = "navigate"; 
+			if('${sessionScope.userType}' == "admin"){
+				navigate = "navigateAdmin"
+			}
 			$
 					.ajax({
 						url : '${pageContext.request.contextPath}/UserAccountController',
 						type : 'GET',
 						data : {
-							callType : 'navigate',
+							callType : navigate,
 							userName : userName,
 							sessionId : sessionName
 						},
@@ -279,7 +283,7 @@
 															url : '${pageContext.request.contextPath}/UserAccountController',
 															type : 'GET',
 															data : {
-																callType : 'navigate',
+																callType : 'navigateAdmin',
 																userName : userId2,
 																sessionId : sessionName
 															},
@@ -290,9 +294,10 @@
 																				'id',
 																				userId2);
 																
-																getPersonalInformation(userId2,
-																		sessionName);
-																getTweets("user", userId2);
+																	getPersonalInformation(userId2,
+																			sessionName);
+																	getTweets("user", userId2);
+	
 																
 															},
 														});

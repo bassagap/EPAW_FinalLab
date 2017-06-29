@@ -48,9 +48,10 @@ public class UserAccountController extends HttpServlet {
 				userService.deletetUser(userID);
 				userService.disconectBD();
 			}
-			if(callType.equals("navigate")){
-				user = userService.getUser(sessionName);
-				
+			System.out.println("navigateAdmin" + "navigateAdmin".equals(callType));
+			if("navigateAdmin".equals(callType)){
+				System.out.println("navigateAdmin");
+				user = userService.getUser(userName);			
 			}
 			else if(callType.equals("navigateFromTweet")){		
 				if(userName.equals(sessionName)){
