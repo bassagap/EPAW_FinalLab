@@ -654,7 +654,7 @@
 					url : formEdit.attr('action'),
 					data : formEdit.serialize() + "&callType=edit",
 					success : function(data) {
-						getTweets("user", id);
+						getTweets("user", '${sessionScope.user}');
 						$('#myModalEdit').modal('hide');
 						$('body').removeClass('modal-open');
 						$('.modal-backdrop').remove();
@@ -678,7 +678,7 @@
 					callType : 'delete'
 				},
 				success : function(data) {
-					getTweets(id);
+					getTweets("user", '${sessionScope.user}');
 				},
 				error : function() {
 				}
