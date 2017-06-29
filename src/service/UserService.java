@@ -2,8 +2,8 @@ package service;
 
 
 import java.util.ArrayList;
+
 import models.BeanUser;
-import persistence.TweetDAO;
 import persistence.UserDAO;
 
 public class UserService {	
@@ -13,12 +13,40 @@ public class UserService {
 	 * @return The complete Users List in ArrayList<BeanUser> type.
 	 * @throws Exception
 	 */
-	public ArrayList<BeanUser> getUsersList() throws Exception{
+	public ArrayList<BeanUser> getUsersList( int userID) throws Exception{
 		UserDAO userDAO = new UserDAO(); 
 		ArrayList<BeanUser> usersList =  userDAO.getUsersList();
+		enrichUserList(usersList, userID);
 		return usersList;	
 	}
-
+	
+	/**
+	 * @param user
+	 * @param userID
+	 * @return
+	 * @throws Exception
+	 */
+	private BeanUser enrichUser (BeanUser user, int userID) throws Exception{
+		if(isSubscribed(user.getUserId(), userID)){
+			 user.setIsSubscribed(true);
+		} else {
+			user.setIsSubscribed(false);
+		}
+		return user; 
+	}
+	
+	/**
+	 * @param tweetsList
+	 * @param userID
+	 * @return
+	 * @throws Exception
+	 */
+	private ArrayList<BeanUser> enrichUserList(ArrayList<BeanUser> usersList, int userID) throws Exception{
+		for(BeanUser user : usersList){
+			enrichUser(user, userID);
+		}
+		return usersList;
+	}
 	/**
 	 * Check if the user exists in the database
 	 * @param user  
@@ -26,13 +54,8 @@ public class UserService {
 	 * @throws Exception
 	 */
 	public Boolean userExists (BeanUser user) throws Exception{
-		ArrayList<BeanUser> usersList = getUsersList(); 
-		Boolean exists = false; 
-		for(BeanUser userInList: usersList){
-			if(user.getUserName().equals(userInList.getUserName())){
-				exists = true; 
-			}
-		}	
+		UserDAO userDAO = new UserDAO(); 
+		Boolean exists = userDAO.isValidUserName(user.getUserName());	
 		return exists; 
 	}
 	/**
@@ -105,8 +128,8 @@ public class UserService {
 	 */
 	public Boolean isSubscribed(int id, int id2) throws Exception{
 		UserDAO userDAO = new UserDAO(); 
-		ArrayList<Integer> usersList =  userDAO.getSubscriptions(id);
-		return usersList.contains(id2);	
+		ArrayList<Integer> usersList =  userDAO.getSubscriptions(id2);
+		return usersList.contains(id);	
 	}
 	
 	/**

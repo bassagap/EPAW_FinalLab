@@ -13,6 +13,8 @@
 	href="${pageContext.request.contextPath}/css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" runat="server"
 	href="${pageContext.request.contextPath}/css/userProfileStyle.css" />
+<link rel="stylesheet" type="text/css" runat="server"
+	href="${pageContext.request.contextPath}/css/tweetStyles.css" />
 <!-- <link href="style/style.css" rel="stylesheet" type="text/css"> -->
 <!-- <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
@@ -24,8 +26,6 @@
 
 <link rel="stylesheet" type="text/css"
 	href="//fonts.googleapis.com/css?family=Raleway" />
-	<link rel="stylesheet" type="text/css" runat="server"
-	href="${pageContext.request.contextPath}/css/tweetStyles.css" />
 </head>
 
 
@@ -35,7 +35,7 @@
 
 		<!-- USER'S PROFILE -->
 		<div class="col-sm-6 separate">
-			<h1>USER PROFILE</h1>
+		<h1> USER PROFILE </h1>
 			<div class="user-block">
 				<div class="col-sm-2">
 					<div class="user-image"
@@ -74,7 +74,7 @@
 		</div>
 		<!-- USER'S TWEETS -->
 		<div class="col-sm-6">
-			<h1>USER TWEETS</h1>
+			<h1> USER TWEETS </h1>
 			<div id="main-test">
 				<table>
 					<tr>
@@ -112,127 +112,118 @@
 		</div>
 		<!-- /.modal -->
 		<!-- Modal to EDIT-->
-		<div class="modal" id="myModalEdit" tabindex="-1" role="dialog"
-			aria-labelledby="myModalLabel">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<h4 class="modal-title" id="myModalLabel">Edit Tweet</h4>
-					</div>
-					<form id="editTweetForm" action="/Lab3/TweetController"
-						method="post" class="form-horizontal" role="form">
-						<div class="modal-body">
-							<div class="form-group">
-								<label class="col-md-2 control-label" for="inputEmail3">HashTag</label>
-								<div class="col-md-10">
-									<input type="hashTag" name="hashTag" class="form-control"
-										id="hashTagEdit" placeholder="#hashTag" />
-								</div>
-								<label class="col-md-2 control-label" for="inputEmail3">Description</label>
-								<div class="col-md-10">
-									<input type="description" name="description"
-										class="form-control" id="descriptionEdit"
-										placeholder="Description" /> <input type="hidden" name="id"
-										class="hidden" id="hidden" />
-								</div>
+	<div class="modal" id="myModalEdit" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">Edit Tweet</h4>
+				</div>
+				<form id="editTweetForm" action="/Lab3/TweetController"
+					method="post" class="form-horizontal" role="form">
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-md-2 control-label" for="inputEmail3">HashTag</label>
+							<div class="col-md-10">
+								<input type="hashTag" name="hashTag" class="form-control"
+									id="hashTagEdit" placeholder="#hashTag" />
+							</div>
+							<label class="col-md-2 control-label" for="inputEmail3">Description</label>
+							<div class="col-md-10">
+								<input type="description" name="description"
+									class="form-control" id="descriptionEdit"
+									placeholder="Description" /> <input type="hidden" name="id"
+									class="hidden" id="hidden" />
 							</div>
 						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default"
-								data-dismiss="modal">Close</button>
-							<input type="submit" id="submit-button" class="btn btn-primary"
-								name="submit" value="Save changes" />
-						</div>
-					</form>
-				</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<input type="submit" id="submit-button" class="btn btn-primary"
+							name="submit" value="Save changes" />
+					</div>
+				</form>
 			</div>
 		</div>
-
+	</div>
+		
 	</div>
 
 	<script>
 		$(document).ready(function() {
-			var userName = $('.user-id').attr('id');
-			var sessionName = '${sessionScope.user}';
+			var userId = $('.user-id').attr('id');
+			var sessionId = '${sessionScope.user}';
 
-			getPersonalInformation(userName, sessionName);
-			console.log("User: ", userName);
-			getTweets("user", userName);
+			enter(userId, sessionId);
 		});
 
-		function getPersonalInformation(userName, sessionName) {
+		function enter(userId, sessionId) {
+			
+			getPersonalInformation(sessionId, userId); 
+			getTweets("user", userId);
+			
+			console.log("User ID: ", userId); 
+			console.log("Session ID: ", sessionId); 
+
+			$('<a name="top"/>').insertBefore($('body').children().eq(0));
+			window.location.hash = 'top';
+		}
+		function getPersonalInformation(userId, sessionId) {
 			$
 					.ajax({
 						url : '${pageContext.request.contextPath}/UserAccountController',
 						type : 'GET',
 						data : {
 							callType : 'navigate',
-							userName : userName,
-							sessionId : sessionName
+							userId : userId,
+							sessionId : sessionId
 						},
 						success : function(data) {
-							loadPersonalInfo(data, userName, sessionName);
-							loadFriends(data);
-							$('.unsubscribe-button')
+							loadPersonalInfo(data, userId);
+						}
+					}); 
+		}
+
+		function getPersonalInfo(userId, sessionId) {
+			$
+					.ajax({
+						url : '${pageContext.request.contextPath}/UserAccountController',
+						type : 'GET',
+						data : {
+							callType : 'navigate',
+							userId : userId,
+							sessionId : sessionId
+						},
+						success : function(data) {
+							loadPersonalInfo(data, userId);
+
+							$('.delete-button-user')
 									.click(
 											function() {
-												var userId = $('.user-id')
-														.attr('id');
-												console.log("userId:; ", userId);
-												var userToDelete = $(this)
-														.attr('id');
-												console.log("userToDelete:; ", userToDelete);
 												$
 														.ajax({
-															url : '${pageContext.request.contextPath}/SubscriptionsController',
+															url : '${pageContext.request.contextPath}/UserAccountController',
 															type : 'GET',
 															data : {
-																userName : userId,
-																subscriptionName : userToDelete,
-																callType : 'deleteSubscription'
+																callType : 'deleteUser',
+																userId : userId,
+																sessionId : sessionId
 															},
 															success : function(
 																	data) {
-																getPersonalInformation(userName, sessionName);
 																console
-																		.log(
-																				"delete user subscription: ",
-																				userToDelete);
+																		.log("log");
+																window.location.href = '${pageContext.request.contextPath}/views/index.jsp';
 															},
 															error : function() {
 															}
 														})
 											});
-							$('.search-button')
-							.off()
-							.click(
-									function() {
-										var userId = $('.user-id')
-												.attr('id');
-										var userToSearch = $(
-												"#userToSearch").val();
-										$
-												.ajax({
-													url : '${pageContext.request.contextPath}/SubscriptionsController',
-													type : 'GET',
-													data : {
-														userName : userId,
-														subscriptionName : userToSearch,
-														callType : 'addSubscription'
-													},
-													success : function(
-															data) {
-														getPersonalInformation(userName, sessionName);
-														$("#userToSearch").val("");
-													},
-													error : function() {
-													}
-												})
-									});
+
 							$('.config-button')
 									.click(
 											function() {
@@ -244,8 +235,8 @@
 															type : 'GET',
 															data : {
 																callType : 'enterConfig',
-																userName : userId,
-																sessionId : sessionName
+																userId : userId,
+																sessionId : sessionId
 															},
 															success : function(
 																	data) {
@@ -274,6 +265,84 @@
 												;
 
 											});
+						},
+						error : function() {
+							console.log("The request failed");
+						}
+					});
+		}
+
+		function getFriends(userId, sessionId) {
+			$
+					.ajax({
+						url : '${pageContext.request.contextPath}/UserAccountController',
+						type : 'GET',
+						data : {
+							callType : 'getFriends',
+							userId : userId,
+							sessionId : sessionId,
+						},
+						success : function(data) {
+							reloadFriends(data);
+
+							$('.unsubscribe-button')
+									.click(
+											function() {
+												var userId = $('.user-id')
+														.attr('id');
+												var userToDelete = $(this)
+														.attr('id');
+												$
+														.ajax({
+															url : '${pageContext.request.contextPath}/SubscriptionsController',
+															type : 'GET',
+															data : {
+																userName : userId,
+																subscriptionName : userToDelete,
+																callType : 'delete'
+															},
+															success : function(
+																	data) {
+																$('.user-id')
+																		.attr(
+																				'id',
+																				userId);
+																getFriends(
+																		userId,
+																		sessionId);
+															},
+															error : function() {
+															}
+														})
+											});
+
+							$('.search-button')
+									.off()
+									.click(
+											function() {
+												var userId = $('.user-id')
+														.attr('id');
+												var userToSearch = $(
+														"#userToSearch").val();
+												$
+														.ajax({
+															url : '${pageContext.request.contextPath}/SubscriptionsController',
+															type : 'GET',
+															data : {
+																userName : userId,
+																subscriptionName : userToSearch,
+																callType : 'add'
+															},
+															success : function(
+																	data) {
+																getFriends(
+																		userId,
+																		sessionId);
+															},
+															error : function() {
+															}
+														})
+											});
 
 							$('.friend-button')
 									.click(
@@ -286,8 +355,8 @@
 															type : 'GET',
 															data : {
 																callType : 'navigate',
-																userName : userId2,
-																sessionId : sessionName
+																userId : userId2,
+																sessionId : sessionId
 															},
 															success : function(
 																	data) {
@@ -295,125 +364,74 @@
 																		.attr(
 																				'id',
 																				userId2);
-																console.log("friend-button: ", userId2, sessionName);
-																getPersonalInformation(userId2,
-																		sessionName);
+																enter(userId2,
+																		sessionId);
 															},
 														});
 											});
-							$(".tweet-header-user")
-							.click(
-									function() {
-										var id = $(this).attr("id");
-										var userName = $(this).text();
-										$
-												.ajax({
-													url : '${pageContext.request.contextPath}/UserAccountController',
-													type : 'POST',
-													data : {
-														callType : 'navigate',
-														userName : id,
-														sessionId : '${sessionScope.user}'
-													},
-													success : function(
-															data) {
-														gotoPerfil();
-													},
-												});
-										function gotoPerfil() {
-											$
-													.ajax({
-														url : '${pageContext.request.contextPath}/views/userManagement/ViewUserAccount.jsp',
-														type : 'GET',
-														success : function(
-																result) {
-															$("#main")
-																	.html(
-																			result);
-															$(
-																	".user-id")
-																	.attr(
-																			'id',
-																			userName);
-														}
-													});
-										}
-										;
-
-									});
-
+						},
+						error : function() {
+							console.log("The request failed");
 						}
 					});
 		}
-		function loadPersonalInfo(data, userName, sessionName) {
-			$
-					.each(
-							data,
-							function(index, user) {
-								console.log("Data:", user);
-								console.log("userId:", userName, user.userName);
-								console.log(user.userName == userName);
-								if (user.userName == userName) {
-									$("#personal-info-name")
-											.text(user.userName);
-									if (user.isSubscribed
-											|| user.userType == "admin"
-											|| user.userName == sessionName) {
-										$("#personal-info-email").text(
-												user.mail);
-									}
-									$(".mainSearch").remove();
-									$(".delete-button-user").remove();
-									$(".configuration").remove();
-									$(".userSearch").remove();
-
-									var $deleteUser = $("<span>")
-											.addClass(
-													"glyphicon glyphicon-trash delete-button-user")
-											.attr('id', user.userId).appendTo(
-													".trash");
-
-									var $userBlock = $("<div>").addClass(
-											"user-block configuration")
-											.appendTo(".config");
-									var $img = $("<div>").addClass("col-sm-2")
-											.appendTo($userBlock);
-									var $img2 = $(
-											"<img src='${pageContext.request.contextPath}/img/configuration.png' style='width:75px'>")
-											.addClass("config-button").css(
-													'cursor', 'pointer')
-											.appendTo($img);
-									var $conf = $("<div>")
-											.addClass("col-sm-10")
-											.text(
-													"User account configuration: privacy, friends, user data etc.")
-											.appendTo($userBlock);
-
-									var $userSearch = $("<div>").addClass(
-											"user-block userSearch").appendTo(
-											".config");
-									var $img = $("<div>").addClass("col-sm-5")
-											.appendTo($userSearch);
-									var $img2 = $(
-											'<input type="text" id="userToSearch" name="search" placeholder="Search User" />')
-											.appendTo($img);
-									var $conf = $("<div>")
-											.addClass("col-sm-7")
-											.append(
-													'<button id="id-button" type="button" class="btn btn-default btn-lg search-button" data-toggle="modal" data-target="#myModal"> Subscribe to User</button>')
-											.appendTo($userSearch);
-								}
-							})
+		function reloadFriends(data) {
+			$(".panelUser").remove();
+			loadFriends(data);
 		}
 
+		function loadPersonalInfo(data, userId) {
+			$("#personal-info-name").text(data[2]);
+			$("#personal-info-email").text("");
+			$("#personal-info-email").text(data[3]);
+
+			$(".mainSearch").remove();
+			$(".delete-button-user").remove();
+			$(".configuration").remove();
+			$(".userSearch").remove();
+
+			if (data[0] == "true") {
+				var $deleteUser = $("<span>").addClass(
+						"glyphicon glyphicon-trash delete-button-user").attr(
+						'id', userId).appendTo(".trash");
+
+				var $userBlock = $("<div>")
+						.addClass("user-block configuration").appendTo(
+								".config");
+				var $img = $("<div>").addClass("col-sm-2").appendTo($userBlock);
+				var $img2 = $(
+						"<img src='${pageContext.request.contextPath}/img/configuration.png' style='width:75px'>")
+						.addClass("config-button").css('cursor', 'pointer')
+						.appendTo($img);
+				var $conf = $("<div>")
+						.addClass("col-sm-10")
+						.text(
+								"User account configuration: privacy, friends, user data etc.")
+						.appendTo($userBlock);
+
+				var $userSearch = $("<div>").addClass("user-block userSearch")
+						.appendTo(".config");
+				var $img = $("<div>").addClass("col-sm-5")
+						.appendTo($userSearch);
+				var $img2 = $(
+						'<input type="text" id="userToSearch" name="search" placeholder="Search User" />')
+						.appendTo($img);
+				var $conf = $("<div>")
+						.addClass("col-sm-7")
+						.append(
+								'<button id="id-button" type="button" class="btn btn-default btn-lg search-button" data-toggle="modal" data-target="#myModal"> Subscribe to User</button>')
+						.appendTo($userSearch);
+			}
+		}
 		function loadFriends(data) {
 			$(".panelUser").remove();
+
 			$
 					.each(
 							data,
 							function(index, friend) {
-								if (friend.isSubscribed) {
-
+								if (index != 0 && index != 1
+										&& data[1] == "true") {
 									var $divMain = $("<div>").addClass(
 											"friend panelUser").css(
 											'margin-bottom', '25px').appendTo(
@@ -433,24 +451,23 @@
 											'35px').appendTo($divMain);
 									var $subsName = $("<div>").addClass(
 											"friend-button").css('cursor',
-											'pointer').attr("id",
-											friend.userName).text(
-											friend.userName)
-											.appendTo($subsName);
-									var $trash = $("<div>")
-											.addClass("col-sm-3").appendTo(
-													$divMain);
-									var $delete = $("<span>")
-											.addClass(
-													"glyphicon glyphicon-trash unsubscribe-button")
-											.css('padding-top', '25px').attr(
-													"id", friend.userName)
-											.appendTo($trash);
+											'pointer').attr("id", friend).text(
+											friend).appendTo($subsName);
+									if (data[0] == "true") {
+										var $trash = $("<div>").addClass(
+												"col-sm-3").appendTo($divMain);
+										var $delete = $("<span>")
+												.addClass(
+														"glyphicon glyphicon-trash unsubscribe-button")
+												.css('padding-top', '25px')
+												.attr("id", friend).appendTo(
+														$trash);
+									}
 								}
 							});
 		}
 
-		function getTweets(personalized, userName) {
+		function getTweets(personalized, userId) {
 			$
 					.ajax({
 						url : '${pageContext.request.contextPath}/TweetController',
@@ -458,7 +475,7 @@
 						data : {
 							clicked : 'user',
 							callType : 'updateProfile',
-							userId : userName
+							userId : userId
 						},
 						success : function(result) {
 							$(".panel").remove();
@@ -536,9 +553,7 @@
 																		.ajax({
 																			success : function(
 																					data) {
-																				getTweets(
-																						"user",
-																						userName);
+																				getTweets("user", userId);
 																			},
 																			error : function() {
 
@@ -595,47 +610,6 @@
 												;
 
 											});
-							$('.config-button')
-									.click(
-											function() {
-												var userId = $('.user-id')
-														.attr('id');
-												$
-														.ajax({
-															url : '${pageContext.request.contextPath}/UserAccountController',
-															type : 'GET',
-															data : {
-																callType : 'enterConfig',
-																userId : userId,
-																sessionId : sessionName
-															},
-															success : function(
-																	data) {
-																gotoConfig();
-															},
-														});
-
-												function gotoConfig() {
-													$
-															.ajax({
-																url : '${pageContext.request.contextPath}/views/userManagement/ViewConfiguration.jsp',
-																type : 'GET',
-																success : function(
-																		result) {
-																	$("#main")
-																			.html(
-																					result);
-																	$(
-																			".user-id")
-																			.attr(
-																					'id',
-																					userId);
-																}
-															});
-												}
-												;
-
-											});
 
 						}
 					});
@@ -680,7 +654,7 @@
 					callType : 'delete'
 				},
 				success : function(data) {
-					getTweets(id);
+					getTweets(userId);
 				},
 				error : function() {
 				}
@@ -704,7 +678,7 @@
 			});
 		}
 		function loadTweet(responseJson) {
-			if (responseJson[0].visibility) {
+			if (responseJson[0].visibility == "true")
 				$
 						.each(
 								responseJson,
@@ -765,7 +739,7 @@
 										drawRetweets(tweet, $divMain);
 									}
 								});
-			} else {
+			else {
 				var $divMain = $("<div>").addClass("panel tweet").appendTo(
 						$("#main-test"));
 				var $div = $("<div>").addClass("panel-heading").css(
@@ -802,7 +776,6 @@
 													"glyphicon glyphicon-retweet retweet-button pull-right")
 											.attr("id", tweet.idTweet));
 				} else {
-					console.log("isLiked: ", tweet.isLiked);
 					$("<div>")
 							.appendTo($div)
 							.addClass("panel-footer tweet tweet-footer")
@@ -822,7 +795,7 @@
 				}
 			}
 			function drawRetweets(tweet, $divMain) {
-				//console.log("Retweet: ", tweet);
+
 				if (tweet.parentTweet != -1) {
 					$divMain.addClass("retweet");
 				} else {

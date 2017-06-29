@@ -34,82 +34,67 @@ public class UserAccountController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UserService userService = new UserService(); 
 		//String sessionName =request.getParameter("sessionId");
-		String userName= request.getParameter("userId");
 		HttpSession session = request.getSession();
 		String callType = request.getParameter("callType");
+		String userName = request.getParameter("userName");
+		String subscriptionName = request.getParameter("subscriptionName");
 		String sessionName = (String) session.getAttribute("user");
+		
 		try {
-			int userId = userService.getUser(userName).getUserId();
-			int sessionId = userService.getUser(sessionName).getUserId();
-			
-			ArrayList<String> resp = new ArrayList<String>();
-			if(userId == sessionId || userService.getUser(sessionName).getUserType().equals("admin"))
-				resp.add("true");
-			else resp.add("false");
-			
-			String email = userService.getUser(userName).getMail();
-			
-			if("deleteUser".equals(callType)){
+			BeanUser user = userService.getUser(sessionName);
+			ArrayList<BeanUser> usersList = new ArrayList<BeanUser>();	
+			String email = user.getMail();
+			if("deleteUser".equals(callType) && (userName.equals(user.getUserName()) || "admin".equals(user.getUserType()))){
 				int userID = userService.getUser(sessionName).getUserId();
 				userService.deletetUser(userID);
 				userService.disconectBD();
 			}
+			System.out.println("---------------------");
+			System.out.println("UserName: "+ userName);
+			System.out.println("SessionName: "+ sessionName);
+			System.out.println("callType: "+ callType);
+			System.out.println("---------------------");
 			if(callType.equals("navigate")){
+				user = userService.getUser(sessionName);
 				
-				if(userService.userExistsByName(userName))	resp.add("true");
-				else	resp.add("false");
-				
-				//Personal info
-				resp.add(String.valueOf(userName));
-				
-				if(userService.getUser(userName).getVisibility().equals("public") || userName.equals(sessionName) || userService.getUser(sessionName).getUserType().equals("admin") ||  userService.isSubscribed(sessionId, userId)){
-					resp.add(email);
+			}
+			else if(callType.equals("navigateFromTweet")){		
+				if(userName.equals(sessionName)){
+					 user = userService.getUser(sessionName);
+				}else{
+					 user = userService.getUser(userName);
 				}
-				else resp.add("");
-				userService.disconectBD();
 			}
 			else if(callType.equals("getFriends")){				
-				if(userService.getUser(userName).getVisibility().equals("public") || userName.equals(sessionName) || userService.getUser(sessionName).getUserType().equals("admin") ||  userService.isSubscribed(sessionId, userId)){
-					resp.add("true");
-				}
-				else resp.add("false");
-				
-				ArrayList<Integer> SubscriptionsList = userService.getSubscriptionsList(userId);
-				for (int id: SubscriptionsList){
-					resp.add(userService.getUserName(id));
-				}
-				userService.disconectBD();
+
 			}
 			else if(callType.equals("enterConfig")){
-				resp.add(email);
-				if(userService.getUser(userName).getVisibility().equals("public"))
-					resp.add("false");
-				else resp.add("true");
+
 			}
-			else if(callType.equals("changeConfig")){				
+			else if(callType.equals("changeConfig") && (sessionName.equals(userName) || "admin".equals(userService.getUser(sessionName).getUserType()))){				
 				String mail= request.getParameter("mail");
-				userService.setMail(userId,mail);
+				userService.setMail(user.getUserId(),mail);
 
 				String privacy= request.getParameter("privacy");
 				if(privacy.equals("true")){
-					userService.setVisibility(userId,"private");
+					userService.setVisibility(user.getUserId(),"private");
 				}
-				else	userService.setVisibility(userId,"public");	
+				else	userService.setVisibility(user.getUserId(),"public");	
 				
 				userService.disconectBD();
 			}
 			else if(callType.equals("getUsers")){				
-				ArrayList<BeanUser> usersList = new ArrayList<BeanUser>();
-				usersList =  userService.getUsersList();
-				userService.disconectBD();
-				
-				for (BeanUser user : usersList){
-					resp.add(user.getUserName());
-				}
-					
 				
 			}
-			String json = new Gson().toJson(resp);
+			if(userService.userExistsByName(userName)){
+					if(callType.equals("addSubscriptions"))
+						userService.subscribe(userName, subscriptionName);
+					else if(callType.equals("deleteSubscription"))
+						userService.unSubscribe(userName, subscriptionName);
+			}
+			
+			usersList =  userService.getUsersList(user.getUserId());
+			String json = new Gson().toJson(usersList);
 		    response.setContentType("application/json");
 		    response.setCharacterEncoding("UTF-8");
 		    response.getWriter().write(json);

@@ -21,6 +21,7 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="//fonts.googleapis.com/css?family=Raleway" />
+<%-- <script type="text/javascript" src="${pageContext.request.contextPath}/js/tweetsFeature.js" > </script> --%>
 </head>
 <body id="body">
 	<table>
@@ -184,7 +185,6 @@
 	</div>
 </body>
 
-
 <script>
 	$(document).ready(function() {
 		getTweets(false);
@@ -219,7 +219,7 @@
 
 		return false;
 	});
-	function getTweets(personalized) {
+ 	function getTweets(personalized) {
 		$
 				.ajax({
 					url : '${pageContext.request.contextPath}/TweetController',
@@ -310,8 +310,8 @@
 														url : '${pageContext.request.contextPath}/UserAccountController',
 														type : 'POST',
 														data : {
-															callType : 'navigate',
-															userId : id,
+															callType : 'navigateFromTweet',
+															userName : userName,
 															sessionId : '${sessionScope.user}'
 														},
 														success : function(data) {
@@ -399,6 +399,7 @@
 		});
 	}
 	function loadTweet(responseJson) {
+		console.log("responseJson: ", responseJson);
 		$.each(responseJson, function(index, tweet) {
 			var $divMain = $("<div>").addClass("panel tweet").appendTo(
 					$("#main-test"));
@@ -409,7 +410,7 @@
 			$("<tr>").appendTo($table).append(
 					$("<td>").addClass("col-md-10").append(
 							$("<div>").addClass("tweet-header-user").attr("id",
-									tweet.idTweet).text(tweet.user).css('cursor','pointer').append(
+									tweet.user).text(tweet.user).css('cursor','pointer').append(
 											$("<div>").addClass("user-image pull-left"))))
 
 			.append(
@@ -475,6 +476,6 @@
 				$divMain.addClass("tweet");
 			}
 		}
-	}
+	} 
 </script>
 </html>

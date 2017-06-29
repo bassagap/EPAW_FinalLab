@@ -21,6 +21,7 @@ public class BeanUser implements Serializable  {
 	private Integer userId = -1; 
 	/*  Control which parameters have been correctly filled */
 	private int[] error = {0,0}; 
+	private Boolean isSubscribed = false; 
 	
 	
 	/* Getters */
@@ -170,6 +171,20 @@ public class BeanUser implements Serializable  {
 	 */
 	public void setUserId(Integer userId) {
 		this.userId = userId;
+	}
+
+	/**
+	 * @return the isSubscibed
+	 */
+	public Boolean getIsSubscribed() {
+		return isSubscribed;
+	}
+
+	/**
+	 * @param isSubscibed the isSubscibed to set
+	 */
+	public void setIsSubscribed(Boolean isSubscibed) {
+		this.isSubscribed = isSubscibed;
 	}
 
 

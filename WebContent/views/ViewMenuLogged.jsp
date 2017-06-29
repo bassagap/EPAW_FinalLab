@@ -119,24 +119,21 @@
 			
 			function(){
 				var userId = $(".user-id").attr("id");
-				$.ajax({
-					url : '${pageContext.request.contextPath}/UserAccountController',
-					type : 'GET',
-					data : {
-						callType: 'navigate',
-						userId : userId,
-						sessionId: userId
-					},
-					success: function(data){
-						var isAnonymous = (data[1] == 'true');
-						if(isAnonymous){
-							gotoViewAccount();
-				    	}
-					},
+					$.ajax({
+						url : '${pageContext.request.contextPath}/views/userManagement/ViewUserAccount.jsp',
+						type : 'GET',
+						data:{
+							callType: 'fromMenu'
+						},
+						success : function(
+								result,
+								responseText,
+								session) {
+									$("#main").html(result);
+								}
+					});
 				});
-			});
-		
-				
+	
 		function gotoViewAccount() {
 			$.ajax({
 				url : '${pageContext.request.contextPath}/views/userManagement/ViewUserAccount.jsp',

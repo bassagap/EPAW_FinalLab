@@ -34,8 +34,7 @@ public class TweetDAO {
 		try {
 			subscriptors.add(userID);	
 			String listString = subscriptors.stream().map(Object::toString)
-                    .collect(Collectors.joining(", "));
-			System.out.println("list String: " + listString);			
+                    .collect(Collectors.joining(", "));	
 			String query = "SELECT * FROM TWEETS WHERE USER_ID1 IN (" + listString + ") OR (VISIBILITY = 'public' and USER_ID1 NOT IN (" + listString + " ))";
 			ResultSet resultSet =  statement.executeQuery(query);
 			while(resultSet.next()){
@@ -47,6 +46,7 @@ public class TweetDAO {
 				tweet.setPublicationDate(resultSet.getDate("publicationDate"));
 				tweet.setIdTweet(resultSet.getInt("id"));
 				tweet.setLikes(resultSet.getInt("likes"));
+				tweet.setUser_id1(resultSet.getInt("user_id1"));
 				tweet.setParentTweet(resultSet.getInt("parentTweet"));
 				tweetsList.add(tweet);
 			}
@@ -74,6 +74,7 @@ public class TweetDAO {
 				tweet.setVisibility(resultSet.getString("visibility"));
 				tweet.setPublicationDate(resultSet.getDate("publicationDate"));
 				tweet.setIdTweet(resultSet.getInt("id"));
+				tweet.setUser_id1(resultSet.getInt("user_id1"));
 				tweet.setLikes(resultSet.getInt("likes"));
 				tweetsList.add(tweet);
 			}
@@ -112,6 +113,7 @@ public class TweetDAO {
 				tweet.setPublicationDate(resultSet.getDate("publicationDate"));
 				tweet.setIdTweet(resultSet.getInt("id"));
 				tweet.setLikes(resultSet.getInt("likes"));
+				tweet.setUser_id1(resultSet.getInt("user_id1"));
 				tweet.setParentTweet(resultSet.getInt("parentTweet"));
 				tweetsList.add(tweet);
 			}
@@ -137,6 +139,7 @@ public class TweetDAO {
 					tweet.setPublicationDate(resultSet.getDate("publicationDate"));
 					tweet.setIdTweet(resultSet.getInt("id"));
 					tweet.setLikes(resultSet.getInt("likes"));
+					tweet.setUser_id1(resultSet.getInt("user_id1"));
 					tweet.setParentTweet(resultSet.getInt("parentTweet"));
 					tweetsList.add(tweet);
 				}
@@ -165,6 +168,7 @@ public class TweetDAO {
 			tweet.setPublicationDate(resultSet.getDate("publicationDate"));
 			tweet.setIdTweet(resultSet.getInt("id"));
 			tweet.setLikes(resultSet.getInt("likes"));
+			tweet.setUser_id1(resultSet.getInt("user_id1"));
 			tweet.setParentTweet(resultSet.getInt("parentTweet"));
 		}
 		disconnectBD();
@@ -295,6 +299,7 @@ public class TweetDAO {
 			tweet.setPublicationDate(resultSet.getDate("publicationDate"));
 			tweet.setIdTweet(resultSet.getInt("id"));
 			tweet.setLikes(resultSet.getInt("likes"));
+			tweet.setUser_id1(resultSet.getInt("user_id1"));
 			tweet.setParentTweet(resultSet.getInt("parentTweet"));
 			tweetsList.add(tweet);
 		}

@@ -36,23 +36,17 @@ public class SubscriptionsController extends HttpServlet {
 		String subscriptionName =request.getParameter("subscriptionName");
 		String callType =request.getParameter("callType");
 		String userName =request.getParameter("userName");
-		//id =Integer.parseInt(request.getParameter("id"));
-		
+		ArrayList<BeanUser> usersList = new ArrayList<BeanUser>();
 		try {
+			int userID = userService.getUser(userName).getUserId();
 			if(userService.userExistsByName(subscriptionName)){
-				if(callType.equals("add"))
+				if(callType.equals("addSubscription"))
 					userService.subscribe(userName, subscriptionName);
-				else if(callType.equals("delete"))
+				else if(callType.equals("deleteSubscription"))
 					userService.unSubscribe(userName, subscriptionName);
 			}
-			
-			ArrayList<String> resp = new ArrayList<String>();
-			ArrayList<Integer> SubscriptionsList = userService.getSubscriptionsList(userService.getUser(userName).getUserId());
-			for (int id: SubscriptionsList){
-				resp.add(userService.getUserName(id));
-			}
-			
-			String json = new Gson().toJson(resp);
+			usersList = userService.getUsersList(userID);
+			String json = new Gson().toJson(usersList);
 		    response.setContentType("application/json");
 		    response.setCharacterEncoding("UTF-8");
 		    response.getWriter().write(json);

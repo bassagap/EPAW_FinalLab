@@ -42,26 +42,19 @@
 	function enter(userId,sessionId){			
 		var userId =   $('.user-id').attr('id');
 		
-		console.log("-----");
-		console.log("UserId: "+userId);
-		console.log("Session: "+sessionId);
-		console.log("-----");
-		
 		getUsers(userId,sessionId);
 
 	}
 			
 	function getUsers(userId,sessionId){
 		$.ajax({
-			url : '${pageContext.request.contextPath}/AllUsersController',
+			url : '${pageContext.request.contextPath}/UserAccountController',
 			type : 'GET',
 			data : {
 				callType: 'getUsers',
-				userId :  userId,
-				sessionId: sessionId,
+				sessionId: sessionId
 			},
 			success: function(data){
-				console.log(data);
 				reloadFriends(data,userId);
 				
 				$('.unsubscribe-button').click(function() {
@@ -149,22 +142,21 @@
 	
 	function loadFriends(data){
 		$(".panel").remove();
-		$.each(data, function(index, friend) {				
+		$.each(data, function(index, friend) {	
 				var $divMain = $("<div>").addClass("friend panel").css('margin-bottom','25px').appendTo("#users");
 				
 				var $div = $("<div>").addClass("col-sm-2").appendTo($divMain).css('padding-top','10px');
 				var $img = $("<div>").addClass("user-image").appendTo($div).css('background-image',"url('${pageContext.request.contextPath}/img/user_logo.png')");
 						
 				var $subsName = $("<div>").addClass("col-sm-5").css('padding-top','35px').appendTo($divMain);
-				var $subsName = $("<div>").addClass("friend-button").css('cursor','pointer').attr("id",friend[0]).text(friend[0]).appendTo($subsName);
-				
-				if(friend[1]=="false"){
+				var $subsName = $("<div>").addClass("friend-button").css('cursor','pointer').attr("id",friend.userId).text(friend.userName).appendTo($subsName);
+				if(friend.isSubscribed){
 					var $trash = $("<div>").addClass("col-sm-5").css('padding-top','35px').appendTo($divMain);
-					var $delete = $("<span>").addClass("glyphicon glyphicon-user add-button").attr("id",friend[0]).prop('title', 'Subscribe').appendTo($trash);
+					var $delete = $("<span>").addClass("glyphicon glyphicon-minus unsubscribe-button").attr("id",friend.userId).attr("id",friend[0]).prop('title', 'Unsubscribe').appendTo($trash);
 				}
 				else{
 					var $trash = $("<div>").addClass("col-sm-5").css('padding-top','35px').appendTo($divMain);
-					var $delete = $("<span>").addClass("glyphicon glyphicon-minus unsubscribe-button").attr("id",friend[0]).attr("id",friend[0]).prop('title', 'Unsubscribe').appendTo($trash);
+					var $delete = $("<span>").addClass("glyphicon glyphicon-user add-button").attr("id",friend.userId).prop('title', 'Subscribe').appendTo($trash);
 				}
 	});
 }
