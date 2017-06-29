@@ -43,7 +43,6 @@ public class UserAccountController extends HttpServlet {
 		try {
 			BeanUser user = userService.getUser(sessionName);
 			ArrayList<BeanUser> usersList = new ArrayList<BeanUser>();
-			
 			if("deleteUser".equals(callType) && (userName.equals(user.getUserName()) || "admin".equals(user.getUserType()))){
 				int userID = userService.getUser(sessionName).getUserId();
 				userService.deletetUser(userID);
@@ -61,6 +60,7 @@ public class UserAccountController extends HttpServlet {
 				}
 			}
 			else if(callType.equals("changeConfig") && (sessionName.equals(userName) || "admin".equals(userService.getUser(sessionName).getUserType()))){				
+				
 				String mail= request.getParameter("mail");
 				userService.setMail(user.getUserId(), mail);
 

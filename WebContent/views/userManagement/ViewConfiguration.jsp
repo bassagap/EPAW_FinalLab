@@ -77,13 +77,14 @@
 												var mail = $(".replaceMail")
 														.val();
 												$
+												
 														.ajax({
 															url : '${pageContext.request.contextPath}/UserAccountController',
 															type : 'GET',
 															data : {
 																callType : 'changeConfig',
-																userId : userId,
-																sessionId : sessionId,
+																userName : userId,
+																sessionId : '${sessionScope.user}',
 																mail : mail,
 																privacy : $(
 																		".button-checkbox")
@@ -116,18 +117,22 @@
 			type : 'GET',
 			data : {
 				callType : 'enterConfig',
-				userId : userId,
-				sessionId : ""
+				userName : userId,
+				sessionName : '${sessionScope.user}',
 			},
 			success : function(data) {
 				$
 				.each(data, function(index,user) {
 					if(user.userName == sessionId){
 						$('.replaceMail').val(user.mail);
+						console.log(user.visibility);
 						if(user.visibility == 'private'){
-							$('.button-checkbox').prop('checked', 'true');	
+							//$('.button-checkbox').prop('checked', 'true');
+							console.log("hola");
+							$('.button-checkbox').attr('checked', true);
 						} else {
-							$('.button-checkbox').prop('checked', 'false');	
+							//$('.button-checkbox').prop('checked', 'false');
+							$('.button-checkbox').attr('checked', false);
 						}
 					}
 				})
