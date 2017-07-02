@@ -203,14 +203,16 @@
 			$("#personalized").remove();
 		}
 	});
-	var form = $('#addTweetForm');
-	form.submit(function() {
+	var formAdd = $('#addTweetForm');
+	formAdd.submit(function() {
 		var personalized = $("#personalizedSearch").prop("checked");
+		console.log("Form ADD: ", formAdd.serialize());
 		$.ajax({
-			type : form.attr('method'),
-			url : form.attr('action'),
-			data : form.serialize() + "&callType=add",
+			type : formAdd.attr('method'),
+			url : formAdd.attr('action'),
+			data : formAdd.serialize() + "&callType=add",
 			success : function(data) {
+				console.log("Form ADD: ", formAdd.serialize());
 				getTweets(personalized);
 				$('#myModal').modal('hide');
 				$('body').removeClass('modal-open');
