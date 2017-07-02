@@ -110,6 +110,32 @@
 			</div>
 			<!-- /.modal-dialog -->
 		</div>
+		<!--Modal confirm delete User -->
+		<div class="modal fade" tabindex="-1" id="confirmDeleteUserModal"
+			role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title">Your profile is going to be permanently
+							deleted</h4>
+					</div>
+					<div class="modal-body">
+						<p>Are you sure you want to delete it? All your tweets, subscriptions and user information is going to be erased.</p>
+					</div>
+					<div class="modal-footer">
+						<button id="CancelDelete" type="button" class="btn btn-default"
+							data-dismiss="modal">Cancel</button>
+						<button id="ConfirmUserDelete" type="button" class="btn btn-danger">Delete</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+		</div>
 		<!-- /.modal -->
 		<!-- Modal to EDIT-->
 		<div class="modal" id="myModalEdit" tabindex="-1" role="dialog"
@@ -302,6 +328,45 @@
 															},
 														});
 											});
+							$('.delete-button-user')
+							.click(
+									function() {
+										var id = $(this)
+												.attr('id');
+										$
+										.ajax({
+											success : function(
+													data) {
+												$(
+														"#confirmDeleteUserModal")
+														.modal(
+																'show');
+												$(
+														"#CancelDelete")
+														.click(
+																function() {
+
+																});
+												$(
+														"#ConfirmUserDelete")
+														.click(
+																function() {
+																	deleteUser(id);
+																	$(
+																			"#confirmDeleteUserModal")
+																			.modal(
+																					'hide');
+																});
+											},
+											error : function() {
+												$(
+														"#deleteModal")
+														.modal(
+																'show');
+											}
+
+										});
+									});
 							$(".tweet-header-user")
 							.click(
 									function() {
@@ -649,6 +714,23 @@
 						}
 					});
 		}
+	    function deleteUser(id) {
+	        $.ajax({
+	            url : '${pageContext.request.contextPath}/UserAccountController',
+	            type : 'GET',
+	            data : {
+	                id : id, 
+	                callType: 'deleteUser'
+	            },
+	            success : function(data) {
+	                window.location.href = '${pageContext.request.contextPath}/views/index.jsp';
+	            },
+	            error : function() {
+
+	            }
+	        });
+	    }
+
 		function editTweet(id, responseJson) {
 			var personalized = $("#personalizedSearch").prop("checked");
 			$("#myModalEdit").modal('show');
@@ -680,7 +762,6 @@
 		}
 
 		function deleteTweet(id) {
-			var personalized = $("#personalizedSearch").prop("checked");
 			$.ajax({
 				url : '${pageContext.request.contextPath}/TweetController',
 				type : 'GET',

@@ -33,24 +33,26 @@ public class UserAccountController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UserService userService = new UserService(); 
-		//String sessionName =request.getParameter("sessionId");
 		HttpSession session = request.getSession();
 		String callType = request.getParameter("callType");
 		String userName = request.getParameter("userName");
 		String subscriptionName = request.getParameter("subscriptionName");
 		String sessionName = (String) session.getAttribute("user");
+
 		
 		try {
 			BeanUser user = userService.getUser(sessionName);
 			ArrayList<BeanUser> usersList = new ArrayList<BeanUser>();
-			if("deleteUser".equals(callType) && (userName.equals(user.getUserName()) || "admin".equals(user.getUserType()))){
-				int userID = userService.getUser(sessionName).getUserId();
+			if("deleteUser".equals(callType)){	
+				int deleteUser = Integer.parseInt(request.getParameter("id"));
+				if(deleteUser == user.getUserId() || "admin".equals(user.getUserType())){
+				String deleteUserName = userService.getUserName(deleteUser);
+				int userID = userService.getUser(deleteUserName).getUserId();
 				userService.deletetUser(userID);
 				userService.disconectBD();
+				}
 			}
-			System.out.println("navigateAdmin" + "navigateAdmin".equals(callType));
 			if("navigateAdmin".equals(callType)){
-				System.out.println("navigateAdmin");
 				user = userService.getUser(userName);			
 			}
 			else if(callType.equals("navigateFromTweet")){		

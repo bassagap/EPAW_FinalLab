@@ -55,7 +55,7 @@ public class UserService {
 	 */
 	public Boolean userExists (BeanUser user) throws Exception{
 		UserDAO userDAO = new UserDAO(); 
-		Boolean exists = userDAO.isValidUserName(user.getUserName());	
+		Boolean exists = ! userDAO.isValidUserName(user.getUserName());	
 		return exists; 
 	}
 	/**
