@@ -33,7 +33,7 @@
 				</form>
 			</td>
 			<td class="col-md-2">
-				<div class="checkbox">
+				<div class="checkbox" id= "personalized">
 					<label><input type="checkbox" id="personalizedSearch"
 						value="">
 						<h4>Personalized</h4></label>
@@ -42,7 +42,7 @@
 			<td class="col-md-1">
 				<button id="id-button" type="button" class="btn btn-default btn-lg"
 					data-toggle="modal" data-target="#myModal">
-					<i class="glyphicon glyphicon-plus" aria-hidden="true"></i> Add
+					<i  class="glyphicon glyphicon-plus" aria-hidden="true"></i> Add
 					Tweet
 				</button>
 			</td>
@@ -198,6 +198,10 @@
 			getTweets(personalized);
 
 		});
+		if('${sessionScope.user}' == "anonymous"){
+			$("#id-button").remove();
+			$("#personalized").remove();
+		}
 	});
 	var form = $('#addTweetForm');
 	form.submit(function() {
@@ -471,7 +475,7 @@
 										.addClass(
 												"glyphicon glyphicon-retweet retweet-button pull-right")
 										.attr("id", tweet.idTweet));
-			} else {
+			} else if(! ('${sessionScope.user}' == "anonymous")){
 				$("<div>")
 						.appendTo($div)
 						.addClass("panel-footer tweet tweet-footer")

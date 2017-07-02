@@ -889,7 +889,7 @@
 											.addClass(
 													"glyphicon glyphicon-retweet retweet-button pull-right")
 											.attr("id", tweet.idTweet));
-				} else {
+				} else if(! ('${sessionScope.user}' == "anonymous")){
 					$("<div>")
 							.appendTo($div)
 							.addClass("panel-footer tweet tweet-footer")
