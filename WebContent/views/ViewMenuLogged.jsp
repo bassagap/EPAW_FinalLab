@@ -69,6 +69,7 @@
 	document.getElementById("mySidenav").style.width = "250px";
 	document.getElementById("main").style.marginLeft = "250px";
 	$("#main-button").hide();
+	console.log("admin: ", '${sessionScope.userType}');
 	if('${sessionScope.userType}' == "admin" ){
 		$("#admin").show();
 	}else{

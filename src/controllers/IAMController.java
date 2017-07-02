@@ -37,8 +37,9 @@ public class IAMController extends HttpServlet {
 		try {	
 			String callType = request.getParameter("callType"); 
 			if("login".equals(callType)){
-				user = userService.getUser(request.getParameter("userName"));
+				BeanUtils.populate(user, request.getParameterMap());
 				if (userService.LoginUser(user)) {
+	                user = userService.getUser(request.getParameter("userName"));
 					HttpSession session = request.getSession();
 					session.setAttribute("user",user.getUserName());
 					session.setAttribute("userType",user.getUserType());
